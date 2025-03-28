@@ -8,7 +8,7 @@ public class MomentumApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MomentumApplication.class, args);
-		System.out.println("hola");
+
 	}
 
 }
