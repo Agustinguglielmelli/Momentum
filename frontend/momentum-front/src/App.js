@@ -1,10 +1,11 @@
 import './App.css';
+import Table from "./components/table/Table";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hola</h1>
+        <Table />
       </header>
     </div>
   );
