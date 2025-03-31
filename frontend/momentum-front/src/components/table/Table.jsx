@@ -13,7 +13,6 @@ function Table () {
                 console.error("Error al cargar usuarios:", error);
             }
         };
-
         loadUsers(); // Llamamos a la función para cargar los usuarios
     }, []); // Solo se ejecuta una vez cuando el componente se monta
     return (
@@ -24,6 +23,7 @@ function Table () {
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
                 <th scope="col">foto</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -33,6 +33,9 @@ function Table () {
                     <td>{user.username}</td>
                     <td>{user.email}</td>
                     <td><img src={user.profile_picture} alt="Perfil" width="50" /></td>
+                    <td>
+                        <h3>botones</h3>
+                    </td>
                 </tr>
             ))}
             </tbody>
