@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Button from ".components/button/Button.jsx"
+import Button from "../button/Button";
 
 function Table () {
 
@@ -35,8 +35,8 @@ function Table () {
                     <td>{user.email}</td>
                     <td><img src={user.profile_picture} alt="Perfil" width="50" /></td>
                     <td>
-                        <Button text="Update" onClick={() => modifyUser(user.id)} className="btn-primary" />
-                        <Button text="Delete" onClick={() => deleteUser(user.id)} className="btn-danger" />
+                        <Button text="Update"  className="btn-primary" />
+                        <Button text="Delete"  className="btn-danger" />
                     </td>
                 </tr>
             ))}

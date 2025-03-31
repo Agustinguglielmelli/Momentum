@@ -1,4 +1,6 @@
-function Button({ text, onClick, className }) {
+
+
+function Button({ text, onClick, className}) {
     return <button onClick={onClick} className={`btn ${className}`}>{text}</button>;
   }
   
