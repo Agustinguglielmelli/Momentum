@@ -1,7 +1,4 @@
-package com.Momentum.Momentum.Controller;
-
-import com.Momentum.Momentum.Domain.Person;
-import com.Momentum.Momentum.Service.PersonService;
+package com.Momentum.Momentum.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,22 +10,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.List;
+
 
 @RestController
-public class PersonController {
+public class Controller {
 
     @Autowired
-    PersonService personService;
+    Service personService;
 
     @GetMapping("/usuario")
     @ResponseBody
-    public List<Person> getAllUsuarios(){
-        return personService.listarUsuarios;
+    public List<Usuario> getAllUsuarios(){
+        return personService.listarUsuarios();
     }
 
     @PostMapping("/usuario")
     @ResponseBody
-    public Person createUsuario(@RequestBody Person person) {
+    public Usuario createUsuario(@RequestBody Usuario person) {
         return personService.crearUsuario(person);
     }
 
@@ -38,12 +37,12 @@ public class PersonController {
     }
     @GetMapping("/usuario/{username}")
     @ResponseBody
-    public Person getUsuarioPorNombre(@PathVariable String username) {
+    public Usuario getUsuarioPorNombre(@PathVariable String username) {
         return personService.buscarUsuarioPorNombre(username);
     }
 
     @PutMapping("/usuario")
-    public void modificarUsuario(@RequestBody Person person) {
+    public void modificarUsuario(@RequestBody Usuario person) {
         personService.modificarUsuario(person);
     }
 
