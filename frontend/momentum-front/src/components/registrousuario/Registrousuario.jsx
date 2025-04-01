@@ -1,3 +1,5 @@
+import Button from "../button/Button"; //esta bien importado cuando es "../button/Button"
+
 function Registrousuario({ username, email, password, profilePicture, edit }) {
     return (
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
@@ -30,7 +32,8 @@ function Registrousuario({ username, email, password, profilePicture, edit }) {
               <input type="radio" name="role" value="Coach"/> Coach
             </div>
 
-            <button type="submit" className="btn btn-primary">Submit</button>
+            
+            <Button className="btn-primary" onClick={edit} text="Submit"></Button>
           </form>
         </div>
     );
