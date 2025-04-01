@@ -1,6 +1,6 @@
-function Registrousuario({ username, email, password, profilePicture }) {
+function Registrousuario({ username, email, password, profilePicture, edit }) {
     return (
-        <div className="w-50 mx-auto">
+        <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
           <h1>Registro de Usuario</h1>
           <form>
             <div className="mb-3">

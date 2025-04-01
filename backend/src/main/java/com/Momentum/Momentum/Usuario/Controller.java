@@ -27,7 +27,7 @@ public class Controller {
 
     @DeleteMapping("/usuario/{id}")
     public void deleteUsuario(@PathVariable long id) {
-        personService.deleteUserbyId(id);
+        personService.deleteUserById(id);
     }
     @GetMapping("/usuario/{username}")
     @ResponseBody
