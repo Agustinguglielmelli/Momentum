@@ -17,21 +17,21 @@ public class Service {
         return personRepository.findAll();
     }
 
-    public Usuario crearUsuario(Usuario Usuario) {
+    public Usuario createUser(Usuario Usuario) {
         return personRepository.save(Usuario);
     }
 
-    public void borrarUsuario(Long id) {
+    public void deleteUserbyId(Long id) {
         personRepository.deleteById(id);
     }
 
-    public Usuario buscarUsuarioPorNombre(String username) {
+    public Usuario searchUserByName(String username) {
         Optional<Usuario> usuario = personRepository.findByUsername(username);
         return usuario.orElse(null);
 
     }
 
-    public void modificarUsuario(Usuario usuario) {
+    public void modifyUser(Usuario usuario) {
         personRepository.save(usuario);
         //tal vez agregar algo especifico sobre como modificar usuarios
         //.save() en el caso de que no existe la crea y si existe la modifica

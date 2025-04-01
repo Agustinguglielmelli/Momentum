@@ -22,22 +22,22 @@ public class Controller {
     @PostMapping("/usuario")
     @ResponseBody
     public Usuario createUsuario(@RequestBody Usuario person) {
-        return personService.crearUsuario(person);
+        return personService.createUser(person);
     }
 
     @DeleteMapping("/usuario/{id}")
     public void deleteUsuario(@PathVariable long id) {
-        personService.borrarUsuario(id);
+        personService.deleteUserbyId(id);
     }
     @GetMapping("/usuario/{username}")
     @ResponseBody
     public Usuario getUsuarioPorNombre(@PathVariable String username) {
-        return personService.buscarUsuarioPorNombre(username);
+        return personService.searchUserByName(username);
     }
 
     @PutMapping("/usuario")
     public void modificarUsuario(@RequestBody Usuario person) {
-        personService.modificarUsuario(person);
+        personService.modifyUser(person);
     }
 
 }
