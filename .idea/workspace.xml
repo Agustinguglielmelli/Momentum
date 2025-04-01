@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8d4b7e2-56e7-484f-b339-83cf9d0f5024" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/table/Table.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/table/Table.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +108,8 @@
       <workItem from="1743277857924" duration="3177000" />
       <workItem from="1743300870673" duration="59000" />
       <workItem from="1743351565359" duration="9656000" />
-      <workItem from="1743451590738" duration="664000" />
+      <workItem from="1743451590738" duration="2114000" />
+      <workItem from="1743454173575" duration="616000" />
     </task>
     <servers />
   </component>
