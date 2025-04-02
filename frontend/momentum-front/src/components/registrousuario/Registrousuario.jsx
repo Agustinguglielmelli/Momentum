@@ -1,10 +1,16 @@
 import Button from "../button/Button";
-import addUser from "../../pages/AddUser"; //esta bien importado cuando es "../button/Button"
+import axios from "axios"; //esta bien importado cuando es "../button/Button"
 
 
+async function addUser(username, email, password, profilePicture, role) {
+    const userData = {
+        username,email, password, profilePicture, role
+    }
+    await axios.post("http://localhost:8080/usuario", {userData})
+}
 
+function Registrousuario({ username, email, password, profilePicture}) {
 
-function Registrousuario({ username, email, password, profilePicture, edit }) {
     return (
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
           <h1>Registro de Usuario</h1>
@@ -37,7 +43,7 @@ function Registrousuario({ username, email, password, profilePicture, edit }) {
             </div>
 
             
-            <Button className="btn-primary" onClick={edit} text="Submit"></Button>
+            <Button className="btn-primary" onClick={() => addUser()} text="Submit"></Button>
           </form>
         </div>
     );
