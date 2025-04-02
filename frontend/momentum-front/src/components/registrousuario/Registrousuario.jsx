@@ -1,4 +1,8 @@
-import Button from "../button/Button"; //esta bien importado cuando es "../button/Button"
+import Button from "../button/Button";
+import addUser from "../../pages/AddUser"; //esta bien importado cuando es "../button/Button"
+
+
+
 
 function Registrousuario({ username, email, password, profilePicture, edit }) {
     return (
