@@ -76,10 +76,19 @@ function Registrousuario() {
             </div>
 
             <div className="mb-3">
-                <input type="radio" name="role" value="Runner"/> Runner
-                <input type="radio" name="role" value="Coach"/> Coach
+                <input
+                    type="radio"
+                    name="role"
+                    value="RUNNER"
+                    onChange={(e) => setRole(e.target.value)}
+                /> Runner
+                <input type="radio"
+                       name="role"
+                       value="COACH"
+                        onChange={(e) => setRole(e.target.value)}
+                /> Coach
             </div>
-    */
+*/
 }
 
 

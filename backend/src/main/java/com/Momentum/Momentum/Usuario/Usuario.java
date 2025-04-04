@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Setter
 @Getter
 @Entity
@@ -26,14 +27,19 @@ public class Usuario {
     @Column ()
     private String profile_picture;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Role role;
+
     public Usuario() {}
 
-    public Usuario(long id, String username, String email, String password, String profile_picture) {
+    public Usuario(long id, String username, String email, String password, String profile_picture, Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.profile_picture = profile_picture;
+        this.role = role;
     }
 
 }
