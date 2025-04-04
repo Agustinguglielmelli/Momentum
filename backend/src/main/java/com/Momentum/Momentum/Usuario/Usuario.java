@@ -23,7 +23,7 @@ public class Usuario {
     @Column (nullable = false, length = 50)
     private  String password;
 
-    @Column (nullable = false)
+    @Column ()
     private String profile_picture;
 
     public Usuario() {}
