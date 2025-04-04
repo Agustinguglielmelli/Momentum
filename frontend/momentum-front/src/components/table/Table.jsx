@@ -10,7 +10,7 @@ function Table() {
         const loadUsers = async () => {
             try {
 
-                setUsers(await listUsers()); // Actualizamos el estado con los usuarios
+                setUsers(await listUsers()); // Actualizamos el estado con los usuarios.
             } catch (error) {
 
                 console.error("Error" + " al cargar usuarios:", error);
