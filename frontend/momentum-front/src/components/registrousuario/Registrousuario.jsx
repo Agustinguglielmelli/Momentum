@@ -1,15 +1,21 @@
 import Button from "../button/Button";
-import axios from "axios"; //esta bien importado cuando es "../button/Button"
+import axios from "axios";
+import {useState} from "react"; //esta bien importado cuando es "../button/Button"
 
 
-async function addUser(username, email, password, profilePicture, role) {
-    const userData = {
-        username, email, password, profilePicture, role
+function Registrousuario() {
+
+    async function handleSubmit (event) {
+        event.preventDefault(); //
     }
-    await axios.post("http://localhost:8080/usuario", {userData})
-}
 
-function Registrousuario({username, email, password, profilePicture}) {
+    const [username, Setusername] = useState("");
+    const [email, Setemail] = useState("");
+    const [password, Setpassword] = useState("");
+    const [profilePicture, SetprofilePicture] = useState("");
+    /*
+        const [role, Setrole] = useState(""); No se como es esto todavia
+    */
 
     return (<div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
         <h1>Registro de Usuario</h1>
@@ -42,7 +48,7 @@ function Registrousuario({username, email, password, profilePicture}) {
             </div>
 
 
-            <Button className="btn-primary" onClick={() => addUser()} text="Submit"></Button>
+            <Button type="submit" className="btn-primary" text="Submit"></Button>
         </form>
     </div>);
 }

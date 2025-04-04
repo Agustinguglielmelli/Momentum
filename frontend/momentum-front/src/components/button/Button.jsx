@@ -1,7 +1,7 @@
 
 
-function Button({ text, onClick, className}) {// className es color del boton
-    return <button onClick={onClick} className={`btn ${className}`}>{text}</button>;
+function Button({ type, text, onClick, className}) {// className es color del boton
+    return <button type={type} onClick={onClick} className={`btn ${className}`}>{text}</button>;
   }
   
 export default Button;
