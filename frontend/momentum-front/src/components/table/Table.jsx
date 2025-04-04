@@ -40,7 +40,8 @@ function Table() {
         </tr>
         </thead>
         <tbody>
-        {users.map((user, index) => (<tr key={user.id}>
+        {users.map((user, index) => (
+            <tr key={user.id}>
             <th scope="row">{index + 1}</th>
             <td>{user.username}</td>
             <td>{user.email}</td>
@@ -49,7 +50,8 @@ function Table() {
                 <Button text="Update" className="btn-primary"/>
                 <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
             </td>
-        </tr>))}
+        </tr>))
+        }
         </tbody>
     </table>)
 }
