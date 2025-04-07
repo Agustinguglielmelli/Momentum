@@ -2,14 +2,20 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from "./components/table/Table";
 import Registrousuario from "./components/registrousuario/Registrousuario";
+import {Routes, Route} from 'react-router-dom';
 
 function App() {
-    return (<div className="App">
-            <header className="App-header">
-                <Table/>
-                <Registrousuario/>
-            </header>
-        </div>);
+    return (
+        <>
+        <Routes> 
+            <Route path='/' element={<Table/>}/>
+            <Route />
+            <Route/>
+        </Routes>
+
+
+        </>
+    );
 }
 
 export default App;
