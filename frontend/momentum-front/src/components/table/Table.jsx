@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Button from "../button/Button";
 import {listUsers} from "../../api/functions";
+import { Link } from "react-router-dom";
+
 
 function Table() {
 
@@ -28,7 +30,9 @@ function Table() {
         }
     }
 
-    return (<table className="table table-striped">
+    return (
+    <table className="table table-striped">
+        <div><Link to='/Registrousuario' className="btn btn-primary"> Create User</Link></div>
         <thead>
         <tr>
             <th scope="col">#</th>
