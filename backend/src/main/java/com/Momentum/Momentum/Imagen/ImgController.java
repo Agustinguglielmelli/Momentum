@@ -4,22 +4,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "*") // Para permitir requests desde React
-public class Controller {
+@CrossOrigin("http://localhost:3000") // Para permitir requests desde React
+public class ImgController {
 
     @Autowired
-    private Repository imageRepository;
+    private ImgRepository imageRepository;
 
     @PostMapping("/upload-image")
-    public ResponseEntity<?> uploadImage(@RequestBody ImageDTO imageDTO) {
-        if (imageDTO.getImage() == null || imageDTO.getImage().isEmpty()) {
+    public ResponseEntity<?> uploadImage(@RequestBody Image image) {
+        if (image.getBase64Data() == null || image.getBase64Data().isEmpty()) {
             return ResponseEntity.badRequest().body("Image data is empty");
         }
-
-        Image image = new Image();
-        image.setBase64Data(imageDTO.getImage());
-
         imageRepository.save(image);
 
         return ResponseEntity.ok("Image saved successfully");
