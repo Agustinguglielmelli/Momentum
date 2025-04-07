@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios, {head} from "axios";
 import Button from "../button/Button";
 import {listUsers} from "../../api/functions";
 import { Link } from "react-router-dom";
+import "./Table.css"
 
 
 function Table() {
@@ -31,32 +32,34 @@ function Table() {
     }
 
     return (
-    <table className="table table-striped">
-        <div><Link to='/Registrousuario' className="btn btn-primary"> Create User</Link></div>
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">foto</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        {users.map((user, index) => (
-            <tr key={user.id}>
-            <th scope="row">{index + 1}</th>
-            <td>{user.username}</td>
-            <td>{user.email}</td>
-            <td><img src={user.profile_picture} alt="Perfil" width="50"/></td>
-            <td>
-                <Button text="Update" className="btn-primary"/>
-                <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
-            </td>
-        </tr>))
-        }
-        </tbody>
-    </table>)
+        <div className="container">
+            <div><Link to='/Registrousuario' className="btn btn-primary"> Create User</Link></div>
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">foto</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {users.map((user, index) => (
+                    <tr key={user.id}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td><img src={user.profile_picture} alt="Perfil" width="50"/></td>
+                        <td>
+                            <Button text="Update" className="btn-primary"/>
+                            <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
+                        </td>
+                    </tr>))
+                }
+                </tbody>
+            </table>
+        </div>)
 }
 
 export default Table;
