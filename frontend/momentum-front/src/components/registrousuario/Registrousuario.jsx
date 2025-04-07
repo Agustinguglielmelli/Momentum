@@ -10,7 +10,7 @@ function Registrousuario() {
         event.preventDefault(); //
 
         const userData = {
-            username, email, password, profile_picture: base64
+            username, email, password, profile_picture: base64, role
         }
 
         console.log("Datos a enviar:", userData);
@@ -76,8 +76,8 @@ function Registrousuario() {
     const [username, setusername] = useState(""); // Estos set se encargan de cambiar el contenido de esos campos
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
-    const [profile_picture, setProfile_picture] = useState("");
-    const [base64, setBase64] = useState('');
+    const [base64, setBase64] = useState(''); // profile picture
+    const [role, setRole] = useState(null);
 
 
     return (
@@ -135,7 +135,7 @@ function Registrousuario() {
 
                 </div>
 
-               {/*<div className="mb-3">
+               {<div className="mb-3">
                     <input
                         type="radio"
                         name="role"
@@ -147,8 +147,8 @@ function Registrousuario() {
                            value="COACH"
                             onChange={(e) => setRole(e.target.value)}
                     /> Coach
-                </div>*/}
-
+                </div>
+               }
 
                 <Button type="submit" className="btn-primary" text="Submit"></Button>
             </form>

@@ -44,7 +44,7 @@ public class Controller {
         existente.setEmail(person.getEmail());
         existente.setPassword(person.getPassword());
         existente.setProfile_picture(person.getProfile_picture());
-        existente.setRole(person.getRole());
+
 
         Usuario nuevoUsuario = personService.modifyUser(existente);
 
