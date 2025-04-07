@@ -58,19 +58,6 @@ function Registrousuario() {
         }
     };
 
-    const uploadImage = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/upload-image', {
-                base64Data: base64,
-            });
-            console.log('Server response:', response.data);
-            alert('Image uploaded successfully!');
-        } catch (error) {
-            console.error('Upload failed:', error);
-            alert('Image upload failed!');
-        }
-    };
-
     const [username, setusername] = useState(""); // Estos set se encargan de cambiar el contenido de esos campos
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
