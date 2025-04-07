@@ -41,6 +41,7 @@
     
         const uploadImage = async () => {
             try {
+                console.log(JSON.stringify({ base64Data: base64 }, null, 2));
                 const response = await axios.post('http://localhost:8080/upload-image', {
                     base64Data: base64,
                 });

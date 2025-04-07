@@ -9,7 +9,7 @@ function App() {
             <header className="App-header">
                 <Table/>
                 <Registrousuario/>
-                <FileUpload></FileUpload>
+                <FileUpload/>
             </header>
         </div>);
 }
