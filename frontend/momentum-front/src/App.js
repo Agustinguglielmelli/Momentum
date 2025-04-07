@@ -9,7 +9,7 @@ function App() {
         <>
         <Routes> 
             <Route path='/' element={<Table/>}/>
-            <Route />
+            <Route path='/Registrousuario' element={<Registrousuario/>}/>
             <Route/>
         </Routes>
 
