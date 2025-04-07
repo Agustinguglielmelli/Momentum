@@ -1,6 +1,6 @@
 import Button from "../button/Button";
 import axios from "axios";
-import {useState} from "react"; //esta bien importado cuando es "../button/Button"
+import React, {useState} from "react"; //esta bien importado cuando es "../button/Button"
 
 
 function Registrousuario() {
@@ -9,7 +9,7 @@ function Registrousuario() {
         event.preventDefault(); //
 
         const userData = {
-            username, email, password, profile_picture
+            username, email, password, profile_picture: base64
         }
 
         console.log("Datos a enviar:", userData);
@@ -23,10 +23,60 @@ function Registrousuario() {
 
     }
 
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file.');
+                return;
+            }
+
+            try {
+                const base64String = await convertToBase64(file);
+                setBase64(base64String);
+                console.log('Base64:', base64String);
+
+            } catch (error) {
+                console.error('Error converting file:', error);
+            }
+        }
+    };
+
+    const uploadImage = async () => {
+        try {
+            console.log(JSON.stringify({ base64Data: base64 }, null, 2));
+            const response = await axios.post('http://localhost:8080/upload-image', {
+                base64Data: base64,
+            });
+
+            console.log('Server response:', response.data);
+            alert('Image uploaded successfully!');
+        } catch (error) {
+            console.error('Upload failed:', error);
+            alert('Image upload failed!');
+        }
+    };
+
     const [username, setusername] = useState(""); // Estos set se encargan de cambiar el contenido de esos campos
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [profile_picture, setProfile_picture] = useState("");
+    const [base64, setBase64] = useState('');
 
 
     return (<div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
@@ -68,14 +118,20 @@ function Registrousuario() {
                 />
             </div>
 {
-/*
-            <div className="mb-3">
-                <label htmlFor="profilePicture">Profile Picture:</label>
-                <input type="file" id="profilePicture" name="profilePicture" accept="image/!*"/>
-                {profilePicture && <img src={profilePicture} alt="Profile" width="100"/>}
-            </div>
 
             <div className="mb-3">
+                <label htmlFor="profilePicture">Profile Picture:</label>
+                <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange}/>
+                {base64 && (
+                    <div>
+                        <p>Preview:</p>
+                        <img src={base64} alt="preview" style={{ maxWidth: '300px' }} />
+                    </div>
+                )}
+
+            </div>
+
+  /*          <div className="mb-3">
                 <input
                     type="radio"
                     name="role"

@@ -9,7 +9,6 @@ function Table() {
     useEffect(() => {
         const loadUsers = async () => {
             try {
-
                 setUsers(await listUsers()); // Actualizamos el estado con los usuarios.
             } catch (error) {
 
@@ -25,7 +24,7 @@ function Table() {
             await axios.delete(`http://localhost:8080/usuario/${id}`);
             setUsers(await listUsers());
         } catch (error) {
-            console.error("Error al cargar usuario:", error);
+            console.error("Error al borrar usuario:", error);
         }
     }
 

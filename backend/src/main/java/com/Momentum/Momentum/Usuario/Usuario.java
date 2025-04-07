@@ -24,7 +24,8 @@ public class Usuario {
     @Column (nullable = false, length = 50)
     private  String password;
 
-    @Column ()
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String profile_picture;
 
     @Enumerated(EnumType.STRING)
