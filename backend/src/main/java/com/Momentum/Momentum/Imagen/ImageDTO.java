@@ -1,9 +1,9 @@
+package com.Momentum.Momentum.Imagen;
 
 import lombok.Getter;
-import lombok.Setter;
 
+@Getter
 public class ImageDTO {
     private String image;
 
-    
 }

@@ -1,4 +1,4 @@
-
+package com.Momentum.Momentum.Imagen;
 
 import jakarta.persistence.*;
 

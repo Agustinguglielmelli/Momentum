@@ -1,5 +1,4 @@
-package com.Momentum.Momentum.Image;
-
+package com.Momentum.Momentum.Imagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,10 +6,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*") // Para permitir requests desde React
-public class ImageController {
+public class Controller {
 
     @Autowired
-    private ImageRepository imageRepository;
+    private Repository imageRepository;
 
     @PostMapping("/upload-image")
     public ResponseEntity<?> uploadImage(@RequestBody ImageDTO imageDTO) {
