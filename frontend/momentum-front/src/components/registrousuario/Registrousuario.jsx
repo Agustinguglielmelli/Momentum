@@ -60,11 +60,9 @@ function Registrousuario() {
 
     const uploadImage = async () => {
         try {
-            console.log(JSON.stringify({ base64Data: base64 }, null, 2));
             const response = await axios.post('http://localhost:8080/upload-image', {
                 base64Data: base64,
             });
-
             console.log('Server response:', response.data);
             alert('Image uploaded successfully!');
         } catch (error) {
@@ -126,7 +124,7 @@ function Registrousuario() {
                 <div className="mb-3">
                     <label htmlFor="profilePicture">Profile Picture:</label>
                     <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange}/>
-                    {base64 && (
+                    {base64 && ( // si bas64 no es null, mostra lo de adentro del parentesis
                         <div>
                             <p>Preview:</p>
                             <img src={base64} alt="preview" style={{ maxWidth: '300px' }} />
