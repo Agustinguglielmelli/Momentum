@@ -1,9 +1,11 @@
 package com.Momentum.Momentum.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -29,15 +31,24 @@ public class Controller {
     public void deleteUsuario(@PathVariable long id) {
         personService.deleteUserById(id);
     }
-    @GetMapping("/usuario/{username}")
-    @ResponseBody
-    public Usuario getUsuarioPorNombre(@PathVariable String username) {
-        return personService.searchUserByName(username);
-    }
 
-    @PutMapping("/usuario")
-    public void modificarUsuario(@RequestBody Usuario person) {
-        personService.modifyUser(person);
+
+    @PutMapping("/usuario/{id}")
+    public ResponseEntity<Usuario> modificarUsuario(@PathVariable long id, @RequestBody Usuario person) {
+
+        Optional<Usuario> usuario = personService.getUserById(id);
+
+        Usuario existente = usuario.get();
+
+        existente.setUsername(person.getUsername());
+        existente.setEmail(person.getEmail());
+        existente.setPassword(person.getPassword());
+        existente.setProfile_picture(person.getProfile_picture());
+        existente.setRole(person.getRole());
+
+        Usuario nuevoUsuario = personService.modifyUser(existente);
+
+        return ResponseEntity.ok(nuevoUsuario);
     }
 
 }

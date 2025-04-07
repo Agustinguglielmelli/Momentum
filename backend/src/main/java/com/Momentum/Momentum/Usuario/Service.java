@@ -25,15 +25,12 @@ public class Service {
         personRepository.deleteById(id);
     }
 
-    public Usuario searchUserByName(String username) {
-        Optional<Usuario> usuario = personRepository.findByUsername(username);
-        return usuario.orElse(null);
 
+    public Optional<Usuario> getUserById(Long id) {
+        return personRepository.findById(id);
     }
 
-    public void modifyUser(Usuario usuario) {
-        personRepository.save(usuario);
-        //tal vez agregar algo especifico sobre como modificar usuarios
-        //.save() en el caso de que no existe la crea y si existe la modifica
+    public Usuario modifyUser(Usuario usuario) {
+        return personRepository.save(usuario);
     }
 }
