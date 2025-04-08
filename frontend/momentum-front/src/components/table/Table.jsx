@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import axios, {head} from "axios";
 import Button from "../button/Button";
 import {listUsers} from "../../api/functions";
 import { Link } from "react-router-dom";
