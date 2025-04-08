@@ -33,7 +33,7 @@ function Table() {
 
     return (
         <div className="container">
-            <div><Link to='/Registrousuario' className="btn btn-primary"> Create User</Link></div>
+            <div><Link to='/SignupUser' className="btn btn-primary"> Create User</Link></div>
             <table className="table table-striped">
                 <thead>
                 <tr>

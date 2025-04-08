@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom"; //esta bien importado cuando es "../button/Button"
 
 
-function Registrousuario() {
+function SignupUser() {
 
     async function handleSubmit(event) {
         event.preventDefault(); //
@@ -141,6 +141,6 @@ function Registrousuario() {
     </div>);
 }
 
-export default Registrousuario;
+export default SignupUser;
 
 // Este es un componente que representa un formulario de registro de usuario.
