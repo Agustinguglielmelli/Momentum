@@ -21,6 +21,11 @@ public class Controller {
         return personService.listarUsuarios();
     }
 
+    @GetMapping("/usuario/{id}")
+    public Optional<Usuario> getUsuarioById(@PathVariable Long id) {
+       return personService.getUserById(id);
+    }
+
     @PostMapping("/usuario")
     @ResponseBody
     public Usuario createUsuario(@RequestBody Usuario person) {
