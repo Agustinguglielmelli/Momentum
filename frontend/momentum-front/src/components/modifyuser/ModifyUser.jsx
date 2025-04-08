@@ -16,7 +16,7 @@ function ModifyUser (){
             console.log("Datos a enviar:", userData);
     
             try {
-                const response = await axios.post("http://localhost:8080/usuario", userData, {
+                const response = await axios.put("http://localhost:8080/usuario/${id}", userData, {
                 });
             } catch (error) {
                 console.error("Error al cargar usuario:", error);
