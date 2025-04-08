@@ -1,10 +1,10 @@
 
-function LoginUser (){
+function ModifyUser (){
     return (
         <div >
         <Link to='/' className="btn btn-primary">Back</Link>
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
-            <h1>Login de Usuario</h1>
+            <h1>modificar Usuario</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username: </label>
