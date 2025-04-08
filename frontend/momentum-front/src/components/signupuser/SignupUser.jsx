@@ -70,7 +70,7 @@ function SignupUser() {
     <div className="container">
         <Link to={"/Login"} className="btn btn-primary">Log in</Link>
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
-            <h1>Registro de Usuario</h1>
+            <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username: </label>
