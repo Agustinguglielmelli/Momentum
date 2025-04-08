@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from "./components/table/Table";
 import SignupUser from "./components/signupuser/SignupUser";
 import {Routes, Route} from 'react-router-dom';
-import LoginUser from "./components/modifyuser/ModifyUser";
 import ModifyUser from './components/modifyuser/ModifyUser';
 
 function App() {
