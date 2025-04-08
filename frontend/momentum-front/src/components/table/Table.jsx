@@ -52,7 +52,7 @@ function Table() {
                         <td>{user.email}</td>
                         <td><img src={user.profile_picture} alt="Perfil" width="50"/></td>
                         <td>
-                            <Button text="Update" className="btn-primary"/>
+                            <Link to='ModifyUser' className="btn-primary">Update</Link>
                             <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
                         </td>
                     </tr>))

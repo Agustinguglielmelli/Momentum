@@ -110,7 +110,7 @@ function SignupUser() {
 
                 <div className="mb-3">
                     <label htmlFor="profilePicture">Profile Picture:</label>
-                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange}/>
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange} required/>
                     {base64 && ( // si bas64 no es null, mostra lo de adentro del parentesis
                         <div>
                             <p>Preview:</p>
@@ -126,6 +126,7 @@ function SignupUser() {
                         name="role"
                         value="RUNNER"
                         onChange={(e) => setRole(e.target.value)}
+                        required
                     /> Runner
                     <input type="radio"
                            name="role"
