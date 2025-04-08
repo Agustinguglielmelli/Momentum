@@ -1,11 +1,11 @@
 import Button from "../button/Button";
 import axios from "axios";
 import React, {useState} from "react";
-import {Link} from "react-router-dom"; //esta bien importado cuando es "../button/Button"
+import {Link, useNavigate} from "react-router-dom"; //esta bien importado cuando es "../button/Button"
 
 
 function SignupUser() {
-
+    const navigate = useNavigate();
     async function handleSubmit(event) {
         event.preventDefault(); //
 
@@ -18,6 +18,7 @@ function SignupUser() {
         try {
             const response = await axios.post("http://localhost:8080/usuario", userData, {
             });
+            navigate("/Login")
         } catch (error) {
             console.error("Error al cargar usuario:", error);
         }
@@ -66,8 +67,8 @@ function SignupUser() {
 
 
     return (
-    <div >
-        <Link to='/' className="btn btn-primary">Back</Link>
+    <div className="container">
+        <Link to={"/Login"} className="btn btn-primary">Log in</Link>
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
             <h1>Registro de Usuario</h1>
             <form onSubmit={handleSubmit}>

@@ -9,8 +9,7 @@ function App() {
     return (
         <>
         <Routes> 
-            <Route path='/' element={<Table/>}/>
-            <Route path='/SignupUser' element={<SignupUser/>}/>
+            <Route path='/' element={<SignupUser />} />
             <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
         </Routes>
 
