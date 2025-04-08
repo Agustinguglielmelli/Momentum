@@ -40,7 +40,7 @@ function Table() {
                     <th scope="col">#</th>
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
-                    <th scope="col">foto</th>
+                    <th scope="col">Profile picture</th>
                     <th>Action</th>
                 </tr>
                 </thead>

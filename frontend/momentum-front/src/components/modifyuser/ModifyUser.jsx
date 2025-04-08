@@ -6,7 +6,7 @@ import {Link, useParams} from "react-router-dom";
 function ModifyUser () {
     const { id } = useParams();
 
-    useEffect(() => {
+    useEffect(() => { //con esta funcion nos traemos los datos del usuario
         async function fetchUserData() {
             try {
                 const response = await axios.get(`http://localhost:8080/usuario/${id}`);
