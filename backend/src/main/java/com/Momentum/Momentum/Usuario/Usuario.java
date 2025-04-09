@@ -20,20 +20,20 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (nullable = false, length = 50)
+    @Column (nullable = false)
     private String username;
 
-    @Column (nullable = false, length = 50, unique = true)
+    @Column (nullable = false, unique = true)
     private String email;
 
-    @Column (nullable = false, length = 50)
+    @Column (nullable = false)
     private  String password;
 
     @Lob
     @Column(columnDefinition = "TEXT")
     private String profile_picture;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column
     private Role role;
 
@@ -55,21 +55,21 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

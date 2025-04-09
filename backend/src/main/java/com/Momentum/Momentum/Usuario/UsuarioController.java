@@ -3,45 +3,46 @@ package com.Momentum.Momentum.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class Controller {
+public class UsuarioController {
 
     @Autowired
-    Service personService;
+    UsuarioService personUsuarioService;
 
     @GetMapping("/usuario")
     @ResponseBody
     public List<Usuario> getAllUsuarios(){
-        return personService.listarUsuarios();
+        return personUsuarioService.listarUsuarios();
     }
 
     @GetMapping("/usuario/{id}")
     public Optional<Usuario> getUsuarioById(@PathVariable Long id) {
-       return personService.getUserById(id);
+       return personUsuarioService.getUserById(id);
     }
 
     @PostMapping("/usuario")
     @ResponseBody
     public Usuario createUsuario(@RequestBody Usuario person) {
-        return personService.createUser(person);
+        return personUsuarioService.createUser(person);
     }
 
     @DeleteMapping("/usuario/{id}")
     public void deleteUsuario(@PathVariable long id) {
-        personService.deleteUserById(id);
+        personUsuarioService.deleteUserById(id);
     }
 
 
     @PutMapping("/usuario/{id}")
     public ResponseEntity<Usuario> modificarUsuario(@PathVariable long id, @RequestBody Usuario person) {
 
-        Optional<Usuario> usuario = personService.getUserById(id);
+        Optional<Usuario> usuario = personUsuarioService.getUserById(id);
 
         Usuario existente = usuario.get();
 
@@ -51,9 +52,17 @@ public class Controller {
         existente.setProfile_picture(person.getProfile_picture());
 
 
-        Usuario nuevoUsuario = personService.modifyUser(existente);
+        Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
 
         return ResponseEntity.ok(nuevoUsuario);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<Usuario> authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Usuario currentUser = (Usuario) authentication.getPrincipal();
+
+        return ResponseEntity.ok(currentUser);
+    }
 }

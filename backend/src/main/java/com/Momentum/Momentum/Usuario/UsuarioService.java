@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class Service {
+public class UsuarioService {
 
     @Autowired
-    Repository personRepository;
+    UsuarioRepository personRepository;
 
 
     public List<Usuario> listarUsuarios() {
