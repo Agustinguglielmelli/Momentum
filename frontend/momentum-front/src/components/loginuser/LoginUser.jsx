@@ -1,7 +1,7 @@
 import Button from "../button/Button";
 import axios from "axios";
 import React, {useState} from "react";
-import {Link} from "react-router-dom"; 
+import {Link, useNavigate} from "react-router-dom";
 
 function LoginUser() {
 
@@ -11,6 +11,7 @@ function LoginUser() {
     const userData = {
         email, password
     }
+    const navigate = useNavigate();
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -20,6 +21,7 @@ function LoginUser() {
           const token = response.data.token;
             localStorage.setItem("token", token);
             console.log(token);
+            navigate("/home");
         } catch (error){
             console.error("Error al cargar usuario:", error);
         }
