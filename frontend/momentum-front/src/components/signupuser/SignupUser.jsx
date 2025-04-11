@@ -1,7 +1,8 @@
 import Button from "../button/Button";
 import axios from "axios";
 import React, {useState} from "react";
-import {Link, useNavigate} from "react-router-dom"; //esta bien importado cuando es "../button/Button"
+import {Link, useNavigate} from "react-router-dom";
+import Table from "../table/Table"; //esta bien importado cuando es "../button/Button"
 
 
 function SignupUser() {

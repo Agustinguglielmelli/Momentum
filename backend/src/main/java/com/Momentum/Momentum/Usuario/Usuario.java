@@ -1,7 +1,6 @@
 package com.Momentum.Momentum.Usuario;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +10,6 @@ import java.util.List;
 
 
 @Setter
-@Getter
 @Entity
 @Table(name = "Usuario")
 public class Usuario implements UserDetails {
@@ -31,7 +29,7 @@ public class Usuario implements UserDetails {
 
     @Lob
     @Column(columnDefinition = "TEXT")
-    private String profile_picture;
+    private String profilePicture;
 
     @Enumerated(value = EnumType.STRING)
     @Column
@@ -39,18 +37,44 @@ public class Usuario implements UserDetails {
 
     public Usuario() {}
 
-    public Usuario(long id, String username, String email, String password, String profile_picture, Role role) {
+    public Usuario(long id, String username, String email, String password, String profilePicture, Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.profile_picture = profile_picture;
+        this.profilePicture = profilePicture;
         this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     @Override

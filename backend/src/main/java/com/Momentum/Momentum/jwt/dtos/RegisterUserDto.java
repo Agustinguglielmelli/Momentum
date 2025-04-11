@@ -1,13 +1,13 @@
 package com.Momentum.Momentum.jwt.dtos;
 
-import com.Momentum.Momentum.Usuario.Role;
-
 public class RegisterUserDto {
     private String email;
 
     private String password;
 
     private String username;
+
+
 
     public String getEmail() {
         return email;
@@ -32,4 +32,5 @@ public class RegisterUserDto {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

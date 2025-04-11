@@ -49,7 +49,7 @@ public class UsuarioController {
         existente.setUsername(person.getUsername());
         existente.setEmail(person.getEmail());
         existente.setPassword(person.getPassword());
-        existente.setProfile_picture(person.getProfile_picture());
+        existente.setProfilePicture(person.getProfilePicture());
 
 
         Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
