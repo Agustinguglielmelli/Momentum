@@ -1,7 +1,8 @@
+import LogoutButton from "../logoutbutton/LogoutButton";
 
- function Home(){
+function Home(){
     return(
-        <h1>Home</h1>
+        <LogoutButton/>
     )
  }
  export default Home;
