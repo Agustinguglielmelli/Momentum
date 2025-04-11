@@ -1,8 +1,7 @@
-import Button from "../button/Button";
+import Button from "../button/Button"; //esta bien importado cuando es "../button/Button"
 import axios from "axios";
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import Table from "../table/Table"; //esta bien importado cuando es "../button/Button"
 
 
 function SignupUser() {
@@ -17,7 +16,7 @@ function SignupUser() {
         console.log("Datos a enviar:", userData);
 
         try {
-            const response = await axios.post("http://localhost:8080/usuario", userData, {
+            const response = await axios.post("http://localhost:8080/auth/signup", userData, {
             });
             navigate("/Login")
         } catch (error) {
@@ -112,7 +111,7 @@ function SignupUser() {
 
                 <div className="mb-3">
                     <label htmlFor="profilePicture">Profile Picture:</label>
-                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange} required/>
+                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange} />
                     {base64 && ( // si bas64 no es null, mostra lo de adentro del parentesis
                         <div>
                             <p>Preview:</p>
@@ -128,7 +127,6 @@ function SignupUser() {
                         name="role"
                         value="RUNNER"
                         onChange={(e) => setRole(e.target.value)}
-                        required
                     /> Runner
                     <input type="radio"
                            name="role"
