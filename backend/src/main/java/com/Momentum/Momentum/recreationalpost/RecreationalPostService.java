@@ -1,15 +1,25 @@
 package com.Momentum.Momentum.recreationalpost;
 
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
+import com.Momentum.Momentum.usuario.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Service
+@Service
 public class RecreationalPostService {
 
     RecreationalPostRepository recreationalPostRepository;
 
-    public List<RecreationalPost> listAllPosts(){
-        return recreationalPostRepository.findAll();
+    @Autowired
+    public RecreationalPostService(RecreationalPostRepository recreationalPostRepository) {
+        this.recreationalPostRepository = recreationalPostRepository;
+    }
+
+    public List<RecreationalPost> listAllRecPostsOfUser(Long userId) {
+            return recreationalPostRepository.findByUsuarioId(userId);
     }
 
     public Optional<RecreationalPost> getRecPostById(Long id){

@@ -25,10 +25,10 @@ public class RecreationalPost {
 
     @ManyToOne
     @JoinColumn (name = "userId")
-    private Usuario user;
+    private Usuario usuario;
 
     @Column
-    private Integer distance;
+    private String distance;
 
     @Column(nullable = false)
     private String description;
@@ -36,10 +36,10 @@ public class RecreationalPost {
     @Column (nullable = false)
     private String duration;
 
-    @Column (nullable = true)
+    @Column
     private String calories;
 
-    public RecreationalPost(long idRecPost, Integer distance, String description,
+    public RecreationalPost(long idRecPost, String distance, String description,
                             String duration, String calories)
     {
         this.idRecPost = idRecPost;

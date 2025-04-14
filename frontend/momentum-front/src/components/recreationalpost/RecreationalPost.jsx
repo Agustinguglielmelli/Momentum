@@ -29,7 +29,8 @@ function RecreationalPost({ id }) {
     <div className="postContainer">
       <div className="header">
         <img src={profilePic} alt="Profile" className="profilePic"/>
-        <span className="username">{username}</span>
+        <span
+            className="username">{username}</span>
       </div>
       <img src={postingPicture} alt="Post" className="postImage" />
       <p className="description">{description}</p>
