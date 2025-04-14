@@ -6,16 +6,21 @@ import Home from '../home/Home';
 import PrivateRoute from "../privateroute/PrivateRoute";
 import SignupUser from "../signupuser/SignupUser";
 import RecreationalPost from "../recreationalpost/RecreationalPost";
+import TrainingPlanPostForm from "../trainingplanpost/TrainingPlanPostForm";
 
 function AppRouter() {
     return (
         <>
         <Routes> 
 
-{/*
+
             <Route path='/' element={<SignupUser />} />
-*/}
-            <Route path='/miperfil/recreationalPost' element={<RecreationalPost />} />
+
+            <Route path='/miperfil/train' element={
+                <PrivateRoute>
+                    <TrainingPlanPostForm />
+                </PrivateRoute>
+            } />
             <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
             <Route path='/Login' element={<LoginUser/>}></Route>
             <Route path='/*' element={<Navigate to='/'/>}/>
