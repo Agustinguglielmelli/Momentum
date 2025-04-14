@@ -2,14 +2,16 @@ package com.Momentum.Momentum.trainingplanpost;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 @org.springframework.stereotype.Service
 public class TrainingPlanPostService {
-
     @Autowired
     TrainingPlanPostRepository trainingPlanPostRepository;
+
 
     public List<TrainingPlanPost> listTrainingPlansOfUser(Long userId) {
         return trainingPlanPostRepository.findByUsuarioId(userId);
