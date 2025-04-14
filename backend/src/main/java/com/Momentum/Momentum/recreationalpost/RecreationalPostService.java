@@ -12,7 +12,7 @@ public class RecreationalPostService {
         return recreationalPostRepository.findAll();
     }
 
-    public Optional<RecreationalPost> getPostById(Long id){
+    public Optional<RecreationalPost> getRecPostById(Long id){
         return recreationalPostRepository.findById(id);
     }
 

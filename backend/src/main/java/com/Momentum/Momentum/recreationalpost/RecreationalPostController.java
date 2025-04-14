@@ -14,39 +14,44 @@ public class RecreationalPostController {
     @Autowired
     RecreationalPostService recreationalPostService;
 
-    @GetMapping("/miperfil")
+    @GetMapping("/miperfil/RecPost")
     @ResponseBody
     public List<RecreationalPost> getAllRecPosts(){
         return recreationalPostService.listAllPosts();
     }
 
-    @GetMapping("/miperfil/{id}")
+    @GetMapping("/miperfil/recPost/{id}")
     public Optional<RecreationalPost> getRecPostById(@PathVariable Long id) {
-       return recreationalPostService.getPostById(id);
+       return recreationalPostService.getRecPostById(id);
     }
 
-    @PostMapping("/miperfil")
+    @PostMapping("/miperfil/recPost")
     @ResponseBody
     public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost) {
         return recreationalPostService.createRecPost(recpost);
     }
 
-    @DeleteMapping("/miperfil/{id}")
+    @DeleteMapping("/miperfil/recPost/{id}")
     public void deleteRecPost(@PathVariable long id) {
         recreationalPostService.deleteRecPostById(id);
     }
 
 
-    @PutMapping("/miperfil/{id}")
+    @PutMapping("/miperfil/recPost/{id}")
     public ResponseEntity<RecreationalPost> modificarRecPost(@PathVariable long id, @RequestBody RecreationalPost newrecpost) {
 
         Optional<RecreationalPost> post = recreationalPostService.getRecPostById(id);
 
+        if (post.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         RecreationalPost existente = post.get();
 
         existente.setDescription(newrecpost.getDescription());
-        existente.setPostingPicture(newrecpost.getPostingPicture());
-
+        existente.setCalories(newrecpost.getCalories());
+        existente.setDistance(newrecpost.getDistance());
+        existente.setDuration(newrecpost.getDuration());
 
         RecreationalPost nuevoRecpost = recreationalPostService.modifyRecPost(existente);
 

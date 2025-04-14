@@ -11,8 +11,8 @@ public class TrainingPlanPostService {
     @Autowired
     TrainingPlanPostRepository trainingPlanPostRepository;
 
-    public List<TrainingPlanPost> listTrainingPlans(){
-        return trainingPlanPostRepository.findAll();
+    public List<TrainingPlanPost> listTrainingPlansOfUser(Long userId) {
+        return trainingPlanPostRepository.findByUsuarioId(userId);
     }
 
     public Optional<TrainingPlanPost> getTrainingPlanById(long id){

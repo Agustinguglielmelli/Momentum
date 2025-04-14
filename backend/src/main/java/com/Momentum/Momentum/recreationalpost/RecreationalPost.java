@@ -1,5 +1,7 @@
 package com.Momentum.Momentum.recreationalpost;
 
+import com.Momentum.Momentum.image.Image;
+import com.Momentum.Momentum.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.Getter;
@@ -16,54 +18,39 @@ public class RecreationalPost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idPost;
+    private long idRecPost;
 
-    @Column(nullable = false)
-    private String username;
+    @OneToMany(mappedBy = "recreationalPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String profilePicture;
-    
+    @ManyToOne
+    @JoinColumn (name = "userId")
+    private Usuario user;
+
+    @Column
+    private Integer distance;
+
     @Column(nullable = false)
     private String description;
 
-    @Lob
-    @Column(columnDefinition = "TEXT")
-    private String postingPicture;
+    @Column (nullable = false)
+    private String duration;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column
-    private Role role;
+    @Column (nullable = true)
+    private String calories;
 
-    public RecreationalPost(long idPost, String username, String profilePicture,
-                            String description, String postingPicture, Role role) {
-        this.idPost = idPost;
-        this.username = username;
-        this.profilePicture = profilePicture;
+    public RecreationalPost(long idRecPost, Integer distance, String description,
+                            String duration, String calories)
+    {
+        this.idRecPost = idRecPost;
+        this.distance = distance;
         this.description = description;
-        this.postingPicture = postingPicture;
-        this.role = role;
+        this.duration = duration;
+        this.calories = calories;
     }
 
+    public RecreationalPost() {
 
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    
-    public String getPostingPicture() {
-        return postingPicture;
-    }
-
-    public Role getRole() {
-        return role;
     }
 }
    

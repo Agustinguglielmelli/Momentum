@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.image;
 
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,14 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Lob // Permite guardar datos grandes
     @Column(columnDefinition = "TEXT")
     private String base64Data;
+
+    @ManyToOne
+    @JoinColumn (name = "recreationalPostId")
+    private RecreationalPost recreationalPost;
 
     public Image() {
     }

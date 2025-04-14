@@ -5,4 +5,5 @@ import java.util.Optional;
 
 public interface RecreationalPostRepository extends JpaRepository<RecreationalPost, Long> {
     //JPA maneja las consultas SQL, no es necesario escribirlas aca
+
 }
