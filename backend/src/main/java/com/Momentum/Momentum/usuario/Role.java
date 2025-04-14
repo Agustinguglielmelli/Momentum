@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.Usuario;
+package com.Momentum.Momentum.usuario;
 
 public enum Role {
     RUNNER, COACH;

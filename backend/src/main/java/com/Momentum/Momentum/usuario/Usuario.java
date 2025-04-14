@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.Usuario;
+package com.Momentum.Momentum.usuario;
 
 import jakarta.persistence.*;
 import lombok.Setter;

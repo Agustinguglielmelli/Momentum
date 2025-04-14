@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.Usuario;
+package com.Momentum.Momentum.usuario;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

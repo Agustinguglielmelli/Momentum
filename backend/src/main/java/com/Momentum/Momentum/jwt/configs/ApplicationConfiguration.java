@@ -1,7 +1,6 @@
 package com.Momentum.Momentum.jwt.configs;
 
-
-import com.Momentum.Momentum.Usuario.UsuarioRepository;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

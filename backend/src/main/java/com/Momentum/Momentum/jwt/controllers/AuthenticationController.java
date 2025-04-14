@@ -1,6 +1,6 @@
 package com.Momentum.Momentum.jwt.controllers;
 
-import com.Momentum.Momentum.Usuario.Usuario;
+import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.jwt.dtos.LoginUserDto;
 import com.Momentum.Momentum.jwt.dtos.RegisterUserDto;
 import com.Momentum.Momentum.jwt.services.AuthenticationService;

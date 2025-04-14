@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.Imagen;
+package com.Momentum.Momentum.image;
 
 import jakarta.persistence.*;
 import lombok.Getter;

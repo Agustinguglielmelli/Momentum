@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.Imagen;
+package com.Momentum.Momentum.image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
