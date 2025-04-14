@@ -1,24 +1,40 @@
 
-function RecreationalPost() {
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-    useEffect(() => { 
-        async function getRunnerData() {
-            try {
-                const response = await axios.get(`http://localhost:8080/usuario/${id}`);
-                const data = response.data;
-                setusername(data.username || "");
-                setBase64(data.profile_picture || "");
-            } catch (error) {
-                console.error("Error fetching coach data:", error);
-            }
-        }
+function RecreationalPost({ id }) {
+  const [username, setUsername] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [description, setDescription] = useState("");
+  const [postingPicture, setPostingPicture] = useState("");
 
-        getRunnerData();
-    }, [id]);
+  useEffect(() => {
+    async function getPostData() {
+      try {
+        const response = await axios.get(`http://localhost:8080/miperfil/${id}`);
+        const data = response.data;
+        setUsername(data.username || "");
+        setProfilePic(data.profilePicture || "");
+        setDescription(data.description || "");
+        setPostingPicture(data.postingPicture || "");
+      } catch (error) {
+        console.error("Error fetching post data:", error);
+      }
+    }
 
-    return (
-        <></>
-    )
+    getPostData();
+  }, [id]);
+
+  return (
+    <div className="postContainer">
+      <div className="header">
+        <img src={profilePic} alt="Profile" className="profilePic"/>
+        <span className="username">{username}</span>
+      </div>
+      <img src={postingPicture} alt="Post" className="postImage" />
+      <p className="description">{description}</p>
+    </div>
+  );
 }
 
 export default RecreationalPost;

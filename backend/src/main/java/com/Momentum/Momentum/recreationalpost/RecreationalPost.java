@@ -18,29 +18,35 @@ public class RecreationalPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idPost;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
+    private String username;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String profilePicture;
+    
+    @Column(nullable = false)
     private String description;
 
     @Lob
     @Column(columnDefinition = "TEXT")
     private String postingPicture;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Usuario usuario;
-
-
     @Enumerated(value = EnumType.STRING)
     @Column
     private Role role;
 
-
-    public RecreationalPost(long id, String description, String postingPicture, Usuario usuario, Role role) {
-        this.id = id;
+    public RecreationalPost(long idPost, String username, String profilePicture,
+                            String description, String postingPicture, Role role) {
+        this.idPost = idPost;
+        this.username = username;
+        this.profilePicture = profilePicture;
         this.description = description;
-        this.postingPicture= postingPicture;
+        this.postingPicture = postingPicture;
         this.role = role;
     }
+
+
 
     @Override
     public String getDescription() {
