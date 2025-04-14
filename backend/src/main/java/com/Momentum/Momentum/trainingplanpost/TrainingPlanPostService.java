@@ -1,11 +1,36 @@
-package com.Momentum.Momentum.trainingPlanPost;
+package com.Momentum.Momentum.trainingplanpost;
 
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface TrainingPlanPostRepository extends JpaRepository<Usuario, Long> {
-    //JPA maneja las consultas SQL, no es necesario escribirlas aca
-    Optional<Usuario> findByEmail(String email);
-}//editar esta interfaz, no se si es necesario que reciba un usuario
+
+@org.springframework.stereotype.Service
+public class TrainingPlanPostService {
+
+    @Autowired
+    TrainingPlanPostRepository trainingPlanPostRepository;
+
+    public List<TrainingPlanPost> listTrainingPlans(){
+        return trainingPlanPostRepository.findAll();
+    }
+
+    public Optional<TrainingPlanPost> getTrainingPlanById(long id){
+        return trainingPlanPostRepository.findById(id);
+    }
+
+    public TrainingPlanPost createTrainingPlan(TrainingPlanPost trainingplan){
+        return trainingPlanPostRepository.save(trainingplan);
+    }
+
+    public void deleteTrainingPlanById(Long id){
+        trainingPlanPostRepository.deleteById(id);
+    }
+    public TrainingPlanPost modifyTrainingPlan(TrainingPlanPost trainingplan){
+        return trainingPlanPostRepository.save(trainingplan);
+    }
+
+
+
+
+}

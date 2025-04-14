@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.R;
+package com.Momentum.Momentum.recreationalpost;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +18,18 @@ public class RecreationalPostController {
 
     @GetMapping("/usuario")
     @ResponseBody
-    public List<Usuario> getAllRecPosts(){
+    public List<RecreationalPost> getAllRecPosts(){
         return recreationalPostService.listAllPosts();
     }
 
     @GetMapping("/usuario/{id}")
-    public Optional<Usuario> getRecPostById(@PathVariable Long id) {
+    public Optional<RecreationalPost> getRecPostById(@PathVariable Long id) {
        return recreationalPostService.getPostById(id);
     }
 
     @PostMapping("/usuario")
     @ResponseBody
-    public Usuario createRecPost(@RequestBody RecreationalPost recpost) {
+    public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost) {
         return recreationalPostService.createRecPost(recpost);
     }
 
@@ -40,21 +40,19 @@ public class RecreationalPostController {
 
 
     @PutMapping("/usuario/{id}")
-    public ResponseEntity<Usuario> modificarRecPost(@PathVariable long id, @RequestBody Usuario person) {
+    public ResponseEntity<RecreationalPost> modificarRecPost(@PathVariable long id, @RequestBody RecreationalPost newrecpost) {
 
         Optional<RecreationalPost> post = recreationalPostService.getRecPostById(id);
 
-        RecreationalPost existente = usuario.get();
+        RecreationalPost existente = post.get();
 
-        existente.setUsername(person.getUsername());//
-        existente.setEmail(person.getEmail());
-        existente.setPassword(person.getPassword());
-        existente.setProfilePicture(person.getProfilePicture());
+        existente.setDescription(newrecpost.getDescription());
+        existente.setPostingPicture(newrecpost.getPostingPicture());
 
 
-        Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
+        RecreationalPost nuevoRecpost = recreationalPostService.modifyRecPost(existente);
 
-        return ResponseEntity.ok(nuevoUsuario);
+        return ResponseEntity.ok(nuevoRecpost);
     }
 
     @GetMapping("/me")

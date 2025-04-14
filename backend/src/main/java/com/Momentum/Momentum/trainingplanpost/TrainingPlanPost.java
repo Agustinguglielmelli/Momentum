@@ -1,25 +1,27 @@
-package com.Momentum.Momentum.Usuario;
+package com.Momentum.Momentum.trainingplanpost;
 
 import jakarta.persistence.*;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import lombok.Getter;
 import java.util.Collection;
 import java.util.List;
 
-
+@Getter
 @Setter
 @Entity
 @Table(name = "TrainPlanPost")
-public class TrainPlanPost implements UserDetails {
+public class TrainPlanPost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idPost;
 
     @Column (nullable = false)
-    private String username;
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Usuario usuario;
 
     @Enumerated(value = EnumType.STRING)
     @Column
@@ -47,10 +49,11 @@ public class TrainPlanPost implements UserDetails {
     private String dia7;
 
 
-    public TrainPlanPost(long id, String username, Role role, String dia1, String dia2,
+    public TrainPlanPost(long id, String description, Usuario usuario, Role role, String dia1, String dia2,
     String dia3, String dia4, String dia5, String dia6, String dia7) {
         this.id = id;
-        this.username = username;
+        this.description = description;
+        this.usuario = usuario;
         this.role = role;
         this.dia1 = dia1;
         this.dia2 = dia2;
@@ -62,14 +65,8 @@ public class TrainPlanPost implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-
-    @Override
-    public String getUsername() {
-        return email;
+    public String getDescription() {
+        return description;
     }
 
     public long getId() {
@@ -101,24 +98,5 @@ public class TrainPlanPost implements UserDetails {
     public String getDia7(){
         return dia7;
     }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
+    

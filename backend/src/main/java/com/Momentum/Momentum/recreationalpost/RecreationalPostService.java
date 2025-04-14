@@ -1,11 +1,28 @@
-package com.Momentum.Momentum.recreationalPost;
+package com.Momentum.Momentum.recreationalpost;
 
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import java.util.List;
 import java.util.Optional;
 
-public interface RecreationalPostRepository extends JpaRepository<Usuario, Long> {
-    //JPA maneja las consultas SQL, no es necesario escribirlas aca
-    Optional<Usuario> findByEmail(String email);
-}//editar esta interfaz, no se si es necesario que reciba un usuario
+@org.springframework.stereotype.Service
+public class RecreationalPostService {
+
+    RecreationalPostRepository recreationalPostRepository;
+
+    public List<RecreationalPost> listAllPosts(){
+        return recreationalPostRepository.findAll();
+    }
+
+    public Optional<RecreationalPost> getPostById(Long id){
+        return recreationalPostRepository.findById(id);
+    }
+
+    public void deleteRecPostById(Long id){
+        recreationalPostRepository.deleteById(id);
+    }
+    public RecreationalPost createRecPost(RecreationalPost recpost){
+        return recreationalPostRepository.save(recpost);
+    }
+    public RecreationalPost modifyRecPost(RecreationalPost recpost){
+        return recreationalPostRepository.save(recpost);
+    }
+}
