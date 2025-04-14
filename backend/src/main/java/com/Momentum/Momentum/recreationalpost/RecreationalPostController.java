@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.recreationalpost;
 
+import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,13 @@ public class RecreationalPostController {
     @PostMapping("/miperfil/recPost")
     public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
         recpost.setUsuario(currentUser);
+
+        if (recpost.getImages() != null) {
+            for (Image img : recpost.getImages()) {
+                img.setRecreationalPost(recpost);
+            }
+        }
+
         return recreationalPostService.createRecPost(recpost);
     }
 

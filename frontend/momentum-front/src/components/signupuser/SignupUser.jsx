@@ -2,6 +2,7 @@ import Button from "../button/Button"; //esta bien importado cuando es "../butto
 import axios from "axios";
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
+import {handleFileChangeImg} from "../../api/functions";
 
 
 function SignupUser() {
@@ -16,7 +17,7 @@ function SignupUser() {
         console.log("Datos a enviar:", userData);
 
         try {
-            const response = await axios.post("http://localhost:8080/auth/signup", userData, {
+            await axios.post("http://localhost:8080/auth/signup", userData, {
             });
             navigate("/Login")
         } catch (error) {
@@ -24,40 +25,6 @@ function SignupUser() {
         }
 
     }
-
-    const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
-
-    const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            if (!file.type.startsWith('image/')) {
-                alert('Please upload an image file.');
-                return;
-            }
-
-            try {
-                const base64String = await convertToBase64(file);
-                setBase64(base64String);
-                console.log('Base64:', base64String);
-
-            } catch (error) {
-                console.error('Error converting file:', error);
-            }
-        }
-    };
 
     const [username, setusername] = useState(""); // Estos set se encargan de cambiar el contenido de esos campos
     const [email, setemail] = useState("");
@@ -111,7 +78,9 @@ function SignupUser() {
 
                 <div className="mb-3">
                     <label htmlFor="profilePicture">Profile Picture:</label>
-                    <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onChange={handleFileChange} />
+                    <input type="file" id="profilePicture" name="profilePicture"
+                           accept="image/*"
+                           onChange={(e) => handleFileChangeImg(e, setBase64)} />
                     {base64 && ( // si bas64 no es null, mostra lo de adentro del parentesis
                         <div>
                             <p>Preview:</p>

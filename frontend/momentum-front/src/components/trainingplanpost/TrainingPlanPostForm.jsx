@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 
-const TrainingPlanPostForm = ({ userId }) => {
+const TrainingPlanPostForm = () => {
   const [plan, setPlan] = useState({
     dia1: '',
     dia2: '',
@@ -47,7 +47,7 @@ const TrainingPlanPostForm = ({ userId }) => {
               headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }});
-      alert("¡Plan creado con éxito!");
+      console.log("¡Plan creado con éxito!");
     } catch (error) {
       console.error("Error al guardar el plan:", error);
     }

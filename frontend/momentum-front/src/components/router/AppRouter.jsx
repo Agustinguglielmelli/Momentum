@@ -5,7 +5,7 @@ import LoginUser from '../loginuser/LoginUser';
 import Home from '../home/Home';
 import PrivateRoute from "../privateroute/PrivateRoute";
 import SignupUser from "../signupuser/SignupUser";
-import RecreationalPost from "../recreationalpost/RecreationalPost";
+import RecreationalPostForm from "../recreationalpost/RecreationalPostForm";
 import TrainingPlanPostForm from "../trainingplanpost/TrainingPlanPostForm";
 
 function AppRouter() {
@@ -15,14 +15,19 @@ function AppRouter() {
 
 
             <Route path='/' element={<SignupUser />} />
+            <Route path='/Login' element={<LoginUser/>}></Route>
 
-            <Route path='/miperfil/train' element={
+            <Route path='/miperfil/createTrainingPlan' element={
                 <PrivateRoute>
                     <TrainingPlanPostForm />
                 </PrivateRoute>
             } />
+            <Route path='/miperfil/createRecreationalPost' element={
+                <PrivateRoute>
+                    <RecreationalPostForm />
+                </PrivateRoute>
+            } />
             <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
-            <Route path='/Login' element={<LoginUser/>}></Route>
             <Route path='/*' element={<Navigate to='/'/>}/>
 
 {/*
