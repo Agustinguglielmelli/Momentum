@@ -15,10 +15,11 @@ function AppRouter() {
 {/*
             <Route path='/' element={<SignupUser />} />
 */}
-            <Route path='/' element={<RecreationalPost />} />
+            <Route path='/miperfil/recreationalPost' element={<RecreationalPost />} />
             <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
             <Route path='/Login' element={<LoginUser/>}></Route>
             <Route path='/*' element={<Navigate to='/'/>}/>
+
 {/*
             Navigate se usa para que cuando escribas una ruta cualquiera no definida, directamente te mande a '/'
 */}
