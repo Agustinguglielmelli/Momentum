@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.image;
 
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn (name = "recreationalPostId")
+    @JsonBackReference
     private RecreationalPost recreationalPost;
 
     public Image() {

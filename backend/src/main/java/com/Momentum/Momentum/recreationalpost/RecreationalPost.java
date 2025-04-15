@@ -2,12 +2,12 @@ package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.Getter;
 
 
-import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -21,6 +21,7 @@ public class RecreationalPost {
     private long idRecPost;
 
     @OneToMany(mappedBy = "recreationalPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Image> images;
 
     @ManyToOne
