@@ -13,4 +13,4 @@ export function RecreationalPost({post}) {
     )
 }
 
-export default {RecreationalPost}
+export default RecreationalPost

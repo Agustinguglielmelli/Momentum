@@ -13,6 +13,7 @@ function MyProfile(){
                 console.error(error);
             }
         }
+        fetchRecreationalPosts()
     }, [])
 
 
