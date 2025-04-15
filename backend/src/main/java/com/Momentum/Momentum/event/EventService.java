@@ -18,9 +18,9 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<Event> listEventsOfUser(Long userId) {
+    /*public List<Event> listEventsOfUser(Long userId) {
         return eventRepository.findByUsuarioId(userId);
-    }
+    }*/
 
     public Optional<Event> getEventById(Long id){
         return eventRepository.findById(id);

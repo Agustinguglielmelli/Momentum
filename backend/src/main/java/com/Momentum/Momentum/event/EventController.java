@@ -22,23 +22,23 @@ public class EventController {
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
 
-    @GetMapping("/events/myevents")
+    /*@GetMapping("/events/myevents")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser){
         return eventService.listEventsOfUser(currentUser.getId());
-    }
+    }*/
 
-    @PostMapping("/events/myevents")
+    /*@PostMapping("/events/myevents")
     public Event createEventPost(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         event.setUsuario(currentUser);
         return eventService.createEvent(event);
-    }
+    }*/
 
-    @GetMapping("/events/myevents/{id}")
+    /*@GetMapping("/events/myevents/{id}")
     public Optional<Events> getEventsById(@PathVariable Long id) {
        return eventService.getEventById(id);
     }
-
-    @DeleteMapping("/events/myevents/{id}")
+*/
+    /*@DeleteMapping("/events/myevents/{id}")
     public ResponseEntity<Void> deleteEventsById(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<Event> optional = eventService.getEventById(id);
         if (optional.isEmpty() || optional.get().getUsuario().getId() != currentUser.getId()) {
@@ -46,7 +46,7 @@ public class EventController {
         }
         eventService.deleteEventById(id);
         return ResponseEntity.ok().build();
-    }
+    }*/
     @PutMapping("events/myevents/{id}")
     public ResponseEntity<Event> modificarEvent(@PathVariable long id, @RequestBody Event newEvent,
                                                                    @ModelAttribute("currentUser") Usuario currentUser) {
@@ -63,11 +63,11 @@ public class EventController {
         existente.setEndAtPlace(newEvent.getEndAtPlace());
         existente.setTitle(newEvent.getTitle());
         existente.setDate(newEvent.getDate());
-        existente.setKmToRun(newEvent.getKmToRun())
+        existente.setKmToRun(newEvent.getKmToRun());
 
-        if (existente.getUsuario() == null || existente.getUsuario().getId() != currentUser.getId()) {
+       /* if (existente.getUsuario() == null || existente.getUsuario().getId() != currentUser.getId()) {
             return ResponseEntity.status(403).build(); // 403 Forbidden
-        }
+        }*/
 
         Event updated = eventService.modifyEvent(existente);
         return ResponseEntity.ok(updated);
@@ -75,6 +75,6 @@ public class EventController {
 
 }
 
-}
+
 
 
