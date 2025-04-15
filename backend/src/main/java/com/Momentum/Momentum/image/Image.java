@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.image;
 
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +15,12 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob // Permite guardar datos grandes
     @Column(columnDefinition = "TEXT")
     private String base64Data;
 
     @ManyToOne
     @JoinColumn (name = "recreationalPostId")
+    @JsonBackReference
     private RecreationalPost recreationalPost;
 
     public Image() {
