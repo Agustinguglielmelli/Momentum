@@ -1,8 +1,26 @@
-//import Button from '../button/Button'
-import { Link } from 'react-router-dom'
+import {useEffect, useState} from "react";
+import {listRecreationalPosts} from "../../api/functions";
+import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
+
 function MyProfile(){
+    const [recreationalPosts, setRecreationalPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchRecreationalPosts = async () => {
+            try {
+                setRecreationalPosts(await listRecreationalPosts());
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }, [])
+
+
     return(
-        <Link to={miperfil/recreationalPost} className=" btn btn-primary">Create Post</Link>
+        <div>
+            <h1>My posts</h1>
+            
+        </div>
     )
 }
 export default MyProfile;

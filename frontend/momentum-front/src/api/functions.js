@@ -5,6 +5,11 @@ export async function listUsers() {
     return result.data;
 }
 
+export async function listRecreationalPosts() {
+    const result =  await axios.get("http://localhost:8080/miperfil/recpost");
+    return result.data;
+}
+
 export const handleFileChangeImg = async (event, setBase64) => {
     const file = event.target.files[0];
     if (file) {

@@ -1,9 +1,8 @@
-import { useState } from "react";
-export function RecreationalPost() {
-
-    const [recreationalPosts, setRecreationalPosts] = useState([]);
+import {useState} from "react";
+export function RecreationalPost({post}) {
 
     return (
+
         <div className="card">
             <img src="." className="card-img-top" alt=""/>
             <div className="card-body">
