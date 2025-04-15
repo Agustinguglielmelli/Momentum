@@ -14,7 +14,6 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob // Permite guardar datos grandes
     @Column(columnDefinition = "TEXT")
     private String base64Data;
 
