@@ -23,7 +23,7 @@ public class EventController {
     }
 
     @GetMapping("/events/myevents")
-    public List<Events> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser){
+    public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser){
         return eventService.listEventsOfUser(currentUser.getId());
     }
 

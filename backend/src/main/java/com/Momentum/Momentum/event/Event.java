@@ -35,7 +35,7 @@ public class Event {
     public Event(){}
 
     public Event(String title, String description, String startAtPlace,
-     String endAtPlace, String date, String kmToRun,){
+     String endAtPlace, String date, String kmToRun){
         this.title=title;
         this.description=description;
         this.startAtPlace=startAtPlace;
