@@ -18,6 +18,8 @@ function Carousel({ ImageList }) {
                     </div>
                 ))}
             </div>
+
+            {/* los botones estos andan porque importamos en index.js un script de bootstrap */}
             <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span className="sr-only">Previous</span>
