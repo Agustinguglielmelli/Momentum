@@ -36,6 +36,7 @@ function AppRouter() {
                     <RecreationalPostForm />
                 </PrivateRoute>
             } />
+            
             <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
             <Route path='/*' element={<Navigate to='/'/>}/>
 
