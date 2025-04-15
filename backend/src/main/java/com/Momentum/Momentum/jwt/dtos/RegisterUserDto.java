@@ -1,5 +1,7 @@
 package com.Momentum.Momentum.jwt.dtos;
 
+import com.Momentum.Momentum.usuario.Role;
+
 public class RegisterUserDto {
     private String email;
 
@@ -9,6 +11,15 @@ public class RegisterUserDto {
 
     private String profilePicture;
 
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public String getProfilePicture() {
         return profilePicture;

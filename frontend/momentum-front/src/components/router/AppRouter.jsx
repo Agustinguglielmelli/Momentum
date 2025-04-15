@@ -5,8 +5,8 @@ import LoginUser from '../loginuser/LoginUser';
 import Home from '../home/Home';
 import PrivateRoute from "../privateroute/PrivateRoute";
 import SignupUser from "../signupuser/SignupUser";
-import RecreationalPostForm from "../recreationalpost/RecreationalPostForm";
-import TrainingPlanPostForm from "../trainingplanpost/TrainingPlanPostForm";
+import RecreationalPostForm from "../post/recreationalpostform/RecreationalPostForm";
+import TrainingPlanPostForm from "../post/trainingplanpostform/TrainingPlanPostForm";
 
 function AppRouter() {
     return (

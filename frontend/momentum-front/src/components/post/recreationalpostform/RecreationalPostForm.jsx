@@ -1,7 +1,7 @@
 import "./RecreationalPosFormt.css"
 import React, { useState} from "react";
 import axios from "axios";
-import {convertToBase64} from "../../api/functions";
+import {convertToBase64} from "../../../api/functions";
 import {useNavigate} from "react-router-dom";
 function RecreationalPostForm({ id }) {
 

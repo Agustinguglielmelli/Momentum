@@ -27,7 +27,6 @@ public class Usuario implements UserDetails {
     @Column (nullable = false)
     private  String password;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String profilePicture;
 

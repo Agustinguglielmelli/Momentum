@@ -34,9 +34,12 @@ public class SecurityConfiguration {
         http
                 .cors(cors -> {}) // ← Esto activa la configuración de CORS
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(auth ->
+                        auth
+                            .requestMatchers("/auth/**")
+                            .permitAll()
+                            .anyRequest()
+                            .authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
