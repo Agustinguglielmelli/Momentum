@@ -8,7 +8,9 @@ function MyProfile(){
     useEffect(() => {
         const fetchRecreationalPosts = async () => {
             try {
-                setRecreationalPosts(await listRecreationalPosts());
+                const posts = await listRecreationalPosts()
+                console.log(posts)
+                setRecreationalPosts(posts);
             } catch (error) {
                 console.error(error);
             }
@@ -20,6 +22,9 @@ function MyProfile(){
     return(
         <div>
             <h1>My posts</h1>
+            {recreationalPosts.map((post, index) => (
+                <RecreationalPost key={post.idRecPost} post={post} />
+            ))}
         </div>
     )
 }

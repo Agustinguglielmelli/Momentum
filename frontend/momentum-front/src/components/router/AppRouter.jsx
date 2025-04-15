@@ -9,6 +9,7 @@ import RecreationalPostForm from "../post/recreationalpostform/RecreationalPostF
 import TrainingPlanPostForm from "../post/trainingplanpostform/TrainingPlanPostForm";
 import Navbar from "../navbar/Navbar";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
+import MyProfile from "../myprofile/MyProfile";
 
 
 function AppRouter() {
@@ -34,6 +35,11 @@ function AppRouter() {
             <Route path='/miperfil/createRecreationalPost' element={
                 <PrivateRoute>
                     <RecreationalPostForm />
+                </PrivateRoute>
+            } />
+            <Route path='/miperfil' element={
+                <PrivateRoute>
+                    <MyProfile/>
                 </PrivateRoute>
             } />
             

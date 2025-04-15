@@ -1,11 +1,14 @@
 
 
-function Carousel({ ImageList }) {
-
+function Carousel({ imageList }) {
+    if (!Array.isArray(imageList) || imageList.length === 0) {
+        return <div>No images available</div>;  // Muestra un mensaje si no hay imágenes
+    }
     return (
+
         <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
-                {ImageList.map((image, index) => (
+                {imageList.map((image, index) => (
                     <div
                         key={index}
                         className={`carousel-item ${index === 0 ? "active" : ""}`} // solo la imagen con index 0 es active

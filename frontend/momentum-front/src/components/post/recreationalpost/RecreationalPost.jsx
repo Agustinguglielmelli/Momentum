@@ -1,4 +1,3 @@
-import {useState} from "react";
 import Carousel from "../../carousel/Carousel";
 export function RecreationalPost({ post }) {
 
@@ -12,5 +11,3 @@ export function RecreationalPost({ post }) {
         </div>
     )
 }
-
-export default RecreationalPost

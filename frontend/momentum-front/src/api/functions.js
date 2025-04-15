@@ -6,7 +6,7 @@ export async function listUsers() {
 }
 
 export async function listRecreationalPosts() {
-    const result =  await axios.get("http://localhost:8080/miperfil/recpost",
+    const result =  await axios.get("http://localhost:8080/miperfil/recPost",
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
