@@ -22,7 +22,7 @@ function MyProfile(){
     return(
         <div>
             <h1>My posts</h1>
-            {recreationalPosts.map((post, index) => (
+            {recreationalPosts.map((post) => (
                 <RecreationalPost key={post.idRecPost} post={post} />
             ))}
         </div>
