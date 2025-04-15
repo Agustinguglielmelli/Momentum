@@ -1,5 +1,5 @@
 import {useState} from "react";
-export function RecreationalPost({post}) {
+export function RecreationalPost({ post }) {
 
     return (
 

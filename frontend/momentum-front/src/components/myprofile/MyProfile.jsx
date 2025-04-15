@@ -20,7 +20,6 @@ function MyProfile(){
     return(
         <div>
             <h1>My posts</h1>
-            
         </div>
     )
 }
