@@ -12,14 +12,14 @@ export function RecreationalPost({ post }) {
 
             <div className="recreational-post-body">
                 <p className="recreational-post-description">
-                    Distancia recorrida: {post.distance} kms
+                    Distance run: {post.distance} kms
                 </p>
                 <p className="recreational-post-description">
-                    Duración: {post.distance}{post.description}
+                    Duration: {post.distance}{post.description}
                 </p>
                 {post.calories != null && (
                 <p className="recreational-post-description">
-                    Calorias quemadas: {post.calories}
+                    Calories burnt: {post.calories}
                 </p>
                 )}
                 <p className="recreational-post-description">

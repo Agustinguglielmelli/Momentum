@@ -59,7 +59,7 @@ function RecreationalPostForm({ id }) {
         <h1> Create Post </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">Distance: </label>
+            <label htmlFor="title" className="form-label">Distance (kms): </label>
             <input type="text"
                    className="form-control"
                    onChange={(e) => setDistance(e.target.value)}
@@ -67,7 +67,7 @@ function RecreationalPostForm({ id }) {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="frequency" className="form-label">Duration: </label>
+            <label htmlFor="frequency" className="form-label">Duration (minutes): </label>
             <input type="text"
                    className="form-control"
                    onChange={(e) => setDuration(e.target.value)}
