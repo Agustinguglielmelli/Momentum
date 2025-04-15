@@ -7,13 +7,13 @@ function Navbar() {
             <div className="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul className="navbar-nav d-flex w-100 justify-content-between px-4">
                     <li className="nav-item flex-fill text-center px-2">
-                        <Link className="nav-link active" to="/miperfil/createTrainingPlan">My profile</Link>
+                        <Link className="nav-link active nav-glow" to="/miperfil/createTrainingPlan">My profile</Link>
                     </li>
                     <li className="nav-item flex-fill text-center px-2">
-                        <Link className="nav-link active" to="/miperfil/createTrainingPlan">Feed</Link>
+                        <Link className="nav-link active nav-glow" to="/miperfil/createTrainingPlan">Feed</Link>
                     </li>
                     <li className="nav-item flex-fill text-center px-2">
-                        <Link className="nav-link active" to="/events">Events</Link>
+                        <Link className="nav-link active  nav-glow" to="/events">Events</Link>
                     </li>
                 </ul>
             </div>
