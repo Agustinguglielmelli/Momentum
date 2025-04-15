@@ -10,6 +10,7 @@ import TrainingPlanPostForm from "../post/trainingplanpostform/TrainingPlanPostF
 import Navbar from "../navbar/Navbar";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 
+
 function AppRouter() {
     return (
         <>
