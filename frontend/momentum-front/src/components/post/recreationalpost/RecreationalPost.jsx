@@ -1,13 +1,13 @@
 import {useState} from "react";
+import Carousel from "../../carousel/Carousel";
 export function RecreationalPost({ post }) {
 
     return (
 
         <div className="card">
-            <img src="." className="card-img-top" alt=""/>
+            <Carousel imageList = {post.images} />
             <div className="card-body">
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
+                <p className="card-text">{post.description}</p>
             </div>
         </div>
     )
