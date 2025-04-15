@@ -16,7 +16,6 @@ function Navbar() {
                             <a className="nav-link active" aria-current="page" href="#">Events</a>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
