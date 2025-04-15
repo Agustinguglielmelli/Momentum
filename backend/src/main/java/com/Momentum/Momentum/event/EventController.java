@@ -14,7 +14,7 @@ import java.util.Optional;
 public class EventController {
 
     @Autowired
-    private EventRepository eventRepository;
+    private EventService eventService;
 
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser() {
