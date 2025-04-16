@@ -1,5 +1,5 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+const { jwtDecode } = require('jwt-decode');
 
 
 export async function listUsers() {
@@ -67,11 +67,12 @@ export const convertToBase64 = (file) => {
 };
 
 export function getUserRole() {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
     if (!token) return null;
 
     try {
-        const decoded = jwt_decode(token);
+        const decoded = jwtDecode(token);
+        console.log(decoded)
         return decoded.role; // Esto debería devolver "RUNNER" o "COACH"
     } catch (e) {
         console.error("Invalid token", e);

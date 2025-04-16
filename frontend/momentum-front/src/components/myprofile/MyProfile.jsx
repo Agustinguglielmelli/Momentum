@@ -44,10 +44,23 @@ function MyProfile(){
 
     return(
         <div>
-            <h1>My posts</h1>
-            {recreationalPosts.map((post) => (
-                <RecreationalPost key={post.idRecPost} post={post} />
-            ))}
+            <h1>Mi perfil ({userRole})</h1>
+
+            {userRole === "RUNNER" && (
+                <>
+                    <h2>Mis posts recreativos</h2>
+                    {recreationalPosts.map((post) => (
+                        <RecreationalPost key={post.idRecPost} post={post} />
+                    ))}
+                </>
+            )}
+
+            {userRole === "COACH" && (
+                <>
+                    <h2>Mis planes de entrenamiento</h2>
+                    {/* Mostrar los trainingPlanPosts */}
+                </>
+            )}
         </div>
     )
 }
