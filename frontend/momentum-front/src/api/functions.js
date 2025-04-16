@@ -62,6 +62,7 @@ export const convertToBase64 = (file) => {
             reject(error);
         };
     });
+    
 };
 
 

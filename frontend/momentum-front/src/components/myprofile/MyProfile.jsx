@@ -1,8 +1,24 @@
 import {useEffect, useState} from "react";
-import {listRecreationalPosts} from "../../api/functions";
+import {listRecreationalPosts, listTrainingPlanPosts} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 
 function MyProfile(){
+    const [trainingPlanPosts, setTrainingPlanPosts] = useState([]);
+
+    useEffect( () => {
+        const fetchTrainingPlanPost = async () => {
+            try {
+                const posts = await listTrainingPlanPosts()
+                console.log(posts)
+                setTrainingPlanPosts(posts);
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchTrainingPlanPost();
+    },[])
+
     const [recreationalPosts, setRecreationalPosts] = useState([]);
 
     useEffect(() => {
