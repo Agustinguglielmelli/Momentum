@@ -1,8 +1,15 @@
 import {useEffect, useState} from "react";
-import {listRecreationalPosts, listTrainingPlanPosts} from "../../api/functions";
+import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 
 function MyProfile(){
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const role = getUserRole();
+        setUserRole(role);
+    }, []);
+
     const [trainingPlanPosts, setTrainingPlanPosts] = useState([]);
 
     useEffect( () => {
