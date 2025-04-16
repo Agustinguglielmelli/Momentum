@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
+import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
+import {Link} from "react-router-dom";
 
 function MyProfile(){
     const [userRole, setUserRole] = useState(null);
@@ -48,6 +50,10 @@ function MyProfile(){
 
             {userRole === "RUNNER" && (
                 <>
+                    <Link className="btn btn-primary" to={"/miperfil/createTrainingPlan"}>
+                        Crear plan
+                    </Link>
+
                     <h2>Mis posts recreativos</h2>
                     {recreationalPosts.map((post) => (
                         <RecreationalPost key={post.idRecPost} post={post} />
@@ -57,8 +63,11 @@ function MyProfile(){
 
             {userRole === "COACH" && (
                 <>
+                    <Link className= "btn btn-primary" to={"/miperfil/createTrainingPlan"}/>
                     <h2>Mis planes de entrenamiento</h2>
-                    {/* Mostrar los trainingPlanPosts */}
+                    <div className="container">
+                         <TrainingPlanPost/>
+                    </div>
                 </>
             )}
         </div>
