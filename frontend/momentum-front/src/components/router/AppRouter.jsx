@@ -10,16 +10,29 @@ import TrainingPlanPostForm from "../post/trainingplanpostform/TrainingPlanPostF
 import Navbar from "../navbar/Navbar";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import MyProfile from "../myprofile/MyProfile";
+import PublicOnlyRoute from "../publicRoute/PublicRoute";
 
 
 function AppRouter() {
     return (
         <>
-        <Routes> 
+        <Routes>
 
-            <Route path='/' element={<SignupUser />} />
-            <Route path='/signup' element={<SignupUser />} />
-            <Route path='/login' element={<LoginUser/>}></Route>
+            <Route path='/' element={
+                <PublicOnlyRoute>
+                    <SignupUser />
+                </PublicOnlyRoute>
+            } />
+            <Route path='/signup' element={
+                <PublicOnlyRoute>
+                    <SignupUser />
+                </PublicOnlyRoute>
+            } />
+            <Route path='/login' element={
+                <PublicOnlyRoute>
+                    <LoginUser />
+                </PublicOnlyRoute>
+            } />
 
             <Route path='/home' element={
                 <PrivateRoute>
