@@ -46,15 +46,15 @@ function MyProfile(){
 
     return(
         <div>
-            <h1>Mi perfil ({userRole})</h1>
+            <h1>My profile ({userRole})</h1>
 
             {userRole === "RUNNER" && (
                 <>
-                    <Link className="btn btn-primary" to={"/miperfil/createTrainingPlan"}>
-                        Crear plan
+                    <Link className="btn btn-primary" to={"/miperfil/createRecreativePost"}>
+                        New Post
                     </Link>
 
-                    <h2>Mis posts recreativos</h2>
+                    <h2>My posts</h2>
                     {recreationalPosts.map((post) => (
                         <RecreationalPost key={post.idRecPost} post={post} />
                     ))}
@@ -63,8 +63,10 @@ function MyProfile(){
 
             {userRole === "COACH" && (
                 <>
-                    <Link className= "btn btn-primary" to={"/miperfil/createTrainingPlan"}/>
-                    <h2>Mis planes de entrenamiento</h2>
+                    <Link className="btn btn-primary" to={"/miperfil/createTrainingPlan"}>
+                        New Post
+                    </Link>
+                    <h2>My Posts</h2>
                     <div className="container">
                          <TrainingPlanPost/>
                     </div>
