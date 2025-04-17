@@ -7,7 +7,7 @@ export function RecreationalPost({ post }) {
 
         <div className="recreational-post-card">
             <div className="recreational-post-carousel-container">
-                <Carousel imageList={post.images}/>
+                <Carousel imageList={post.images} />
             </div>
 
             <div className="recreational-post-body">

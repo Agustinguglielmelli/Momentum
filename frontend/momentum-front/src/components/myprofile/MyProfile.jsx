@@ -17,9 +17,9 @@ function MyProfile(){
     useEffect( () => {
         const fetchTrainingPlanPost = async () => {
             try {
-                const posts = await listTrainingPlanPosts()
-                console.log(posts)
-                setTrainingPlanPosts(posts);
+                const trainPosts = await listTrainingPlanPosts()
+                console.log(trainPosts)
+                setTrainingPlanPosts(trainPosts);
 
             } catch (error) {
                 console.error(error);
@@ -33,9 +33,9 @@ function MyProfile(){
     useEffect(() => {
         const fetchRecreationalPosts = async () => {
             try {
-                const posts = await listRecreationalPosts()
-                console.log(posts)
-                setRecreationalPosts(posts);
+                const recPosts = await listRecreationalPosts()
+                console.log(recPosts)
+                setRecreationalPosts(recPosts);
             } catch (error) {
                 console.error(error);
             }
@@ -66,10 +66,10 @@ function MyProfile(){
                     <Link className="btn btn-primary" to={"/miperfil/createTrainingPlan"}>
                         New Post
                     </Link>
-                    <h2>My Posts</h2>
-                    <div className="container">
-                         <TrainingPlanPost/>
-                    </div>
+                    <h2>My training plans</h2>
+                    {trainingPlanPosts.map((post) => (
+                        <TrainingPlanPost key={post.idTrainPost} post={post} />
+                    ))}
                 </>
             )}
         </div>

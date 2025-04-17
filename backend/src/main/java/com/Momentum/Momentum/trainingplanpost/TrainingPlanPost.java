@@ -33,22 +33,22 @@ public class TrainingPlanPost {
     @Column (nullable = false)
     private String dia1;
 
-    @Column (nullable = false)
+    @Column 
     private String dia2;
 
-    @Column (nullable = false)
+    @Column
     private String dia3;
 
-    @Column (nullable = false)
+    @Column
     private String dia4;
 
-    @Column (nullable = false)
+    @Column
     private String dia5;
 
-    @Column (nullable = false)
+    @Column
     private String dia6;
 
-    @Column (nullable = false)
+    @Column
     private String dia7;
 
     public TrainingPlanPost(long idTrainPost, String description, Usuario usuario, String dia1, String dia2,
