@@ -33,7 +33,7 @@ public class TrainingPlanPost {
     @Column (nullable = false)
     private String dia1;
 
-    @Column 
+    @Column
     private String dia2;
 
     @Column

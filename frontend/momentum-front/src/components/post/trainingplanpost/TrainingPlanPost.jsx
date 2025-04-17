@@ -16,13 +16,13 @@ export function TrainingPlanPost({ post }) {
                 </p>
             </div>
             <ul className="list-group list-group-flush">
-                <li className="list-group-item">Day 1: {post.dia1}</li>
-                <li className="list-group-item">Day 2: {post.dia2}</li>
-                <li className="list-group-item">Day 3: {post.dia3}</li>
-                <li className="list-group-item">Day 4: {post.dia4}</li>
-                <li className="list-group-item">Day 5: {post.dia5}</li>
-                <li className="list-group-item">Day 6: {post.dia6}</li>
-                <li className="list-group-item">Day 7: {post.dia7}</li>
+                {post.dia1 && <li className="list-group-item">Day 1: {post.dia1}</li>}
+                {post.dia2 && <li className="list-group-item">Day 2: {post.dia2}</li>}
+                {post.dia3 && <li className="list-group-item">Day 3: {post.dia3}</li>}
+                {post.dia4 && <li className="list-group-item">Day 4: {post.dia4}</li>}
+                {post.dia5 && <li className="list-group-item">Day 5: {post.dia5}</li>}
+                {post.dia6 && <li className="list-group-item">Day 6: {post.dia6}</li>}
+                {post.dia7 && <li className="list-group-item">Day 7: {post.dia7}</li>}
             </ul>
         </div>
     )

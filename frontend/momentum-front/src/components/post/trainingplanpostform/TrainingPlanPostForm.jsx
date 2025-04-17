@@ -1,8 +1,10 @@
 
 import React, { useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const TrainingPlanPostForm = () => {
+  const navigate = useNavigate()
   const [plan, setPlan] = useState({
     dia1: '',
     dia2: '',
@@ -42,12 +44,14 @@ const TrainingPlanPostForm = () => {
       dia7: plan.dia7
     }
     try {
-        await axios.post("http://localhost:8080/miperfil/trainingPlan", data,
+        const result = await axios.post("http://localhost:8080/miperfil/trainingPlan", data,
             {
               headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }});
       console.log("¡Plan creado con éxito!");
+      console.log(result)
+      navigate("/miperfil")
     } catch (error) {
       console.error("Error al guardar el plan:", error);
     }
@@ -88,7 +92,6 @@ const TrainingPlanPostForm = () => {
                   name={`dia${i + 1}`}
                   value={plan[`dia${i + 1}`]}
                   onChange={handleChange}
-                  required
                   className="form-control"
               />
             </div>

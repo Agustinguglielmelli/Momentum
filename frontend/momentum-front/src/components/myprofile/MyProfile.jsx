@@ -18,7 +18,7 @@ function MyProfile(){
         const fetchTrainingPlanPost = async () => {
             try {
                 const trainPosts = await listTrainingPlanPosts()
-                console.log(trainPosts)
+                console.log("Training Plan Response:" + trainPosts)
                 setTrainingPlanPosts(trainPosts);
 
             } catch (error) {
