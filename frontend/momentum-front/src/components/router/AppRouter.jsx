@@ -20,7 +20,7 @@ function AppRouter() {
             <Route path='/' element={<SignupUser />} />
             <Route path='/signup' element={<SignupUser />} />
             <Route path='/login' element={<LoginUser/>}></Route>
-            <Route path='/home' element={<Navbar/>}></Route>
+            <Route path='/home' element={<Home/>}></Route>
 
             <Route path='/miperfil/createTrainingPlan' element={
                 <PrivateRoute>

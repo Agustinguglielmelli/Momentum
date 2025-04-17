@@ -30,7 +30,6 @@ function LoginUser() {
 
     return (
         <div className="container">
-            <LogoutButton/>
         <Link to={"/"} className="btn btn-primary">Back</Link>
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
             <h1>Log in</h1>

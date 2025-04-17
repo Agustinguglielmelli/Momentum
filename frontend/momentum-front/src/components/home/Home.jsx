@@ -1,8 +1,12 @@
 import LogoutButton from "../logoutbutton/LogoutButton";
+import Navbar from "../navbar/Navbar";
 
 function Home(){
     return(
-        <LogoutButton/>
+        <div>
+            <Navbar/>
+            <LogoutButton/>
+        </div>
     )
  }
  export default Home;
