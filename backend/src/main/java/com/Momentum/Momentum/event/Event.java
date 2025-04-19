@@ -3,6 +3,8 @@ package com.Momentum.Momentum.event;
 import lombok.Setter;
 import lombok.Getter;
 import jakarta.persistence.*;
+import com.Momentum.Momentum.usuario.Usuario;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,7 +14,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idEvento;
+    private long idEvent;
 
     @Column(nullable=false)
     private String title;
@@ -31,6 +33,16 @@ public class Event {
 
     @Column(nullable=false)
     private String kmToRun;
+
+    // relacion con los usuarios
+    // se crea una tabla intermedia event_user
+    @ManyToMany
+    @JoinTable(
+            name = "event_user", // nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "event_id"), // clave de evento
+            inverseJoinColumns = @JoinColumn(name = "user_id") // clave de usuario
+    )
+    private Set<Usuario> participants;
 
     public Event(){}
 

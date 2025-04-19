@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.usuario;
 
+import com.Momentum.Momentum.event.Event;
 import jakarta.persistence.*;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @Setter
@@ -33,6 +35,10 @@ public class Usuario implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     @Column
     private Role role;
+
+    // Relación con eventos
+    @ManyToMany(mappedBy = "participants")
+    private Set<Event> events;
 
     public Usuario() {}
 
