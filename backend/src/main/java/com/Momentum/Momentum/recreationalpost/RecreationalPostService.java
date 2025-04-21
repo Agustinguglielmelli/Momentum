@@ -1,7 +1,6 @@
 package com.Momentum.Momentum.recreationalpost;
 
-import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
-import com.Momentum.Momentum.usuario.Usuario;
+//import com.Momentum.Momentum.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

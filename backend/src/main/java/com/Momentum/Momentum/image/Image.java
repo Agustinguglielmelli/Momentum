@@ -19,11 +19,26 @@ public class Image {
     private String base64Data;
 
     @ManyToOne
-    @JoinColumn (name = "recreationalPostId")
+    @JoinColumn(name = "recreationalPostId")
     @JsonBackReference
     private RecreationalPost recreationalPost;
 
     public Image() {
+    }
+    public void setRecreationalPost(RecreationalPost recPost){
+        this.recreationalPost= recPost;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public RecreationalPost getRecreationalPost() {
+        return recreationalPost;
+    }
+
+    public String getBase64Data() {
+        return base64Data;
     }
 
 }

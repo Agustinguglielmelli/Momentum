@@ -1,7 +1,6 @@
 package com.Momentum.Momentum.event;
 
-import com.Momentum.Momentum.event.Event;
-import com.Momentum.Momentum.usuario.Usuario;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +17,9 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    /*public List<Event> listEventsOfUser(Long userId) {
+    public List<Event> listEventsOfUser(Long userId) {
         return eventRepository.findByUsuarioId(userId);
-    }*/
+    }
 
     public Optional<Event> getEventById(Long id){
         return eventRepository.findById(id);

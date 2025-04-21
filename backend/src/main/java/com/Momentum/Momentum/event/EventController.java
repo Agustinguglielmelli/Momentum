@@ -1,6 +1,8 @@
 package com.Momentum.Momentum.event;
 
 import com.Momentum.Momentum.usuario.Usuario;
+//import com.Momentum.Momentum.usuario.UsuarioController;
+//import com.Momentum.Momentum.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,23 +24,24 @@ public class EventController {
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
 
-    /*@GetMapping("/events/myevents")
+    @GetMapping("/events/myevents")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser){
         return eventService.listEventsOfUser(currentUser.getId());
-    }*/
+    }
 
-    /*@PostMapping("/events/myevents")
+    @PostMapping("/events/myevents")
     public Event createEventPost(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
-        event.setUsuario(currentUser);
+        event.setCreadorDeEvento(currentUser); // Asignás al creador
+        event.getParticipants().add(currentUser);
         return eventService.createEvent(event);
-    }*/
+    }
 
-    /*@GetMapping("/events/myevents/{id}")
-    public Optional<Events> getEventsById(@PathVariable Long id) {
+    @GetMapping("/events/myevents/{id}")
+    public Optional<Event> getEventsById(@PathVariable Long id) {
        return eventService.getEventById(id);
     }
-*/
-    /*@DeleteMapping("/events/myevents/{id}")
+
+   /*  @DeleteMapping("/events/myevents/{id}")
     public ResponseEntity<Void> deleteEventsById(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<Event> optional = eventService.getEventById(id);
         if (optional.isEmpty() || optional.get().getUsuario().getId() != currentUser.getId()) {
@@ -47,31 +50,51 @@ public class EventController {
         eventService.deleteEventById(id);
         return ResponseEntity.ok().build();
     }*/
-    @PutMapping("events/myevents/{id}")
-    public ResponseEntity<Event> modificarEvent(@PathVariable long id, @RequestBody Event newEvent,
-                                                                   @ModelAttribute("currentUser") Usuario currentUser) {
-
-        Optional<Event> optionalExisting = eventService.getEventById(id);
-
-        if (optionalExisting.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } // si no lo encuentra, entonces tira un error 404. Pero no va a lanzar una exception
-
-        Event existente = optionalExisting.get();
-        existente.setDescription(newEvent.getDescription());
-        existente.setStartAtPlace(newEvent.getStartAtPlace());
-        existente.setEndAtPlace(newEvent.getEndAtPlace());
-        existente.setTitle(newEvent.getTitle());
-        existente.setDate(newEvent.getDate());
-        existente.setKmToRun(newEvent.getKmToRun());
-
-       /* if (existente.getUsuario() == null || existente.getUsuario().getId() != currentUser.getId()) {
-            return ResponseEntity.status(403).build(); // 403 Forbidden
-        }*/
-
-        Event updated = eventService.modifyEvent(existente);
-        return ResponseEntity.ok(updated);
+    @DeleteMapping("/events/myevents/{id}")
+public ResponseEntity<Void> deleteEventsById(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
+    Optional<Event> optional = eventService.getEventById(id);
+    if (optional.isEmpty()) {
+        return ResponseEntity.notFound().build();
     }
+
+    Event evento = optional.get();
+
+    if (evento.getCreadorDeEvento().getId() != currentUser.getId()) {
+        return ResponseEntity.status(403).build(); // Solo el creador puede eliminar un evento
+    }
+
+    eventService.deleteEventById(id);
+    return ResponseEntity.ok().build();
+}
+@PutMapping("events/myevents/{id}")
+public ResponseEntity<Event> modificarEvent(@PathVariable long id, @RequestBody Event newEvent,
+                                            @ModelAttribute("currentUser") Usuario currentUser) {
+
+    Optional<Event> optionalExisting = eventService.getEventById(id);
+
+    if (optionalExisting.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Event existente = optionalExisting.get();
+
+    // Solo el creador puede modificar el evento
+    if (existente.getCreadorDeEvento() == null || 
+        existente.getCreadorDeEvento().getId() != currentUser.getId()) {
+        return ResponseEntity.status(403).build(); 
+    }
+
+   
+    existente.setDescription(newEvent.getDescription());
+    existente.setStartAtPlace(newEvent.getStartAtPlace());
+    existente.setEndAtPlace(newEvent.getEndAtPlace());
+    existente.setTitle(newEvent.getTitle());
+    existente.setDate(newEvent.getDate());
+    existente.setKmToRun(newEvent.getKmToRun());
+
+    Event updated = eventService.modifyEvent(existente);
+    return ResponseEntity.ok(updated);
+}
 
 }
 

@@ -1,13 +1,13 @@
 package com.Momentum.Momentum.event;
 
-import lombok.Setter;
-import lombok.Getter;
+//import lombok.Setter;
+//import lombok.Getter;
 import jakarta.persistence.*;
 import com.Momentum.Momentum.usuario.Usuario;
 import java.util.Set;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
 @Table(name = "Evento")
 public class Event {
@@ -34,6 +34,10 @@ public class Event {
     @Column(nullable=false)
     private String kmToRun;
 
+    @ManyToOne
+    @JoinColumn(name = "creador_id") 
+    private Usuario creadorDeEvento;
+
     // relacion con los usuarios
     // se crea una tabla intermedia event_user
     @ManyToMany
@@ -55,6 +59,66 @@ public class Event {
         this.date=date;
         this.kmToRun=kmToRun;
     }
-    
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description = description;
+    }
+    public String getStartAtPlace(){
+        return startAtPlace;
+    }
+    public void setStartAtPlace(String startAtPlace){
+        this.startAtPlace= startAtPlace;
+    }
+    public String getEndAtPlace(){
+        return endAtPlace;
+    }
+    public void setEndAtPlace(String endAtPlace){
+        this.endAtPlace = endAtPlace;
+    }
+    public String getTitle(){
+        return title;
+    }
+    public void setTitle(String title){
+        this.title= title;
+    }
+    public String getDate(){
+        return date;
+    }
+    public void setDate(String date){
+        this.date = date;
+    }
+    public String getKmToRun(){
+        return kmToRun;
+    }
+    public void setKmToRun(String kmToRun){
+        this.kmToRun = kmToRun;
+    }
+    public Set<Usuario> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Usuario> participants) {
+        this.participants = participants;
+    }
+
+    /*public Usuario getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    */
+    public Usuario getCreadorDeEvento(){
+        return creadorDeEvento;
+    }
+    public void setCreadorDeEvento(Usuario creador){
+        this.creadorDeEvento = creador;
+    }
+
+    public long getIdEvent() {
+        return idEvent;
+    }
 
 }
