@@ -6,7 +6,7 @@
     padding:0;
   }
   
-  .navbar a {
+  .navbar-a{
     float: left;
     flex:1;
     display: block;
@@ -22,7 +22,42 @@
     height: 100%; 
   }
   
-  .navbar a:hover {
+  .navbar-a:hover {
     background-color: #ff0000;
     color: rgb(255, 255, 255);
   }
+  /*-------------------------Navbar 2 -------------------------------*/
+/* Contenedor de la navbar */
+.navbar2 {
+
+  margin: 10px 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  border-radius: 9999px; /* Hace el borde redondeado */
+  background-color: #082f49;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Estilo de los links */
+.navbar-link {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem; /* 14px */
+  color: white;
+  text-decoration: none; /* Elimina el subrayado */
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Efecto hover */
+.navbar-link:hover {
+  background-color: #164e63;
+}
