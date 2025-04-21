@@ -77,6 +77,9 @@ public class Usuario implements UserDetails {
     public String getUsername() {
         return email;
     }
+    public String getuserUsername(){
+        return username;
+    }
 
     public long getId() {
         return id;
@@ -112,5 +115,9 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
     }
 }
