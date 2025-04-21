@@ -2,7 +2,7 @@ package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
 import jakarta.persistence.*;
-import lombok.Setter;
+//import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 
-@Setter
-@Entity
+//@Setter
+//@Entity
 @Table(name = "Usuario")
 public class Usuario implements UserDetails {
 

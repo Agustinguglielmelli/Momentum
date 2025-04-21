@@ -4,14 +4,14 @@ import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Setter;
-import lombok.Getter;
+//import lombok.Setter;
+//import lombok.Getter;
 
 
 import java.util.List;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
 @Table(name = "RecPost")
 public class RecreationalPost {

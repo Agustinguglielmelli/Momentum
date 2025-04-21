@@ -3,11 +3,11 @@ package com.Momentum.Momentum.image;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+//import lombok.Getter;
+//import lombok.Setter;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Entity
 public class Image {
 
