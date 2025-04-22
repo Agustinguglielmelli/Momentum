@@ -28,14 +28,14 @@ public class EventController {
         return eventService.listEventsOfUser(currentUser.getId());
     }*/
 
-    @PostMapping("/events/myevents")
-    public Event createEventPost(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
-        event.setCreadorDeEvento(currentUser); // Asignás al creador
+    @PostMapping("/events")
+    public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
+        event.setCreadorDeEvento(currentUser); // Asignas al creador
         event.getParticipants().add(currentUser);
         return eventService.createEvent(event);
     }
 
-    @GetMapping("/events/myevents/{id}")
+    @GetMapping("/events/{id}")
     public Optional<Event> getEventsById(@PathVariable Long id) {
        return eventService.getEventById(id);
     }
@@ -49,7 +49,7 @@ public class EventController {
         eventService.deleteEventById(id);
         return ResponseEntity.ok().build();
     }*/
-    @DeleteMapping("/events/myevents/{id}")
+    @DeleteMapping("/events/{id}")
 public ResponseEntity<Void> deleteEventsById(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
     Optional<Event> optional = eventService.getEventById(id);
     if (optional.isEmpty()) {
@@ -65,7 +65,7 @@ public ResponseEntity<Void> deleteEventsById(@PathVariable long id, @ModelAttrib
     eventService.deleteEventById(id);
     return ResponseEntity.ok().build();
 }
-@PutMapping("events/myevents/{id}")
+@PutMapping("events/{id}")
 public ResponseEntity<Event> modificarEvent(@PathVariable long id, @RequestBody Event newEvent,
                                             @ModelAttribute("currentUser") Usuario currentUser) {
 
