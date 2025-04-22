@@ -50,7 +50,7 @@ function MyProfile(){
 
             {userRole === "RUNNER" && (
                 <>
-                    <Link className="btn btn-primary" to={"/miperfil/createRecreativePost"}>
+                    <Link className="btn btn-primary" to={"/myprofile/createRecreativePost"}>
                         New Post
                     </Link>
 
@@ -63,7 +63,7 @@ function MyProfile(){
 
             {userRole === "COACH" && (
                 <>
-                    <Link className="btn btn-primary" to={"/miperfil/createTrainingPlan"}>
+                    <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
                         New Post
                     </Link>
                     <h2>My training plans</h2>
