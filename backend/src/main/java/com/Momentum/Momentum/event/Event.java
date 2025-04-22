@@ -2,8 +2,11 @@ package com.Momentum.Momentum.event;
 
 //import lombok.Setter;
 //import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import com.Momentum.Momentum.usuario.Usuario;
+
+import java.util.HashSet;
 import java.util.Set;
 
 //@Getter
@@ -35,20 +38,20 @@ public class Event {
     private String kmToRun;
 
     @ManyToOne
-    @JoinColumn(name = "creador_id") 
-    private Usuario creadorDeEvento;
+    @JoinColumn(name = "creador_id")  // Si el nombre de la columna en la base de datos es creador_id
+    @JsonBackReference
+    private Usuario creador;
 
-    // relacion con los usuarios
-    // se crea una tabla intermedia event_user
-    @ManyToMany
-    @JoinTable(
-            name = "event_user", // nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "event_id"), // clave de evento
-            inverseJoinColumns = @JoinColumn(name = "user_id") // clave de usuario
-    )
-    private Set<Usuario> participants;
+    public Usuario getCreador() {
+        return creador;
+    }
 
-    public Event(){}
+    public void setCreador(Usuario creador) {
+        this.creador = creador;
+    }
+
+    public Event(){
+    }
 
     public Event(String title, String description, String startAtPlace,
      String endAtPlace, String date, String kmToRun){
@@ -95,13 +98,8 @@ public class Event {
     public void setKmToRun(String kmToRun){
         this.kmToRun = kmToRun;
     }
-    public Set<Usuario> getParticipants() {
-        return participants;
-    }
 
-    public void setParticipants(Set<Usuario> participants) {
-        this.participants = participants;
-    }
+
 
     /*public Usuario getUsuario() {
         return usuario;
@@ -110,12 +108,7 @@ public class Event {
         this.usuario = usuario;
     }
     */
-    public Usuario getCreadorDeEvento(){
-        return creadorDeEvento;
-    }
-    public void setCreadorDeEvento(Usuario creador){
-        this.creadorDeEvento = creador;
-    }
+
 
     public long getIdEvent() {
         return idEvent;

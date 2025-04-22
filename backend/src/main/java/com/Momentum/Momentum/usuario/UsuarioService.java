@@ -1,16 +1,21 @@
 package com.Momentum.Momentum.usuario;
 
 
+import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.event.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class UsuarioService {
 
     @Autowired
     UsuarioRepository personRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
 
     public List<Usuario> listarUsuarios() {
@@ -32,5 +37,9 @@ public class UsuarioService {
 
     public Usuario modifyUser(Usuario usuario) {
         return personRepository.save(usuario);
+    }
+
+    public Set<Event> listUserEvents(Long id) {
+        return eventRepository.findByCreadorId(id);
     }
 }

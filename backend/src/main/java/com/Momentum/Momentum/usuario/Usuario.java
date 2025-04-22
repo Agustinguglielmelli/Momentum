@@ -1,12 +1,14 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 //import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,9 +38,9 @@ public class Usuario implements UserDetails {
     @Column
     private Role role;
 
-    // Relación con eventos
-    @ManyToMany(mappedBy = "participants")
-    private Set<Event> events;
+    @OneToMany(mappedBy = "creador")
+    @JsonManagedReference
+    private Set<Event> eventosCreados = new HashSet<>();
 
     public Usuario() {}
 
@@ -100,6 +102,14 @@ public class Usuario implements UserDetails {
         return role;
     }
 
+    public Set<Event> getEventosCreados() {
+        return eventosCreados;
+    }
+
+    public void setEventosCreados(Set<Event> eventosCreados) {
+        this.eventosCreados = eventosCreados;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -120,7 +130,4 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public Set<Event> getEvents() {
-        return events;
-    }
 }

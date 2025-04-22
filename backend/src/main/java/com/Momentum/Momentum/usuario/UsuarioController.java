@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.usuario;
 
+import com.Momentum.Momentum.event.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,11 +8,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class UsuarioController {
+
+    @ModelAttribute("currentUser")
+    public Usuario getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
+    }
 
     @Autowired
     UsuarioService personUsuarioService;
@@ -57,12 +65,9 @@ public class UsuarioController {
         return ResponseEntity.ok(nuevoUsuario);
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<Usuario> authenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        Usuario currentUser = (Usuario) authentication.getPrincipal();
-
-        return ResponseEntity.ok(currentUser);
+    @GetMapping ("/usuario/events")
+    public Set<Event> getUserEvents(@ModelAttribute("currentUser") Usuario currentUser){
+        return personUsuarioService.listUserEvents(currentUser.getId());
     }
+
 }
