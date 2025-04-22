@@ -50,7 +50,7 @@ function MyProfile(){
 
             {userRole === "RUNNER" && (
                 <>
-                    <Link className="btn btn-primary" to={"/myprofile/createRecreativePost"}>
+                    <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
                         New Post
                     </Link>
 
