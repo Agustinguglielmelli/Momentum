@@ -3,6 +3,7 @@ package com.Momentum.Momentum.event;
 //import lombok.Setter;
 //import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.Momentum.Momentum.usuario.Usuario;
 
@@ -41,6 +42,15 @@ public class Event {
     @JoinColumn(name = "creador_id")  // Si el nombre de la columna en la base de datos es creador_id
     @JsonBackReference
     private Usuario creador;
+
+    @ManyToMany
+    @JoinTable(
+            name = "evento_participantes",
+            joinColumns = @JoinColumn(name = "evento_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    @JsonIgnore
+    private Set<Usuario> participantes = new HashSet<>();
 
     public Usuario getCreador() {
         return creador;
@@ -99,8 +109,13 @@ public class Event {
         this.kmToRun = kmToRun;
     }
 
+    public Set<Usuario> getParticipantes() {
+        return participantes;
+    }
 
-
+    public void setParticipantes(Set<Usuario> participantes) {
+        this.participantes = participantes;
+    }
     /*public Usuario getUsuario() {
         return usuario;
     }

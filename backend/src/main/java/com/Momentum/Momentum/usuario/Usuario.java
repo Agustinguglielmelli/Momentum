@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 //import lombok.Setter;
@@ -41,6 +42,10 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "creador")
     @JsonManagedReference
     private Set<Event> eventosCreados = new HashSet<>();
+
+    @ManyToMany(mappedBy = "participantes")
+    @JsonIgnore
+    private Set<Event> eventsImIn = new HashSet<>();
 
     public Usuario() {}
 
