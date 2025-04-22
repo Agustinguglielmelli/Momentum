@@ -3,6 +3,9 @@ import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../a
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
+import Divider from "../divider/Divider";
+
+
 
 function MyProfile(){
     const [userRole, setUserRole] = useState(null);
@@ -60,6 +63,7 @@ function MyProfile(){
                     ))}
                 </>
             )}
+            <Divider />
 
             {userRole === "COACH" && (
                 <>
