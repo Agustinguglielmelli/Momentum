@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 //@Setter
-//@Entity
+@Entity
 @Table(name = "Usuario")
 public class Usuario implements UserDetails {
 
@@ -62,6 +62,9 @@ public class Usuario implements UserDetails {
     }
     public void setUsername(String username){
         this.username= username;
+    }
+    public void setRole(Role role) {
+        this.role = role;
     }
     public void setEmail(String email){
         this.email= email;
