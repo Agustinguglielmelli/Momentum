@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     //JPA maneja las consultas SQL, no es necesario escribirlas aca
-     List<Event> findByUsuarioId(Long userId);
+     /*List<Event> findByUsuarioId(Long userId);*/
 }

@@ -24,10 +24,10 @@ public class EventController {
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
 
-    @GetMapping("/events/myevents")
+    /*@GetMapping("/events/myevents")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser){
         return eventService.listEventsOfUser(currentUser.getId());
-    }
+    }*/
 
     @PostMapping("/events/myevents")
     public Event createEventPost(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {

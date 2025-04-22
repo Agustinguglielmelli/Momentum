@@ -39,22 +39,22 @@ function AppRouter() {
                     <Home/>
                 </PrivateRoute>
             } />
-            <Route path='/miperfil/createTrainingPlan' element={
+            <Route path='/myprofile/createTrainingPlan' element={
                 <PrivateRoute>
                     <TrainingPlanPostForm />
                 </PrivateRoute>
             } />
-            <Route path='/miperfil/recreationalPost' element={
+            <Route path='/myprofile/recreationalPost' element={
                 <PrivateRoute>
                     <RecreationalPost/>
                 </PrivateRoute>
             } />
-            <Route path='/miperfil/createRecreationalPost' element={
+            <Route path='/myprofile/createRecreationalPost' element={
                 <PrivateRoute>
                     <RecreationalPostForm />
                 </PrivateRoute>
             } />
-            <Route path='/miperfil' element={
+            <Route path='/myprofile' element={
                 <PrivateRoute>
                     <MyProfile/>
                 </PrivateRoute>

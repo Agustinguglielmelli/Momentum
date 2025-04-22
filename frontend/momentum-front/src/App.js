@@ -4,9 +4,9 @@ import AppRouter from './components/router/AppRouter'
 
 function App() {
     return (
-        <>
+        <div className= "divApp">
         <AppRouter/>
-        </>
+        </div>
     );
 }
 

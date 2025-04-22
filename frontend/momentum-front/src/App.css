@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+.divApp {
+  background-color: var(--bg-color);
+}
+:root {
+  --main-color: #000;
+  --bg-color: #f0f0f0;
+  --text-color: #000;
+}
