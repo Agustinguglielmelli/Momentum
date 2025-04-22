@@ -39,12 +39,11 @@ function RecreationalPostForm({ id }) {
     const files = Array.from(event.target.files);
     const imageFiles = files.filter(file => file.type.startsWith('image/'));
 
-    if (imageFiles.length > 5) {
-      alert("Solo se permiten hasta 5 imágenes.");
-      return;
-    }
-
     try {
+      if ((base64.length + imageFiles.length) > 5) {
+        alert("Solo se permiten hasta 5 imágenes.");
+        return;
+      }
       const base64Images = await Promise.all(
           imageFiles.map(file => convertToBase64(file))
       );
