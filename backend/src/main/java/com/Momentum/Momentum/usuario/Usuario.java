@@ -49,6 +49,17 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     private Set<Event> eventsImIn = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_following",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "followed_id")
+    )
+    Set<Usuario> following = new HashSet<>();
+
+    @ManyToMany (mappedBy = "following")
+    Set<Usuario> followers = new HashSet<>();
+
     public Usuario() {}
 
     public Usuario(long id, String username, String email, String password, String profilePicture, Role role) {
@@ -74,7 +85,7 @@ public class Usuario implements UserDetails {
     public String getUsername() {
         return email;
     }
-    
+
     public String getuserUsername(){
         return username;
     }
