@@ -4,7 +4,8 @@ import com.Momentum.Momentum.event.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-//import lombok.Setter;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 
-//@Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "Usuario")
 public class Usuario implements UserDetails {
@@ -67,54 +69,15 @@ public class Usuario implements UserDetails {
     public String getPassword() {
         return password;
     }
-    public void setUsername(String username){
-        this.username= username;
-    }
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    public void setEmail(String email){
-        this.email= email;
-    }
-    public void setPassword(String password){
-        this.password= password;
-    }
-    public void setProfilePicture(String profilePicture){
-        this.profilePicture = profilePicture;
-    }
 
     @Override
     public String getUsername() {
         return email;
     }
+    
     public String getuserUsername(){
         return username;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public Set<Event> getEventosCreados() {
-        return eventosCreados;
-    }
-
-    public void setEventosCreados(Set<Event> eventosCreados) {
-        this.eventosCreados = eventosCreados;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
