@@ -118,5 +118,33 @@ export async function listUsersByNameSearch(nameSearch){
     return result;
 }
 
+export async function follow(userId){
+    const result = await axios.get(`http://localhost:8080/usuario/follow/${userId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+export async function unFollow(userId){
+    const result = await axios.delete(`http://localhost:8080/usuario/unfollow/${userId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+export async function listFollowedUsers(){
+    const result = await axios.get(`http://localhost:8080/usuario/following`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+
 
 

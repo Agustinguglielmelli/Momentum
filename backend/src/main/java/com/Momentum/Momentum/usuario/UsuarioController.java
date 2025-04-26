@@ -101,8 +101,6 @@ public class UsuarioController {
     /*--------------------- ENDPOINTS DE SGUIDOS Y SEGUIDRORES --------------------------*/
     @PostMapping("/usuario/follow/{id}")
     public ResponseEntity<?> followUser(@PathVariable long id) {
-        System.out.println("---- Ejecutando followUser() sin ModelAttribute ----");
-
         // Obtener el usuario directamente desde la autenticación y la base de datos
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();

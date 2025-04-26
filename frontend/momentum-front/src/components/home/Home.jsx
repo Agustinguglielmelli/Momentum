@@ -4,22 +4,23 @@ import SearchBar from "../searchbar/SearchBar";
 import "./HomeCss.css"
 import {useEffect, useState} from "react";
 import {
+    follow, listFollowedUsers,
     listFollowingRecreationalPosts,
     listFollowingTrainingPlansPosts,
-    listUsersByNameSearch
+    listUsersByNameSearch, unFollow
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
-import axios from "axios";
-import {AiFillBug} from "react-icons/ai";
 import Button from "../button/Button";
 
 
 function Home(){
-    const [followingRecreationalPosts, setFollowingRecreationlPosts] = useState([]);
-    const [followingTrainingPlanPosts,setfollowingTrainingPlanPosts ] = useState([]);
+    const [followingRecreationalPosts, setFollowingRecreationalPosts] = useState([]);
+    const [followingTrainingPlanPosts,setFollowingTrainingPlanPosts ] = useState([]);
     const [userSearch, setUserSearch] = useState("");
     const [users, setUsers] = useState([]);
+    const [followedUsers, setFollowedUsers] = useState([]);
+
 
     // fucnion para buscar usuarios
     const handleSearch = async (event) => {
@@ -50,7 +51,7 @@ function Home(){
             try {
                 const posts = await listFollowingRecreationalPosts();
                 console.log(posts);
-                setFollowingRecreationlPosts(posts);
+                setFollowingRecreationalPosts(posts);
             } catch (error) {
                 console.error(error);
             }
@@ -63,7 +64,7 @@ function Home(){
             try {
                 const posts = await listFollowingTrainingPlansPosts();
                 console.log(posts);
-                setfollowingTrainingPlanPosts(posts);
+                setFollowingTrainingPlanPosts(posts);
             } catch (error) {
                 console.error(error);
             }
@@ -71,7 +72,51 @@ function Home(){
         fetchFollowingTrainingPlanPosts();
     }, []);
 
-    let handleFollow;
+    const handleFollow = async (userId) => {
+        try {
+            const response = await follow(userId);
+            console.log("Respuesta del servidor:", response);
+            if (response.status === 200) {
+                // Si la solicitud fue exitosa, actualiza el estado
+                setFollowedUsers((prevFollowed) => [...prevFollowed, userId]);
+                console.log(`Usuario ${userId} seguido con éxito`);
+            }
+        } catch (error) {
+            console.error("Error al seguir al usuario:", error);
+        }
+    };
+
+    const handleUnfollow = async (userId) => {
+        try {
+            // Llamada al endpoint de unfollow
+            const response = await unFollow(userId);
+
+            if (response.status === 200) {
+                // Si la solicitud fue exitosa, actualiza el estado
+                setFollowedUsers((prevFollowed) => prevFollowed.filter(id => id !== userId)); // elimina el user id que antes estaba y ahora no pq dejo de seguir
+                console.log(`Has dejado de seguir al usuario ${userId}`);
+            }
+        } catch (error) {
+            console.error("Error al dejar de seguir al usuario:", error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchFollowedUsers = async () => {
+            try {
+                const response = await listFollowedUsers(); // esta función deberías tenerla en api/functions.js
+                if (Array.isArray(response.data)) {
+                    const followedIds = response.data.map(user => user.id); // guardamos solo los ids
+                    setFollowedUsers(followedIds);
+                }
+            } catch (error) {
+                console.error("Error fetching followed users:", error);
+            }
+        };
+
+        fetchFollowedUsers();
+    }, []);
+
     return (
         <div className="home-container">
             <div className="top-bar">
@@ -90,7 +135,17 @@ function Home(){
                                 <div className="search-result-item" key={user.id}>
                                     <img src={user.profilePicture} alt="profilePicture" width="40px" height="40px" />
                                     <h2>{user.username}</h2>
-                                    <Button onClick={handleFollow} className="btn-primary" text="Follow" />
+                                    <Button
+                                        onClick={() => {
+                                            if (followedUsers.includes(user.id)) {
+                                                handleUnfollow(user.id);
+                                            } else {
+                                                handleFollow(user.id);
+                                            }
+                                        }}
+                                        className="btn-primary"
+                                        text={followedUsers.includes(user.id) ? "Unfollow" : "Follow"}
+                                    />
                                 </div>
                             ))}
                         </div>
