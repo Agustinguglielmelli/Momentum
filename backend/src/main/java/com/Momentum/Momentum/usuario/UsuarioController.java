@@ -3,6 +3,8 @@ package com.Momentum.Momentum.usuario;
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostService;
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPostService;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class UsuarioController {
 
     @Autowired
     RecreationalPostService recreationalPostService;
+
+    @Autowired
+    TrainingPlanPostService trainingPlanPostService;
 
     @GetMapping("/usuario")
     @ResponseBody
@@ -248,7 +253,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario/recreationalPostsFollowing")
-    public List<RecreationalPost> getPostsFollowing() {
+    public List<RecreationalPost> getRecreationalPostsFollowing() {
         // Obtener el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -263,6 +268,28 @@ public class UsuarioController {
         // Obtener todos los posts de los usuarios que sigue
         List<RecreationalPost> posts = following.stream()
                 .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
+                .collect(Collectors.toList());
+
+        return posts;
+
+
+    }
+    @GetMapping("/usuario/trainingPlanPostsFollowing")
+    public List<TrainingPlanPost> getTrainingPlanPostsFollowing() {
+        // Obtener el usuario actual
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
+
+        if (currentUserOpt.isEmpty()) {
+            return List.of();
+        }
+        Usuario currentUser = currentUserOpt.get();
+        Set<Usuario> following = currentUser.getFollowing(); // busco los usuarios que sigo
+
+        // Obtener todos los posts de los usuarios que sigue
+        List<TrainingPlanPost> posts = following.stream()
+                .flatMap(user -> trainingPlanPostService.getPostsByUserId(user.getId()).stream())
                 .collect(Collectors.toList());
 
         return posts;

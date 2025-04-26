@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.trainingplanpost;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class TrainingPlanPostService {
     }
 
 
-
-
+    public List<TrainingPlanPost> getPostsByUserId(long id) {
+        return trainingPlanPostRepository.findByUsuarioId(id);
+    }
 }

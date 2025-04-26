@@ -80,8 +80,18 @@ export function getUserRole() {
     }
 }
 
-export async function listFollowingPosts(){
+export async function listFollowingRecreationalPosts(){
     const result = await axios.get("http://localhost:8080/usuario/recreationalPostsFollowing",
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+
+export async function listFollowingTrainingPlansPosts(){
+    const result = await axios.get("http://localhost:8080/usuario/trainingPlanPostsFollowing",
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

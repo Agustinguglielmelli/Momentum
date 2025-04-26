@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.trainingplanpost;
 
 import com.Momentum.Momentum.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 //import lombok.Getter;
 //import lombok.Setter;
@@ -15,6 +16,7 @@ public class TrainingPlanPost {
     private long idTrainPost;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "userId", nullable = false)
     private Usuario usuario;
 
