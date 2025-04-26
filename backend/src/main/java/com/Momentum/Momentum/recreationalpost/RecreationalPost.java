@@ -26,7 +26,7 @@ public class RecreationalPost {
     private List<Image> images;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonManagedReference
     @JoinColumn (name = "userId")
     private Usuario usuario;
 

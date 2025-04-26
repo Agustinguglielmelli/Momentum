@@ -50,6 +50,7 @@ public class Usuario implements UserDetails {
     private Set<Event> eventsImIn = new HashSet<>();
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "user_following",
             joinColumns = @JoinColumn(name = "follower_id"),
@@ -58,6 +59,7 @@ public class Usuario implements UserDetails {
     Set<Usuario> following = new HashSet<>();
 
     @ManyToMany (mappedBy = "following")
+    @JsonIgnore
     Set<Usuario> followers = new HashSet<>();
 
     public Usuario() {}

@@ -161,8 +161,18 @@ function Home(){
                     <h1>Posts de usuarios que sigo</h1>
                     {followingRecreationalPosts.length > 0 && (
                         followingRecreationalPosts.map((post) => (
-                                <RecreationalPost key={post.idRecPost} post={post} />
-                            ))
+                            <div className="post-container">
+                                <div className="user-info">
+                                    <img
+                                        src={post.usuario.profilePicture}
+                                        alt="Foto de perfil"
+                                        className="profile-picture"
+                                    />
+                                    <h2 className="username">{post.username}</h2>
+                                </div>
+                                <RecreationalPost key={post.usuario.id} post={post}/>
+                            </div>
+                        ))
                     )}
                     {followingTrainingPlanPosts.length > 0 && (
                         followingTrainingPlanPosts.map((post) => (
