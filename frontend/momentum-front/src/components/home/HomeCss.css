@@ -84,18 +84,17 @@ body {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eee;
-}
-
-.search-result-item:hover {
-    background-color: #f0f0f0;
+    justify-content: space-between;
 }
 
 .search-result-item img {
     margin-right: 10px;
     border-radius: 50%;
+    flex-grow: 1;
 }
 
 .search-result-item h2 {
     font-size: 16px;
-    margin: auto 50px;
+    margin: auto;
+    flex-grow: 2;
 }

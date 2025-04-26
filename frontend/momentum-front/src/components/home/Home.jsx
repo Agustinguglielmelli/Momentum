@@ -71,6 +71,7 @@ function Home(){
         fetchFollowingTrainingPlanPosts();
     }, []);
 
+    let handleFollow;
     return (
         <div className="home-container">
             <div className="top-bar">
@@ -89,7 +90,7 @@ function Home(){
                                 <div className="search-result-item" key={user.id}>
                                     <img src={user.profilePicture} alt="profilePicture" width="40px" height="40px" />
                                     <h2>{user.username}</h2>
-                                    <Button />
+                                    <Button onClick={handleFollow} className="btn-primary" text="Follow" />
                                 </div>
                             ))}
                         </div>
