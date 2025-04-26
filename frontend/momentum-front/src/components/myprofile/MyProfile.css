@@ -34,3 +34,22 @@
     gap: 20px;
     align-items: center;
 }
+
+.profile-content {
+    align-items: stretch;
+    display: flex;
+    gap: 20px; /* espacio entre izquierda y derecha */
+  }
+  
+  .profile-left {
+    flex: 1; /* ocupa más espacio */
+  }
+  
+  .profile-right {
+    flex: 1; /* ocupa menos espacio */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinear botones a la izquierda */
+    gap: 10px;
+  }
+  

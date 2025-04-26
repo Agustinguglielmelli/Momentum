@@ -12,13 +12,13 @@ const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%', // Esto asegura que se adapte al contenedor padre
-    padding: '1rem',
+    alignItems: 'stretch',
+    height: 'auto', // Esto asegura que se adapte al contenedor padre
+    padding: '0 1rem',
   },
   line: {
     width: '1px',
-    height: '100px', // Podés ajustar o hacerlo en %
+    height: '100%', // Podés ajustar o hacerlo en %
     backgroundColor: '#ccc', // gris claro
   },
 };

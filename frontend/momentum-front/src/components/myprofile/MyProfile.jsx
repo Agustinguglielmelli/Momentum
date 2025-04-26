@@ -3,7 +3,8 @@ import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../a
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
-import "./css.css"
+import "./MyProfile.css"
+import VerticalDivider from "../divider/Divider";
 
 
 
@@ -49,32 +50,50 @@ function MyProfile(){
 
     return(
         <div className="profile-container">
-            <h1 className="profile-title">My profile ({userRole})</h1>
+            <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!!</h1>
+           
 
             {userRole === "RUNNER" && (
-                <>
-                    <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
+                <div className="profile-content">
+                    
+                    <section className="profile-left">
+                        <h2 className="section-title">My Posts</h2>
+                        <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
                         New Post
-                    </Link>
-
-                    <h2 className="section-title">My posts</h2>
-                    {recreationalPosts.map((post) => (
+                        </Link>
+                        {recreationalPosts.map((post) => (
                         <RecreationalPost key={post.idRecPost} post={post} />
                     ))}
-                </>
-            )}
-
-            {userRole === "COACH" && (
-                <>
-                    <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
-                        New Post
+                    </section>
+                    <VerticalDivider/>
+                    <section className="profile-right">
+                    <h2 className="section-title">My Goals</h2>
+                    <Link className="btn btn-secondary">
+                        New Goal
                     </Link>
+                    </section>
+                </div>
+            )}
+            
+            <section className="left">
+            {userRole === "COACH" && (
+                <div className="profile-content">
+                    <section className= "profile-left">
                     <h2 className="section-title">My training plans</h2>
                     {trainingPlanPosts.map((post) => (
                         <TrainingPlanPost key={post.idTrainPost} post={post} />
                     ))}
-                </>
+                    </section>
+                    <VerticalDivider/>
+                    <section className="profile-right">
+
+                    <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
+                        New Post
+                    </Link>
+                    </section>
+                </div>
             )}
+            </section>
         </div>
     )
 }
