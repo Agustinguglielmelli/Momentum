@@ -1,26 +1,66 @@
+/* Estilos globales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Sección izquierda de la barra superior */
+.top-left, .top-center, .top-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Contenedor principal (debajo de la barra superior) */
 .main-container {
     display: flex;
-    flex-direction: row; /* Alinea las secciones horizontalmente */
     justify-content: space-between;
-    flex: 1; /* Hace que main-container ocupe el espacio restante */
-    padding: 10px;
-    height: calc(100vh - 60px); /* Ocupa toda la altura disponible menos la altura de la barra superior */
-}
-
-/* Estilos para las secciones dentro de main-container */
-.left-section, .center-section, .right-section {
     padding: 20px;
-    text-align: center;
-    height: 100%; /* Asegura que las secciones ocupen todo el alto disponible */
+    flex-grow: 1;
+    gap: 20px;
 }
 
-/* Ajustamos el tamaño de las secciones para que ocupen más espacio */
-.left-section, .right-section {
-    flex: 1; /* Ocupa el mismo espacio que las otras, pero menos que la sección del centro */
-    background-color: grey;
+/* Sección de la izquierda */
+.left-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+.left-section h1 {
+    font-size: 20px;
+    color: #333;
+}
+
+/* Sección del centro (donde están los posts) */
 .center-section {
-    flex: 2; /* Ocupa el doble de espacio que las otras secciones */
-    background-color: darkgray;
+    flex: 2;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.center-section h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Sección derecha */
+.right-section {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.right-section h1 {
+    font-size: 20px;
+    color: #333;
 }
