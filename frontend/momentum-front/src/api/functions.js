@@ -119,7 +119,7 @@ export async function listUsersByNameSearch(nameSearch){
 }
 
 export async function follow(userId){
-    const result = await axios.get(`http://localhost:8080/usuario/follow/${userId}`,
+    const result = await axios.post(`http://localhost:8080/usuario/follow/${userId}`, {},
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -128,7 +128,7 @@ export async function follow(userId){
     return result;
 }
 export async function unFollow(userId){
-    const result = await axios.delete(`http://localhost:8080/usuario/unfollow/${userId}`,
+    const result = await axios.delete(`http://localhost:8080/usuario/unfollow/${userId}`, {},
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

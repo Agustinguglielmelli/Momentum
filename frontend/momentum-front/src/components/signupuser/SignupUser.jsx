@@ -11,7 +11,7 @@ function SignupUser() {
         event.preventDefault(); //
 
         const userData = {
-            username, email, password, profile_picture: base64, role
+            username, email, password, profilePicture: base64, role
         }
 
         console.log("Datos a enviar:", userData);

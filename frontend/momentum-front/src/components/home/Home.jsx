@@ -104,7 +104,7 @@ function Home(){
     useEffect(() => {
         const fetchFollowedUsers = async () => {
             try {
-                const response = await listFollowedUsers(); // esta función deberías tenerla en api/functions.js
+                const response = await listFollowedUsers();
                 if (Array.isArray(response.data)) {
                     const followedIds = response.data.map(user => user.id); // guardamos solo los ids
                     setFollowedUsers(followedIds);
@@ -143,6 +143,7 @@ function Home(){
                                                 handleFollow(user.id);
                                             }
                                         }}
+                                        type="submit"
                                         className="btn-primary"
                                         text={followedUsers.includes(user.id) ? "Unfollow" : "Follow"}
                                     />
