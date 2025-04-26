@@ -170,7 +170,7 @@ function Home(){
                                     />
                                     <h2 className="username">{post.username}</h2>
                                 </div>*/}
-                                <RecreationalPost key={post.usuario.id} post={post}/>
+                                <RecreationalPost key={post.idRecPost} post={post}/>
                             </div>
                         ))
                     )}
