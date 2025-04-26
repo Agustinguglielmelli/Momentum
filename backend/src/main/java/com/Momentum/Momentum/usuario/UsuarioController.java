@@ -1,6 +1,8 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.Momentum.Momentum.recreationalpost.RecreationalPostService;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository repository;
+
+    @Autowired
+    RecreationalPostService recreationalPostService;
 
     @GetMapping("/usuario")
     @ResponseBody
@@ -161,6 +166,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok().body("Has dejado de seguir al usuario");
     }
+
     @GetMapping("/usuario/following")
     public ResponseEntity<Set<UsuarioDto>> getFollowing() {
         // Obtener el usuario actual
@@ -187,6 +193,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(followingDto);
     }
+
     @GetMapping("/usuario/followers")
     public ResponseEntity<Set<UsuarioDto>> getFollowers() {
         // Obtener el usuario actual
@@ -213,6 +220,7 @@ public class UsuarioController {
 
         return ResponseEntity.ok(followersDto);
     }
+
     @GetMapping("/usuario/isFollowing/{id}") // es para ver si estas siguiendo a cierto usuario
     public ResponseEntity<Boolean> isFollowing(@PathVariable long id) {
         // Obtener el usuario actual
@@ -237,5 +245,28 @@ public class UsuarioController {
                 .anyMatch(u -> u.getId() == id);
 
         return ResponseEntity.ok(isFollowing);
+    }
+
+    @GetMapping("/usuario/recreationalPostsFollowing")
+    public List<RecreationalPost> getPostsFollowing() {
+        // Obtener el usuario actual
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
+
+        if (currentUserOpt.isEmpty()) {
+            return List.of();
+        }
+        Usuario currentUser = currentUserOpt.get();
+        Set<Usuario> following = currentUser.getFollowing(); // busco los usuarios que sigo
+
+        // Obtener todos los posts de los usuarios que sigue
+        List<RecreationalPost> posts = following.stream()
+                .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
+                .collect(Collectors.toList());
+
+        return posts;
+
+
     }
 }

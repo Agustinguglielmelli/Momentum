@@ -34,4 +34,8 @@ public class RecreationalPostService {
     public RecreationalPost modifyRecPost(RecreationalPost recpost){
         return recreationalPostRepository.save(recpost);
     }
+
+    public List<RecreationalPost> getPostsByUserId(Long userId) {
+        return recreationalPostRepository.findByUsuarioId(userId);
+    }
 }

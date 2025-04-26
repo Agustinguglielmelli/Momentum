@@ -80,6 +80,16 @@ export function getUserRole() {
     }
 }
 
+export async function listFollowingPosts(){
+    const result = await axios.get("http://localhost:8080/usuario/recreationalPostsFollowing",
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+
 
 
 

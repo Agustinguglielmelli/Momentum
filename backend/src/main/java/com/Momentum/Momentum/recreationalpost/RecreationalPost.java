@@ -2,6 +2,7 @@ package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 //import lombok.Setter;
@@ -25,6 +26,7 @@ public class RecreationalPost {
     private List<Image> images;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn (name = "userId")
     private Usuario usuario;
 
