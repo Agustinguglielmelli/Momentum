@@ -42,4 +42,5 @@ public class UsuarioService {
     public Set<Event> listUserEvents(Long id) {
         return eventRepository.findByCreadorId(id);
     }
-}
+
+    }
