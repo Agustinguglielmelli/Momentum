@@ -1,0 +1,26 @@
+.main-container {
+    display: flex;
+    flex-direction: row; /* Alinea las secciones horizontalmente */
+    justify-content: space-between;
+    flex: 1; /* Hace que main-container ocupe el espacio restante */
+    padding: 10px;
+    height: calc(100vh - 60px); /* Ocupa toda la altura disponible menos la altura de la barra superior */
+}
+
+/* Estilos para las secciones dentro de main-container */
+.left-section, .center-section, .right-section {
+    padding: 20px;
+    text-align: center;
+    height: 100%; /* Asegura que las secciones ocupen todo el alto disponible */
+}
+
+/* Ajustamos el tamaño de las secciones para que ocupen más espacio */
+.left-section, .right-section {
+    flex: 1; /* Ocupa el mismo espacio que las otras, pero menos que la sección del centro */
+    background-color: grey;
+}
+
+.center-section {
+    flex: 2; /* Ocupa el doble de espacio que las otras secciones */
+    background-color: darkgray;
+}

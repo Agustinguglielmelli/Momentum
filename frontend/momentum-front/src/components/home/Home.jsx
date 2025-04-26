@@ -16,7 +16,19 @@ function Home(){
                 <div className="right">
                     <SearchBar/>
                 </div> {/*hay que acomodar bien esto*/}
-            </div> {/* en topbar dejamos esto y toddo lo demas creamos un div abajo de este*/}
+            </div> {/* en topbar dejamos esto y toddo lo demas creamos un div abajo de este (main-container)*/}
+            <div className="main-container">
+                <section className="left-section">
+                    <h1>izq</h1>
+                </section>
+                <section className="center-section">
+                    <h1>center</h1>
+                </section>
+                <section className="right-section">
+                    <h1>right</h1>
+                </section>
+
+            </div>
         </div>
     )
 }
