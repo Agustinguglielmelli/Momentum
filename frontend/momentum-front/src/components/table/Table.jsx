@@ -50,7 +50,7 @@ function Table() {
                         <th scope="row">{index + 1}</th>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
-                        <td><img src={user.profile_picture} alt="Perfil" width="50"/></td>
+                        <td><img src={user.profilePicture} alt="Perfil" width="50"/></td>
                         <td>
                             <Link to={`ModifyUser/${user.id}`} className=" btn btn-primary">Update</Link>
                             <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>

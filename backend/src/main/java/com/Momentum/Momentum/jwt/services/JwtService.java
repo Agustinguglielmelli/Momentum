@@ -38,6 +38,7 @@ public class JwtService {
 
         if (userDetails instanceof Usuario user) {
             extraClaims.put("role", user.getRole().name()); // Asumiendo que getRole() devuelve un Enum
+            extraClaims.put("userId", user.getId());
         }
 
         return generateToken(extraClaims, userDetails);

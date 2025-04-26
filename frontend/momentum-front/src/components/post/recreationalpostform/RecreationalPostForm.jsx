@@ -1,9 +1,12 @@
 import "./RecreationalPosFormt.css"
 import React, { useState} from "react";
 import axios from "axios";
-import {convertToBase64} from "../../../api/functions";
+import {convertToBase64, getUserId} from "../../../api/functions";
 import {useNavigate} from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
 function RecreationalPostForm({ id }) {
+
 
   const [calories, setCalories] = useState('')
   const [distance, setDistance] = useState('');
@@ -15,19 +18,25 @@ function RecreationalPostForm({ id }) {
   // para guardar el plan
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const data = {
       calories: calories,
       distance: distance,
       duration: duration,
       description: description,
-      images: base64.map(img => ({ base64Data: img }))
+      images: base64.map(img => ({ base64Data: img })),
+
     }
     try {
-      await axios.post("http://localhost:8080/miperfil/recPost", data,
+      console.log(data)
+
+      const result = await axios.post("http://localhost:8080/miperfil/recPost", data,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`
             }});
+      console.log(result.data);
+      console.log(data)
       console.log("¡Post creado con éxito!");
       navigate("/home")
     } catch (error) {
@@ -83,7 +92,7 @@ function RecreationalPostForm({ id }) {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="duration" className="form-label">Images (max: 5): </label>
+            <label htmlFor="duration" className="form-label">Images: </label>
             <input type="file" id="profilePicture" name="profilePicture" required
                    accept="image/*" onChange={handleMultipleImages}/>
             {base64.length > 0 && (
