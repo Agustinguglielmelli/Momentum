@@ -64,3 +64,38 @@ body {
     font-size: 20px;
     color: #333;
 }
+
+/*-------------------------search users result--------------------------------*/
+.search-results-container {
+    margin: auto auto;
+    width: 500px;
+    max-height: 300px; /* Ajusta la altura según sea necesario */
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0;
+}
+
+.search-result-item img {
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.search-result-item h2 {
+    font-size: 16px;
+    margin: auto 50px;
+}

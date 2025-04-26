@@ -3,14 +3,47 @@ import Navbar from "../navbar/Navbar";
 import SearchBar from "../searchbar/SearchBar";
 import "./HomeCss.css"
 import {useEffect, useState} from "react";
-import {listFollowingRecreationalPosts, listFollowingTrainingPlansPosts} from "../../api/functions";
+import {
+    listFollowingRecreationalPosts,
+    listFollowingTrainingPlansPosts,
+    listUsersByNameSearch
+} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
+import axios from "axios";
+import {AiFillBug} from "react-icons/ai";
+import Button from "../button/Button";
 
 
 function Home(){
     const [followingRecreationalPosts, setFollowingRecreationlPosts] = useState([]);
     const [followingTrainingPlanPosts,setfollowingTrainingPlanPosts ] = useState([]);
+    const [userSearch, setUserSearch] = useState("");
+    const [users, setUsers] = useState([]);
+
+    // fucnion para buscar usuarios
+    const handleSearch = async (event) => {
+        setUserSearch(event.target.value);
+        if (event.target.value.trim() === "") {
+            setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
+        } else {
+            try {
+                const response = await listUsersByNameSearch(event.target.value);
+                console.log("Full response:", response);
+                console.log("Response data:", response.data);  // Verifica la respuesta completa
+
+                if (Array.isArray(response.data)) {
+                    setUsers(response.data); // Solo actualizar si la respuesta es un array
+                } else {
+                    console.error('Error: La respuesta no es un array:', response.data);
+                    setUsers([]); // Limpiar si no es un array
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        }
+    };
+
 
     useEffect(() => {
         const fetchFollowingRecreationalPosts = async () => {
@@ -24,6 +57,7 @@ function Home(){
         };
         fetchFollowingRecreationalPosts();
     }, []);
+
     useEffect(() => {
         const fetchFollowingTrainingPlanPosts = async () => {
             try {
@@ -36,19 +70,32 @@ function Home(){
         };
         fetchFollowingTrainingPlanPosts();
     }, []);
+
     return (
         <div className="home-container">
             <div className="top-bar">
-                <div className="left">
+                <div>
                     <LogoutButton/>
                 </div>
-                <div className="center">
+                <div>
                     <Navbar/>
                 </div>
-                <div className="right">
-                    <SearchBar/>
-                </div> {/*hay que acomodar bien esto*/}
-            </div> {/* en topbar dejamos esto y toddo lo demas creamos un div abajo de este (main-container)*/}
+                <div>
+                    <SearchBar handleSearch={handleSearch}/>
+                    {/*Muestro una ventana con los usuarios si escribo en la searchbar*/}
+                    {users.length > 0 && (
+                        <div className="search-results-container">
+                            {users.map(user => (
+                                <div className="search-result-item" key={user.id}>
+                                    <img src={user.profilePicture} alt="profilePicture" width="40px" height="40px" />
+                                    <h2>{user.username}</h2>
+                                    <Button />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
             <div className="main-container">
                 <section className="left-section">
                     <h1>izq</h1>

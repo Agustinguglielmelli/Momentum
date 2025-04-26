@@ -43,4 +43,7 @@ public class UsuarioService {
         return eventRepository.findByCreadorId(id);
     }
 
+    public List<Usuario> searchUsers(String nameSearch) {
+       return personRepository.findByUsernameStartingWithIgnoreCase(nameSearch);
     }
+}

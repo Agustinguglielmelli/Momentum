@@ -63,6 +63,17 @@ public class UsuarioController {
         personUsuarioService.deleteUserById(id);
     }
 
+    @GetMapping("/usuario/search")
+    public List<UsuarioDto> getUsersByName(@RequestParam String nameSearch){
+        List<Usuario> users = personUsuarioService.searchUsers(nameSearch);
+        return users.stream().map(
+                u -> new UsuarioDto(
+                        u.getUsername(),
+                        u.getId(),
+                        u.getProfilePicture()
+                )
+                ).collect(Collectors.toList());
+    }
 
     @PutMapping("/usuario/{id}")
     public ResponseEntity<Usuario> modificarUsuario(@PathVariable long id, @RequestBody Usuario person) {
@@ -86,6 +97,7 @@ public class UsuarioController {
     public Set<Event> getUserEvents(@ModelAttribute("currentUser") Usuario currentUser){
         return personUsuarioService.listUserEvents(currentUser.getId());
     }
+
     /*--------------------- ENDPOINTS DE SGUIDOS Y SEGUIDRORES --------------------------*/
     @PostMapping("/usuario/follow/{id}")
     public ResponseEntity<?> followUser(@PathVariable long id) {
