@@ -27,7 +27,7 @@ function Home(){
     useEffect(() => {
         const fetchFollowingTrainingPlanPosts = async () => {
             try {
-                const posts = await listFollowingRecreationalPosts();
+                const posts = await listFollowingTrainingPlansPosts();
                 console.log(posts);
                 setfollowingTrainingPlanPosts(posts);
             } catch (error) {
@@ -55,13 +55,17 @@ function Home(){
                 </section>
                 <section className="center-section">
                     <h1>Posts de usuarios que sigo</h1>
+                    {followingRecreationalPosts.length > 0 && (
+                        followingRecreationalPosts.map((post) => (
+                                <RecreationalPost key={post.idRecPost} post={post} />
+                            ))
+                    )}
+                    {followingTrainingPlanPosts.length > 0 && (
+                        followingTrainingPlanPosts.map((post) => (
+                            <TrainingPlanPost key={post.idTrainPost} post={post} />
+                        ))
+                    )}
 
-                    {followingRecreationalPosts.map((post) => (
-                        <RecreationalPost key={post.idRecPost} post={post} />
-                    ))}
-                    {followingTrainingPlanPosts.map((post) => (
-                        <TrainingPlanPost key={post.idTrainPost} post={post} />
-                    ))}
                 </section>
                 <section className="right-section">
                     <h1>right</h1>

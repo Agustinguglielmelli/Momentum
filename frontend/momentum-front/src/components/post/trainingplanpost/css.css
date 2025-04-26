@@ -1,0 +1,45 @@
+.post-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.post-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+}
+
+.post-header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.post-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.post-body p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.post-days {
+    margin-top: 15px;
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.post-days li {
+    margin-bottom: 5px;
+}

@@ -1,0 +1,36 @@
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #f7f7f7;
+    min-height: 100vh;
+}
+
+.profile-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.section-title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #444;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.btn-primary {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.recreational-posts,
+.training-plan-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}

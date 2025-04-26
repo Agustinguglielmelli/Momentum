@@ -3,7 +3,7 @@ import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../a
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
-import Divider from "../divider/Divider";
+import "./css.css"
 
 
 
@@ -48,8 +48,8 @@ function MyProfile(){
 
 
     return(
-        <div>
-            <h1>My profile ({userRole})</h1>
+        <div className="profile-container">
+            <h1 className="profile-title">My profile ({userRole})</h1>
 
             {userRole === "RUNNER" && (
                 <>
@@ -57,20 +57,19 @@ function MyProfile(){
                         New Post
                     </Link>
 
-                    <h2>My posts</h2>
+                    <h2 className="section-title">My posts</h2>
                     {recreationalPosts.map((post) => (
                         <RecreationalPost key={post.idRecPost} post={post} />
                     ))}
                 </>
             )}
-            <Divider />
 
             {userRole === "COACH" && (
                 <>
                     <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
                         New Post
                     </Link>
-                    <h2>My training plans</h2>
+                    <h2 className="section-title">My training plans</h2>
                     {trainingPlanPosts.map((post) => (
                         <TrainingPlanPost key={post.idTrainPost} post={post} />
                     ))}
