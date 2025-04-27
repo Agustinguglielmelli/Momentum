@@ -1,20 +1,26 @@
 import "./SearchBar.css"
+import { FiSearch } from "react-icons/fi";
 function SearchUserBar({ handleSearch }) {
     return (
-        <form className="search-form">
-           <div className="search-container">
-            <input
-                type="text"
-                className="search-input"
-                placeholder="Search Users"
-            />
-            <FiSearch className="search-icon" />
-            </div>
-            <button type="submit" className="search-button">
-            Search
-            </button>
-        </form>
+        <form  method="GET" className="search-form">
+        <div className="search-container">
+          <input
+          
+            type="text"
+            name="query"
+            className="search-input"
+            placeholder="Search Users"
+            onChange={handleSearch}
+          />
+          <FiSearch className="search-icon" />
+        </div>
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
     );
-}
+  }
 
 export default SearchUserBar;
+
+    
