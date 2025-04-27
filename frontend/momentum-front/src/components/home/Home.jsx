@@ -29,7 +29,7 @@ function Home(){
             setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
         } else {
             try {
-                const response = await listUsersByNameSearch(event.target.value);
+                const response = await listUsersByNameSearch(userSearch);
                 console.log("Full response:", response);
                 console.log("Response data:", response.data);  // Verifica la respuesta completa
 
@@ -162,14 +162,14 @@ function Home(){
                     {followingRecreationalPosts.length > 0 && (
                         followingRecreationalPosts.map((post) => (
                             <div className="post-container">
-                                <div className="user-info">
+                               {/* <div className="user-info">
                                     <img
                                         src={post.usuario.profilePicture}
                                         alt="Foto de perfil"
                                         className="profile-picture"
                                     />
                                     <h2 className="username">{post.username}</h2>
-                                </div>
+                                </div>*/}
                                 <RecreationalPost key={post.idRecPost} post={post}/>
                             </div>
                         ))

@@ -76,7 +76,7 @@ public class EventController {
     public ResponseEntity<?> unJoinEvent(@ModelAttribute("currentUser") Usuario currentUser, 
                                         @PathVariable long event_id){
         try{
-            eventService.unjoinEvent(event_id);  
+            eventService.unjoinEvent(event_id, currentUser);
             return ResponseEntity.ok().build();
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error unjoining event");

@@ -7,7 +7,6 @@ import PrivateRoute from "../privateroute/PrivateRoute";
 import SignupUser from "../signupuser/SignupUser";
 import RecreationalPostForm from "../post/recreationalpostform/RecreationalPostForm";
 import TrainingPlanPostForm from "../post/trainingplanpostform/TrainingPlanPostForm";
-import Navbar from "../navbar/Navbar";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import MyProfile from "../myprofile/MyProfile";
 import PublicOnlyRoute from "../publicRoute/PublicRoute";
