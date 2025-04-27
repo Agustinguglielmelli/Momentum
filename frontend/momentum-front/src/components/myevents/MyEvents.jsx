@@ -60,7 +60,7 @@ function MyEvents() {
           <section className="profile-left">
             <h2 className="section-title">My Events</h2>
             {eventPosts.map((post) => (
-              <EventPost key={post.idEvent} post={post} />
+              <EventPost key={post.idEvent} post={post} onUnJoin={handleUnJoin}/>
             ))}
           </section>
           <VerticalDivider />
