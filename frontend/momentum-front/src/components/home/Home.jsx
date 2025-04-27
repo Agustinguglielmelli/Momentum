@@ -1,6 +1,6 @@
 import LogoutButton from "../logoutbutton/LogoutButton";
 import Navbar from "../navbar/Navbar";
-import SearchBar from "../searchbar/SearchUserBar";
+import SearchUserBar from "../searchbar/SearchUserBar";
 import "./HomeCss.css"
 import {useEffect, useState} from "react";
 import {
@@ -127,7 +127,7 @@ function Home(){
                     <Navbar/>
                 </div>
                 <div>
-                    <SearchBar handleSearch={handleSearch}/>
+                    <SearchUserBar handleSearch={handleSearch}/>
                     {/*Muestro una ventana con los usuarios si escribo en la searchbar*/}
                     {users.length > 0 && (
                         <div className="search-results-container">
