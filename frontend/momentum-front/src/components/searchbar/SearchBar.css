@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, sans-serif;
     padding: 50px;
@@ -11,11 +12,16 @@ body {
     gap: 10px;
 }
 
-.search-input {
-    padding: 10px;
+.search-container {
+    position: relative;
     width: 300px;
+}
+
+.search-input {
+    padding: 10px 40px 10px 15px; /* espacio para el ícono a la derecha */
+    width: 100%;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 25px;
     font-size: 16px;
     transition: all 0.3s ease;
 }
@@ -23,14 +29,24 @@ body {
 .search-input:focus {
     outline: none;
     border-color: #007BFF;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 20px;
+    pointer-events: none; /* el ícono no bloquea el click en el input */
 }
 
 .search-button {
     padding: 10px 20px;
     background-color: #007BFF;
     border: none;
-    border-radius: 8px;
+    border-radius: 25px;
     color: white;
     font-size: 16px;
     cursor: pointer;

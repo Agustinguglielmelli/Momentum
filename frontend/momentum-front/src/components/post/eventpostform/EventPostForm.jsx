@@ -1,7 +1,8 @@
 
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, useNavigate} from "react-router-dom";
+import { getUserRole } from '../../../api/functions';
 
 const EventPostForm = () => {
   const navigate = useNavigate()
@@ -38,6 +39,13 @@ const EventPostForm = () => {
       console.error("Error al guardar el evento:", error);
     }
   };
+  const [userRole, setUserRole] = useState(null);
+  
+      useEffect(() => {
+          const role = getUserRole();
+          setUserRole(role);
+      }, []);
+  
 
   return (
     <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
@@ -92,6 +100,9 @@ const EventPostForm = () => {
                  onChange={(e) => setDescription(e.target.value)}
           />
         </div>
+        {userRole === "COACH" && (
+          <button type="submit">Create Event</button>
+        )}
         <button type="submit">Create Event</button>
         <Link className="navbar-link" to="/events/event">See your current events</Link>
       </form>

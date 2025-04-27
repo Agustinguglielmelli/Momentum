@@ -4,6 +4,7 @@ import {EventPost} from "../post/eventpost/EventPost";
 import {Link} from "react-router-dom";
 import "./MyEvents.css"
 import VerticalDivider from "../divider/Divider";
+import SearchEventBar from "../searchbar/SearchEventBar";
 
 function MyEvents(){
 
@@ -36,11 +37,19 @@ function MyEvents(){
       
           {userRole === "RUNNER" && (
             <div className="profile-content">
-              <h2 className="section-title">My Events</h2>
-      
+              <h2 className="section-title">Events i'll go</h2>
+              <section className="profile-left">
               {eventPosts.map((post) => (
                 <EventPost key={post.idEvent} post={post} />
               ))}
+              </section>
+
+              <VerticalDivider/>
+
+              <section className="profile-right">
+              <h2 className="section-title">Search Events</h2>
+                <SearchEventBar/>
+              </section>
             </div> 
           )}
       

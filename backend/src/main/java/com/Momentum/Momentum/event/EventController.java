@@ -29,7 +29,7 @@ public class EventController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
-    @PreAuthorize("hasRole('COACH')")
+    @PreAuthorize("hasAuthority('COACH')")
     @PostMapping("/events")
     public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.createEvent(event, currentUser);
