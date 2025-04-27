@@ -32,7 +32,7 @@ export async function listTrainingPlanPosts() {
     return result.data;
 }
 export async function listEventPosts() {
-    const result = await axios.get("http://localhost:8080/events/event",
+    const result = await axios.get("http://localhost:8080/events",
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

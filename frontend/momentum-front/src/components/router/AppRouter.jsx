@@ -62,17 +62,17 @@ function AppRouter() {
                     <MyProfile/>
                 </PrivateRoute>
             } />
-            <Route path='/myevents' element={
+            <Route path='/events' element={
                 <PrivateRoute>
                     <MyEvents/>
                 </PrivateRoute>
             } />
-              <Route path='/myevents/event' element={
+              <Route path='/events/event' element={
                 <PrivateRoute>
                     <EventPost/>
                 </PrivateRoute>
             } />
-            <Route path='/myevents/createEvent' element={
+            <Route path='/events/createEvent' element={
                 <PrivateRoute>
                     <EventPostForm/>
                 </PrivateRoute>

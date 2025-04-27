@@ -30,52 +30,39 @@ function MyEvents(){
         fetchEventPost();
     },[])
 
-    return(
+    return (
         <div className="profile-container">
-            <h1 className="profile-title"> WELCOME TO THE EVENTS {userRole}!!</h1>
-           
-
-            {userRole === "RUNNER" && (
-                <div className="profile-content">
-                        <h2 className="section-title">My Events</h2>
-    
-                        {eventPosts.map((post) => (
-                        <EventPost key={post.idEvent} post={post} />
-                    ))}
-                </div>
-            )}
-            
-            <section className="left">
-            {userRole === "COACH" && (
-                <div className="profile-content">
-                    <section className= "profile-left">
-                    <h2 className="section-title">My Events</h2>
-                    {eventPosts.map((post) => (
-                        <EventPost key={post.idEvent} post={post} />
-                    ))}
-                    </section>
-                    <VerticalDivider/>
-                    <section className="profile-right">
-                    <h2></h2>
-
-                    <Link className="btn btn-primary" to={"/myevents/createEvent"}>
-                        New Event
-                    </Link>
-                    
-                    {eventPosts.map((post) => (
-                        <EventPost key={post.idEvent} post={post} />
-                    ))}
-                    </section>
-                </div>
-            )}
-            </section>
+          <h1 className="profile-title">WELCOME TO THE EVENTS {userRole}!!</h1>
+      
+          {userRole === "RUNNER" && (
+            <div className="profile-content">
+              <h2 className="section-title">My Events</h2>
+      
+              {eventPosts.map((post) => (
+                <EventPost key={post.idEvent} post={post} />
+              ))}
+            </div> 
+          )}
+      
+          {userRole === "COACH" && (
+            <div className="profile-content">
+              <section className="profile-left">
+                <h2 className="section-title">My Events</h2>
+                {eventPosts.map((post) => (
+                  <EventPost key={post.idEvent} post={post} />
+                ))}
+              </section>
+              <VerticalDivider />
+              <section className="profile-right">
+                <h2 className="section-title">Create New Events</h2>
+                <Link className="btn btn-primary" to={"/events/createEvent"}>
+                  New Event
+                </Link>
+              </section>
+            </div>
+          )}
         </div>
-    )
-
-
-
-
-
-}
+      );
+    }      
 
 export default MyEvents;

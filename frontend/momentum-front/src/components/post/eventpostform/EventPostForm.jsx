@@ -1,7 +1,7 @@
 
 import React, { useState} from 'react';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const EventPostForm = () => {
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ const EventPostForm = () => {
       description: description
     }
     try {
-        const result = await axios.post("http://localhost:8080/myevents/event", data,
+        const result = await axios.post("http://localhost:8080/events", data,
             {
               headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -93,6 +93,7 @@ const EventPostForm = () => {
           />
         </div>
         <button type="submit">Create Event</button>
+        <Link className="navbar-link" to="/events/event">See your current events</Link>
       </form>
     </div>
   );
