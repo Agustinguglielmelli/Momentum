@@ -1,0 +1,12 @@
+.card-custom{
+    max-width: 540px;
+}
+.collapse-description {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.collapse-description.show {
+    max-height: 500px; 
+}

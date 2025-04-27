@@ -71,6 +71,9 @@ function MyProfile(){
                     <Link className="btn btn-secondary">
                         New Goal
                     </Link>
+                    <p>
+                        You don't have any goals yet
+                    </p>
                     </section>
                 </div>
             )}

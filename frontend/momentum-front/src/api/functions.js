@@ -31,6 +31,17 @@ export async function listTrainingPlanPosts() {
         });
     return result.data;
 }
+export async function listEventPosts() {
+    const result = await axios.get("http://localhost:8080/events/event",
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+
+
 
 export const handleFileChangeImg = async (event, setBase64) => {
     const file = event.target.files[0];
@@ -146,6 +157,34 @@ export async function listFollowedUsers(){
     return result;
 }
 
+export async function join(eventId){
+    const result = await axios.post(`http://localhost:8080/events/join/${eventId}`, {},
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
 
+export async function unJoin(eventId){
+    const result = await axios.delete(`http://localhost:8080/events/unjoin/${eventId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+
+export async function listJoinedEvents(){
+    const result = await axios.get(`http://localhost:8080/events/joined`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
 
 

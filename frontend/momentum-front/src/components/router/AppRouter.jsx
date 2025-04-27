@@ -11,6 +11,9 @@ import Navbar from "../navbar/Navbar";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import MyProfile from "../myprofile/MyProfile";
 import PublicOnlyRoute from "../publicRoute/PublicRoute";
+import MyEvents from '../myevents/MyEvents';
+import { EventPost } from '../post/eventpost/EventPost';
+import EventPostForm from '../post/eventpostform/EventPostForm';
 
 
 function AppRouter() {
@@ -57,6 +60,21 @@ function AppRouter() {
             <Route path='/myprofile' element={
                 <PrivateRoute>
                     <MyProfile/>
+                </PrivateRoute>
+            } />
+            <Route path='/myevents' element={
+                <PrivateRoute>
+                    <MyEvents/>
+                </PrivateRoute>
+            } />
+              <Route path='/myevents/event' element={
+                <PrivateRoute>
+                    <EventPost/>
+                </PrivateRoute>
+            } />
+            <Route path='/myevents/createEvent' element={
+                <PrivateRoute>
+                    <EventPostForm/>
                 </PrivateRoute>
             } />
             
