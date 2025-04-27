@@ -46,4 +46,18 @@ public class UsuarioService {
     public List<Usuario> searchUsers(String nameSearch) {
        return personRepository.findByUsernameStartingWithIgnoreCase(nameSearch);
     }
-}
+   /* // public UsuarioProfileDto getUserProfile(Long id) {
+       // Usuario usuario = personRepository.findById(id)
+        //        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    
+        int cantFollowers = usuario.getFollowers().size();
+        int cantFollowing = usuario.getFollowing().size();
+    
+        return new UsuarioProfileDto(
+            usuario.getuserUsername(),
+            usuario.getId(),
+            usuario.getProfilePicture(),
+            cantFollowers,
+            cantFollowing
+        ); */
+    }

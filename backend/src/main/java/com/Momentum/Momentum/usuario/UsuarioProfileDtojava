@@ -1,0 +1,37 @@
+package com.Momentum.Momentum.usuario;
+
+public class UsuarioProfileDto {
+    String username;
+    Long id;
+    String profilePicture;
+    int cantFollowers;
+    int cantFollowing;
+
+    public UsuarioProfileDto(String username, Long id, String profilePicture, int cantFollowers, int cantFollowing) {
+        this.username = username;
+        this.id = id;
+        this.profilePicture = profilePicture;
+        this.cantFollowers = cantFollowers;
+        this.cantFollowing = cantFollowing;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public int getCantFollowers() {
+        return cantFollowers;
+    }
+
+    public int getCantFollowing() {
+        return cantFollowing;
+    }
+}

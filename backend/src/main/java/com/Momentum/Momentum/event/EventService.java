@@ -2,7 +2,13 @@ package com.Momentum.Momentum.event;
 
 
 import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +19,10 @@ import java.util.Optional;
 public class EventService {
 
     EventRepository eventRepository;
+    UsuarioRepository userRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, UsuarioRepository userRespository) {
         this.eventRepository = eventRepository;
     }
 
@@ -35,6 +42,23 @@ public class EventService {
 
     public Event addParticipant(Event event) {
         return eventRepository.save(event);
+    }
+
+    public void unjoinEvent(long eventId, Usuario currentUser) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isEmpty()) {
+            throw new RuntimeException("Event not found");
+        }
+    
+        Event event = eventOptional.get();
+    
+        // Eliminar el currentUser de la lista de participantes
+        if (event.getParticipantes().contains(currentUser)) {
+            event.getParticipantes().remove(currentUser);
+            eventRepository.save(event); // Guardamos los cambios
+        } else {
+            throw new RuntimeException("User is not a participant of the event");
+        }
     }
 
 }

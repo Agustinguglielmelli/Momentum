@@ -303,7 +303,10 @@ public class UsuarioController {
                 .collect(Collectors.toList());
 
         return posts;
-
-
     }
+   // @GetMapping("/{userId}/profile")
+   // public ResponseEntity<UsuarioProfileDto> getUserProfile(@PathVariable Long userId) {
+       // UsuarioProfileDto profile = usuarioService.getUserProfile(userId);
+       // return ResponseEntity.ok(profile);
+    //}
 }

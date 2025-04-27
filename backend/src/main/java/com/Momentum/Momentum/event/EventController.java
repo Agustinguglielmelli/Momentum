@@ -72,6 +72,18 @@ public class EventController {
         return ResponseEntity.ok(dtoParticipants);
     }
 
+    @DeleteMapping("events/unjoin/{event_id}")
+    public ResponseEntity<?> unJoinEvent(@ModelAttribute("currentUser") Usuario currentUser, 
+                                        @PathVariable long event_id){
+        try{
+            eventService.unjoinEvent(event_id);  
+            return ResponseEntity.ok().build();
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error unjoining event");
+        }
+    }
+
+
 
 }
 

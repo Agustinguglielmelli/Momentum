@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import axios from "axios";
 import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
@@ -14,6 +15,34 @@ function MyProfile(){
     useEffect(() => {
         const role = getUserRole();
         setUserRole(role);
+    }, []);
+
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                
+                const storedUser = localStorage.getItem("user");
+
+                if (!storedUser) {
+                    console.error("No user found in localStorage");
+                    return;
+                }
+
+                const user = JSON.parse(storedUser);
+                const userId = user.id;  
+
+                
+                const response = await axios.get(`/usuario/${userId}/profile`);
+                setUserProfile(response.data);
+
+            } catch (error) {
+                console.error("Error fetching user profile", error);
+            }
+        };
+
+        fetchUserProfile();
     }, []);
 
     const [trainingPlanPosts, setTrainingPlanPosts] = useState([]);
@@ -44,13 +73,24 @@ function MyProfile(){
                 console.error(error);
             }
         }
-        fetchRecreationalPosts()
+        fetchRecreationalPosts();
     }, [])
+
+    
 
 
     return(
         <div className="profile-container">
             <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!!</h1>
+            
+            {userProfile && (
+                <div className="user-profile">
+                    <img src={userProfile.profilePicture} alt="Profile" />
+                    <h2>{userProfile.username}</h2>
+                    <p>Followers: {userProfile.cantFollowers}</p>
+                    <p>Following: {userProfile.cantFollowing}</p>
+                </div>
+            )}
            
 
             {userRole === "RUNNER" && (
@@ -89,7 +129,7 @@ function MyProfile(){
                     </section>
                     <VerticalDivider/>
                     <section className="profile-right">
-
+                    <h2 className="section-title">Create training plans</h2>
                     <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
                         New Post
                     </Link>
