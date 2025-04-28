@@ -5,7 +5,6 @@ function SearchUserBar({ handleSearch }) {
         <form  method="GET" className="search-form">
         <div className="search-container">
           <input
-          
             type="text"
             name="query"
             className="search-input"

@@ -29,7 +29,7 @@ function Home(){
             setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
         } else {
             try {
-                const response = await listUsersByNameSearch(userSearch);
+                const response = await listUsersByNameSearch(event.target.value);
                 console.log("Full response:", response);
                 console.log("Response data:", response.data);  // Verifica la respuesta completa
 
