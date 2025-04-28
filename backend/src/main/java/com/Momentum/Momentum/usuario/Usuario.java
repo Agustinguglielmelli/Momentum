@@ -114,4 +114,8 @@ public class Usuario implements UserDetails {
         return true;
     }
 
+    public String displayUserName(){
+        return username;
+    }
+
 }

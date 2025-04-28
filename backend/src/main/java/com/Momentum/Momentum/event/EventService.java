@@ -47,7 +47,7 @@ public class EventService {
             Event event = optionalEvent.get();
 
             // Suponiendo que el evento tiene una lista de participantes
-            event.getParticipants().clear(); // Elimina a todos los participantes del evento
+            event.getParticipantes().clear(); // Elimina a todos los participantes del evento
 
             return eventRepository.save(event); // Guarda los cambios
         } else {

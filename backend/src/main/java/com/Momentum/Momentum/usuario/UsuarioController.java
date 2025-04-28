@@ -70,9 +70,22 @@ public class UsuarioController {
                 u -> new UsuarioDto(
                         u.getUsername(),
                         u.getId(),
-                        u.getProfilePicture()
+                        u.getProfilePicture(),
+                        u.displayUserName()
                 )
                 ).collect(Collectors.toList());
+    }
+    @GetMapping("/usuario/listUserDto") // listar usuarios en la barra de buscar
+    public List<UsuarioDto> listUserDto(@ModelAttribute("currentUser") Usuario currentUser) {
+        List<Usuario> users = personUsuarioService.listarUsuarios();
+        return users.stream().map(
+                p -> new UsuarioDto(
+                        p.getUsername(),
+                        p.getId(),
+                        p.getProfilePicture(),
+                        p.displayUserName()
+                )
+        ).collect(Collectors.toList());
     }
 
     @PutMapping("/usuario/{id}")
@@ -134,16 +147,6 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("/usuario/listUserDto") // listar usuarios en la barra de buscar
-    public Set<UsuarioDto> listUserDto(@ModelAttribute("currentUser") Usuario currentUser) {
-        List<Usuario> users = personUsuarioService.listarUsuarios();
-        return users.stream().map(p -> new UsuarioDto(
-                p.getUsername(),
-                p.getId(),
-                p.getProfilePicture())
-        ).collect(Collectors.toSet());
-    }
-
     @DeleteMapping("/usuario/unfollow/{id}")
     public ResponseEntity<?> unfollowUser(@PathVariable long id) {
         // Obtener el usuario directamente desde la autenticación y la base de datos
@@ -203,7 +206,8 @@ public class UsuarioController {
                 .map(u -> new UsuarioDto(
                         u.getUsername(),
                         u.getId(),
-                        u.getProfilePicture()))
+                        u.getProfilePicture(),
+                        u.displayUserName()))
                 .collect(Collectors.toSet());
 
         return ResponseEntity.ok(followingDto);
@@ -230,7 +234,8 @@ public class UsuarioController {
                 .map(u -> new UsuarioDto(
                         u.getUsername(),
                         u.getId(),
-                        u.getProfilePicture()))
+                        u.getProfilePicture(),
+                        u.displayUserName()))
                 .collect(Collectors.toSet());
 
         return ResponseEntity.ok(followersDto);

@@ -47,6 +47,7 @@ function Home(){
 
 
     useEffect(() => {
+
         const fetchFollowingRecreationalPosts = async () => {
             try {
                 const posts = await listFollowingRecreationalPosts();
@@ -57,7 +58,7 @@ function Home(){
             }
         };
         fetchFollowingRecreationalPosts();
-    }, []);
+    }, [followedUsers]);
 
     useEffect(() => {
         const fetchFollowingTrainingPlanPosts = async () => {
@@ -70,7 +71,7 @@ function Home(){
             }
         };
         fetchFollowingTrainingPlanPosts();
-    }, []);
+    }, [followedUsers]);
 
     const handleFollow = async (userId) => {
         try {
@@ -131,8 +132,8 @@ function Home(){
                         <div className="search-results-container">
                             {users.map(user => (
                                 <div className="search-result-item" key={user.id}>
-                                    <img src={user.profilePicture} alt="profilePicture" width="40px" height="40px" />
-                                    <h2>{user.username}</h2>
+                                    <img src={user.profilePicture} alt="profilePicture" className="profile-picture" />
+                                    <h2>{user.displayUserName}</h2>
                                     <Button
                                         onClick={() => {
                                             if (followedUsers.includes(user.id)) {

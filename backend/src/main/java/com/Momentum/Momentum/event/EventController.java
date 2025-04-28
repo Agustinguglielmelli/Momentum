@@ -161,7 +161,8 @@ public class EventController {
         Set<UsuarioDto> dtoParticipants = participants.stream().map( p -> new UsuarioDto(
                 p.getUsername(),
                 p.getId(),
-                p.getProfilePicture())
+                p.getProfilePicture(),
+                p.displayUserName())
         ).collect(Collectors.toSet());
         return ResponseEntity.ok(dtoParticipants);
     }
