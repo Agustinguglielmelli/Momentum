@@ -2,6 +2,7 @@ package com.Momentum.Momentum.event;
 
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.hibernate.event.spi.EventManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class EventController {
 
     @Autowired
+    UsuarioRepository repository;
+
+    @Autowired
     private EventService eventService;
 
     @ModelAttribute("currentUser")
@@ -29,7 +33,6 @@ public class EventController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
-    @PreAuthorize("hasAuthority('COACH')")
     @PostMapping("/events")
     public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.createEvent(event, currentUser);
@@ -38,6 +41,11 @@ public class EventController {
     @GetMapping("/events")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.listAllEvents();
+    }
+
+    @GetMapping("/joinedEvents")
+    public List<Event> getJoinedEvents(@ModelAttribute("currentUser") Usuario currentUser) {
+        return eventService.findJoinedEvents(currentUser.getId());
     }
 
     @PostMapping("/events/{event_id}/participants")
@@ -72,9 +80,18 @@ public class EventController {
         return ResponseEntity.ok(dtoParticipants);
     }
 
-    @DeleteMapping("events/unjoin/{event_id}")
-    public ResponseEntity<?> unJoinEvent(@ModelAttribute("currentUser") Usuario currentUser, 
-                                        @PathVariable long event_id){
+    @DeleteMapping("/events/unjoin/{event_id}")
+    public ResponseEntity<?> unJoinEvent(@PathVariable long event_id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
+
+        if (currentUserOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no autenticado");
+        }
+
+        Usuario currentUser = currentUserOpt.get();
+
         try{
             eventService.unjoinEvent(event_id, currentUser);
             return ResponseEntity.ok().build();

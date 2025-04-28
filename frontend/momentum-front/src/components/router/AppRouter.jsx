@@ -11,7 +11,7 @@ import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import MyProfile from "../myprofile/MyProfile";
 import PublicOnlyRoute from "../publicRoute/PublicRoute";
 import MyEvents from '../myevents/MyEvents';
-import { EventPost } from '../post/eventpost/EventPost';
+import { EventPostRunner } from '../post/eventpost/EventPostRunner';
 import EventPostForm from '../post/eventpostform/EventPostForm';
 
 
@@ -68,7 +68,7 @@ function AppRouter() {
             } />
               <Route path='/events/event' element={
                 <PrivateRoute>
-                    <EventPost/>
+                    <EventPostRunner/>
                 </PrivateRoute>
             } />
             <Route path='/events/createEvent' element={

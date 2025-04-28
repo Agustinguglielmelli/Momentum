@@ -2,26 +2,13 @@
 
 import {useState} from 'react';
 import './EventPost.css';
-import { unJoin } from '../../../api/functions';
 
-export function EventPost({ post, onUnJoin }) {
+export function EventPostCoach({ post, onUnJoin }) {
     const [expanded, setExpanded] = useState(false);
 
     const toggleExpanded = () => {
         setExpanded(prev => !prev);
     };
-
-    const handleUnJoin = async () => {
-        try {
-            await unJoin(post.idEvent); 
-            if (onUnJoin) {
-                onUnJoin(post.idEvent);
-            }
-        } catch (error) {
-            console.error('Error al salir del evento', error);
-        }
-    };
-    
 
     return (
         <div className="card mb-3 card-custom" >
@@ -43,20 +30,12 @@ export function EventPost({ post, onUnJoin }) {
                         </p>
 
                         <div className="d-flex gap-2 mt-3">
-                            <button 
-                                onClick={toggleExpanded} 
+                            <button
+                                onClick={toggleExpanded}
                                 className="btn btn-primary"
                             >
                                 {expanded ? 'Show Less' : 'Show More'}
                             </button>
-                            {onUnJoin && (
-                                <button 
-                                    onClick={handleUnJoin} 
-                                    className="btn btn-danger"
-                                >
-                                    Leave Event
-                                </button>
-                            )}
                         </div>
                         {expanded && (
                             <div className="mt-3">

@@ -3,6 +3,7 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, useNavigate} from "react-router-dom";
 import { getUserRole } from '../../../api/functions';
+import Button from "../../button/Button";
 
 const EventPostForm = () => {
   const navigate = useNavigate()
@@ -55,6 +56,7 @@ const EventPostForm = () => {
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Title: </label>
           <input type="text"
+                 required
                  className="form-control"
                  onChange={(e) => setTitle(e.target.value)}
           />
@@ -62,6 +64,7 @@ const EventPostForm = () => {
         <div className="mb-3">
           <label htmlFor="date" className="form-label">Date: </label>
           <input type="date"
+                 required
                   className="form-control"
                   onChange={(e) => setDate(e.target.value)}
           />
@@ -71,6 +74,7 @@ const EventPostForm = () => {
         <div className="mb-3">
           <label htmlFor="startAtPlace" className="form-label">Start At Place: </label>
           <input type="text"
+                 required
                  className="form-control"
                  onChange={(e) => setStartAtPlace(e.target.value)}
           />
@@ -78,6 +82,7 @@ const EventPostForm = () => {
         <div className="mb-3">
           <label htmlFor="endAtPlace" className="form-label">End At Place: </label>
           <input type="text"
+                 required
                  className="form-control"
                  onChange={(e) => setEndAtPlace(e.target.value)}
           />
@@ -86,6 +91,7 @@ const EventPostForm = () => {
         <div className="mb-3">
           <label htmlFor="kmToRun" className="form-label">KM To Run: </label>
           <input type="text"
+                 required
                  className="form-control"
                  onChange={(e) => setKmToRun(e.target.value)}
           />
@@ -97,14 +103,14 @@ const EventPostForm = () => {
                     style= {{resize: "none"}}
                     rows = "5"
                  className="form-control"
+                    required
                  onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         {userRole === "COACH" && (
-          <button type="submit">Create Event</button>
+          <Button className="btn-primary" type="submit" text="Create event" ></Button>
         )}
-        <button type="submit">Create Event</button>
-        <Link className="navbar-link" to="/events/event">See your current events</Link>
+
       </form>
     </div>
   );
