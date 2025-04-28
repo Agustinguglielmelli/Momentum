@@ -122,7 +122,7 @@ function Home(){
             <div className="top-bar">
                 <div>
                     <Navbar/>
-                    <LogoutButton/>  
+                    <LogoutButton/>
                 </div>
                 <div>
                     <SearchUserBar handleSearch={handleSearch}/>

@@ -1,8 +1,6 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
-import com.Momentum.Momentum.recreationalpost.RecreationalPost;
-import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

@@ -8,6 +8,7 @@ function LoginUser() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const userData = {
         email, password
@@ -16,6 +17,7 @@ function LoginUser() {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setErrorMessage("");
         try {
             console.log("enviando", userData);
             const response = await axios.post(`http://localhost:8080/auth/login`, userData)
@@ -25,6 +27,7 @@ function LoginUser() {
             navigate("/home");
         } catch (error){
             console.error("Error al cargar usuario:", error);
+            setErrorMessage("Invalid email or password.");
         }
     }
 
@@ -57,6 +60,11 @@ function LoginUser() {
                     />
                 </div>
                 <Button type="submit" className="btn-primary" text="Submit"></Button>
+                {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                    </div>
+                )}
             </form>
         </div>
     </div>)
