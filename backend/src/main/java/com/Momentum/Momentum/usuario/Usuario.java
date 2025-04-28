@@ -66,13 +66,6 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     Set<Usuario> followers = new HashSet<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<RecreationalPost> recreationalPosts;
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<TrainingPlanPost> trainingPlanPosts = new HashSet<>();
 
     public Usuario() {}
 
