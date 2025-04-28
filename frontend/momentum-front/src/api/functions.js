@@ -51,6 +51,25 @@ export async function listJoinedEventPosts() {
     return result.data;
 }
 
+export async function deleteEvent(idEvent) {
+    const result =  await axios.delete(`/events/${idEvent}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return result.data;
+}
+
+export async function deleteParticipantsFromEvent(idEvent) {
+    const result = await axios.delete(`/events/${idEvent}/participants`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+}
+
 
 
 

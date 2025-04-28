@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
-import {listEventPosts, getUserRole, unJoin, listJoinedEventPosts, joinEvent} from "../../api/functions";
+import {listEventPosts, getUserRole, unJoin, listJoinedEventPosts, 
+  joinEvent, deleteEvent, deleteParticipantsFromEvent} from "../../api/functions";
 import { EventPostRunner } from "../post/eventpost/EventPostRunner";
 import { Link } from "react-router-dom";
 import "./MyEvents.css";
@@ -70,21 +71,11 @@ function MyEvents() {
   
   const handleDelete = async (idEvent) => {
     try{
-      await api.delete(`/events/${idEvent}/participants`,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        });
-        // primero elimino los participantes, despues el evento
-        await api.delete(`/events/${idEvent}`,
-          {
-              headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`
-              }
-          });
+        await deleteParticipantsFromEvent(idEvent);
+        // Primero elimino los participantes, despues el evento
+        await deleteEvent(idEvent);
 
-        // Actualizás el estado para que desaparezca el post de la pantalla si es necesario
+        // Actualizás el estado para que desaparezca el post de la pantalla
         setPosts(prevPosts => prevPosts.filter(post => post.idEvent !== idEvent));
     } catch(error){
       console.error('Error when deleting event and participants',error);
@@ -132,6 +123,15 @@ function MyEvents() {
                 {allEventPosts.map((post) => (
                   <EventPostCoach key={post.idEvent} post={post} />
                 ))}
+                <div className="event-list">
+                  {posts.map(post => (
+                  <EventPostCoach 
+                   key={post.idEvent} 
+                  post={post} 
+                  handleDelete={handleDelete} 
+                  />
+                  ))}
+                </div>
               </section>
               <VerticalDivider />
               <section className="profile-right">
