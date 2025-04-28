@@ -3,12 +3,34 @@
 import {useState} from 'react';
 import './EventPost.css';
 
-export function EventPostCoach({ post, onUnJoin }) {
+export function EventPostCoach({ post,  handleDelete, handleUpdate ,onUnJoin }) {
     const [expanded, setExpanded] = useState(false);
 
     const toggleExpanded = () => {
         setExpanded(prev => !prev);
     };
+
+    const handleDeleteClick = async () => {
+        try {
+            if (handleDelete) {
+                await handleDelete(post.idEvent); // Ejecuta la acción correspondiente
+            }
+        } catch (error) {
+            console.error('Error al eliminar el evento', error);
+        }
+    };
+
+    const handleUpdateClick = async () => {
+        try {
+            if (handleUpdate) {
+                await handleUpdate(post.idEvent);
+            }
+        } catch (error) {
+            console.error('Error al modificar el evento', error);
+        }
+    };
+
+
 
     return (
         <div className="card mb-3 card-custom" >
@@ -37,6 +59,23 @@ export function EventPostCoach({ post, onUnJoin }) {
                                 {expanded ? 'Show Less' : 'Show More'}
                             </button>
                         </div>
+                        {handleUpdate && (
+                            <button
+                                onClick={handleUpdateClick}
+                                className="btn btn-secondary"
+                            >
+                            Update Event
+                            </button>
+                        )}
+                        {handleDelete && (
+                            <button
+                                onClick={handleDeleteClick}
+                                className="btn btn-danger"
+                            >
+                            Delete Event
+                            </button>
+                        )}
+                    
                         {expanded && (
                             <div className="mt-3">
                                 <p className="card-text">

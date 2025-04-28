@@ -67,6 +67,29 @@ function MyEvents() {
   };
   fetchJoinedEventPost();
 }, []);
+  
+  const handleDelete = async (idEvent) => {
+    try{
+      await api.delete(`/events/${idEvent}/participants`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        // primero elimino los participantes, despues el evento
+        await api.delete(`/events/${idEvent}`,
+          {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+          });
+
+        // Actualizás el estado para que desaparezca el post de la pantalla si es necesario
+        setPosts(prevPosts => prevPosts.filter(post => post.idEvent !== idEvent));
+    } catch(error){
+      console.error('Error when deleting event and participants',error);
+    }
+  }
 
   const handleSearchEvent = async (eventId) => {
 
