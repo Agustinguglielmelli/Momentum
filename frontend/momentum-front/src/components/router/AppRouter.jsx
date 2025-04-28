@@ -13,6 +13,7 @@ import PublicOnlyRoute from "../publicRoute/PublicRoute";
 import MyEvents from '../myevents/MyEvents';
 import { EventPostRunner } from '../post/eventpost/EventPostRunner';
 import EventPostForm from '../post/eventpostform/EventPostForm';
+import UpdateEventPostForm from '../post/eventpost/updateeventpostform/UpdateEventPostForm';
 
 
 function AppRouter() {
@@ -74,6 +75,11 @@ function AppRouter() {
             <Route path='/events/createEvent' element={
                 <PrivateRoute>
                     <EventPostForm/>
+                </PrivateRoute>
+            } />
+            <Route path="/update-event/:event_id" element={
+                <PrivateRoute>
+                <UpdateEventPostForm />
                 </PrivateRoute>
             } />
             

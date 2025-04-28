@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {listEventPosts, getUserRole, unJoin, listJoinedEventPosts, 
   joinEvent, deleteEvent, deleteParticipantsFromEvent} from "../../api/functions";
 import { EventPostRunner } from "../post/eventpost/EventPostRunner";
@@ -14,6 +15,7 @@ function MyEvents() {
   const [userRole, setUserRole] = useState(null);
   const [allEventPosts, setAllEventPosts] = useState([]);
   const [joinedEventPosts, setJoinedEventPosts] = useState([]);
+  
 
 
   useEffect(() => {
@@ -76,11 +78,23 @@ function MyEvents() {
         await deleteEvent(idEvent);
 
         // Actualizás el estado para que desaparezca el post de la pantalla
-        setPosts(prevPosts => prevPosts.filter(post => post.idEvent !== idEvent));
+        setAllEventPosts(prevPosts => prevPosts.filter(post => post.idEvent !== idEvent));
     } catch(error){
       console.error('Error when deleting event and participants',error);
     }
   }
+  const navigate = useNavigate();
+  const handleUpdate = async (idEvent) => {
+    try{
+      navigate(`/update-event/${idEvent}`);
+
+    } catch(error){
+      console.error('error when updating event',error);
+    }
+  }
+  
+    
+
 
   const handleSearchEvent = async (eventId) => {
 
@@ -120,17 +134,15 @@ function MyEvents() {
             <div className="profile-content">
               <section className="profile-left">
                 <h2 className="section-title">My Events</h2>
-                {allEventPosts.map((post) => (
-                  <EventPostCoach key={post.idEvent} post={post} />
-                ))}
+
                 <div className="event-list">
-                  {posts.map(post => (
-                  <EventPostCoach 
-                   key={post.idEvent} 
-                  post={post} 
-                  handleDelete={handleDelete} 
-                  />
-                  ))}
+                {allEventPosts.map(post => (
+                <EventPostCoach 
+                 key={post.idEvent}
+                 post={post} 
+                 handleDelete={handleDelete}
+                 handleUpdate={handleUpdate} />
+                ))}
                 </div>
               </section>
               <VerticalDivider />

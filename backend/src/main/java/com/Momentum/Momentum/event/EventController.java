@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.event;
 
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
@@ -38,19 +39,68 @@ public class EventController {
         return eventService.createEvent(event, currentUser);
     }
     @DeleteMapping("/events/{eventId}")
-    public String deleteEvent(@PathVariable Long eventId, @ModelAttribute("currentUser") Usuario currentUser) {
+    public ResponseEntity<String> deleteEvent(@PathVariable Long eventId, @ModelAttribute("currentUser") Usuario currentUser) {
         try {
             eventService.deleteEventById(eventId);
-            return "Evento eliminado exitosamente";
+            return ResponseEntity.ok("Evento eliminado");
         } catch (Exception e) {
-            return "Error al eliminar el evento: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el evento: " + e.getMessage());
         }
     }
+    @PutMapping("/events/{event_id}")
+    public ResponseEntity<Event> modificarRecPost(@PathVariable long event_id, @RequestBody Event newEvent,
+                                               @ModelAttribute("currentUser") Usuario currentUser) {
+
+        Optional<Event> post = eventService.getEventById(event_id);
+
+        if (post.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Event existente = post.get();
+
+        if (existente.getCreador() == null || existente.getCreador().getId() != currentUser.getId()) {
+            return ResponseEntity.status(403).build(); // 403 Forbidden
+        }
+
+        if (newEvent.getTitle() != null && !newEvent.getTitle().isEmpty()) {
+            existente.setTitle(newEvent.getTitle());
+        }
+        if (newEvent.getDescription() != null && !newEvent.getDescription().isEmpty()) {
+            existente.setDescription(newEvent.getDescription());
+        }
+        if (newEvent.getStartAtPlace() != null && !newEvent.getStartAtPlace().isEmpty()) {
+            existente.setStartAtPlace(newEvent.getStartAtPlace());
+        }
+        if (newEvent.getEndAtPlace() != null && !newEvent.getEndAtPlace().isEmpty()) {
+            existente.setEndAtPlace(newEvent.getEndAtPlace());
+        }
+        if (newEvent.getDate() != null && !newEvent.getDate().isEmpty()) {
+            existente.setDate(newEvent.getDate());
+        }
+        if (newEvent.getKmToRun() != null && !newEvent.getKmToRun().isEmpty()) {
+            existente.setKmToRun(newEvent.getKmToRun());
+        }
+
+        Event nuevoEvent = eventService.updateEvent(existente);
+
+        return ResponseEntity.ok(nuevoEvent);
+    }
+
 
     @GetMapping("/events")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.listAllEvents();
     }
+    @GetMapping("/events/{event_id}")
+        public ResponseEntity<Event> getEventById(@PathVariable Long event_id, @ModelAttribute("currentUser") Usuario currentUser) {
+        Optional<Event> event = eventService.getEventById(event_id);
+        if (event.isPresent()) {
+            return ResponseEntity.ok(event.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+}
 
     @GetMapping("/joinedEvents")
     public List<Event> getJoinedEvents(@ModelAttribute("currentUser") Usuario currentUser) {
@@ -108,9 +158,6 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error unjoining event");
         }
     }
-
-
-
 }
 
 

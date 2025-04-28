@@ -39,6 +39,7 @@ public class Event {
     private String kmToRun;
 
     @Setter
+    @Getter
     @ManyToOne
     @JoinColumn(name = "creador_id")  // Si el nombre de la columna en la base de datos es creador_id
     @JsonBackReference

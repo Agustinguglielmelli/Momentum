@@ -2,7 +2,7 @@
 
 import {useState} from 'react';
 import './EventPost.css';
-import {hanldeDelete} from '../myevents/MyEvents'
+
 
 export function EventPostCoach({ post,  handleDelete, handleUpdate ,onUnJoin }) {
     const [expanded, setExpanded] = useState(false);

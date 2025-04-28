@@ -52,7 +52,7 @@ export async function listJoinedEventPosts() {
 }
 
 export async function deleteEvent(idEvent) {
-    const result =  await axios.delete(`/events/${idEvent}`,
+    const result =  await axios.delete(`http://localhost:8080/events/${idEvent}`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -62,7 +62,7 @@ export async function deleteEvent(idEvent) {
 }
 
 export async function deleteParticipantsFromEvent(idEvent) {
-    const result = await axios.delete(`/events/${idEvent}/participants`,
+    const result = await axios.delete(`http://localhost:8080/events/${idEvent}/participants`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

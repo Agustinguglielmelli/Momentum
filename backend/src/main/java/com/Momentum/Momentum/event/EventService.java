@@ -38,6 +38,9 @@ public class EventService {
         }
         eventRepository.deleteById(eventId);
     }
+    public Event updateEvent(Event event){
+        return eventRepository.save(event);
+    }
 
     public List<Event> listAllEvents() {
         return eventRepository.findAll();
