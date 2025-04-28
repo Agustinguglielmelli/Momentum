@@ -8,6 +8,7 @@ import "./MyProfile.css"
 import VerticalDivider from "../divider/Divider";
 import Button from "../button/Button";
 import {deleteUser} from "../table/Table";
+import Navbar from "../navbar/Navbar";
 
 
 
@@ -82,63 +83,66 @@ function MyProfile(){
 
 
     return(
-        <div className="profile-container">
-            <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!</h1>
+        <div>
+            <Navbar/>
+            <div className="profile-container">
+                <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!</h1>
 
-            {userProfile && (
-                <div className="user-profile">
-                    <img src={userProfile.profilePicture} alt="Profile" />
-                    <h2>{userProfile.username}</h2>
-                    <p>Followers: {userProfile.cantFollowers}</p>
-                    <p>Following: {userProfile.cantFollowing}</p>
-                </div>
-            )}
-           
+                {userProfile && (
+                    <div className="user-profile">
+                        <img src={userProfile.profilePicture} alt="Profile" />
+                        <h2>{userProfile.username}</h2>
+                        <p>Followers: {userProfile.cantFollowers}</p>
+                        <p>Following: {userProfile.cantFollowing}</p>
+                    </div>
+                )}
 
-            {userRole === "RUNNER" && (
-                <div className="profile-content">
-                    
-                    <section className="profile-left">
-                        <h2 className="section-title">My Posts</h2>
-                        <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
-                        New Post
+
+                {userRole === "RUNNER" && (
+                    <div className="profile-content">
+
+                        <section className="profile-left">
+                            <h2 className="section-title">My Posts</h2>
+                            <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
+                            New Post
+                            </Link>
+                            {recreationalPosts.map((post) => (
+                            <RecreationalPost key={post.idRecPost} post={post} />
+                        ))}
+                        </section>
+                        <VerticalDivider/>
+                        <section className="profile-right">
+                        <h2 className="section-title">My Goals</h2>
+                        <Link className="btn btn-secondary">
+                            New Goal
                         </Link>
-                        {recreationalPosts.map((post) => (
-                        <RecreationalPost key={post.idRecPost} post={post} />
-                    ))}
-                    </section>
-                    <VerticalDivider/>
-                    <section className="profile-right">
-                    <h2 className="section-title">My Goals</h2>
-                    <Link className="btn btn-secondary">
-                        New Goal
-                    </Link>
-                    <p>
-                        You don't have any goals yet
-                    </p>
-                    </section>
-                </div>
-            )}
-            
-            <section className="left">
-            {userRole === "COACH" && (
-                <div className="profile-content">
-                    <section className= "profile-left">
-                    <h2 className="section-title">My training plans</h2>
-                    {trainingPlanPosts.map((post) => (
-                        <TrainingPlanPost key={post.idTrainPost} post={post} />
-                    ))}
-                    </section>
-                    <VerticalDivider/>
-                    <section className="profile-right">
-                    <h2 className="section-title">Create training plans</h2>
-                    <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
-                        New Post
-                    </Link>
-                    </section>
-                </div>
-            )}
-            </section>
+                        <p>
+                            You don't have any goals yet
+                        </p>
+                        </section>
+                    </div>
+                )}
+
+                <section className="left">
+                {userRole === "COACH" && (
+                    <div className="profile-content">
+                        <section className= "profile-left">
+                        <h2 className="section-title">My training plans</h2>
+                        {trainingPlanPosts.map((post) => (
+                            <TrainingPlanPost key={post.idTrainPost} post={post} />
+                        ))}
+                        </section>
+                        <VerticalDivider/>
+                        <section className="profile-right">
+                        <h2 className="section-title">Create training plans</h2>
+                        <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
+                            New Post
+                        </Link>
+                        </section>
+                    </div>
+                )}
+                </section>
+            </div>
         </div>
     )
 }

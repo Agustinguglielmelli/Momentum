@@ -7,6 +7,7 @@ import "./MyEvents.css";
 import VerticalDivider from "../divider/Divider";
 import SearchEventBar from "../searchbar/SearchEventBar";
 import {EventPostCoach} from "../post/eventpost/EventPostCoach";
+import Navbar from "../navbar/Navbar";
 
 function MyEvents() {
   const [userRole, setUserRole] = useState(null);
@@ -74,49 +75,52 @@ function MyEvents() {
       !joinedEventPosts.some(joinedPost => joinedPost.idEvent === post.idEvent)
   );
   return (
-    <div className="profile-container">
-      <h1 className="profile-title">WELCOME TO THE EVENTS {userRole}!!</h1>
+      <div>
+        <Navbar/>
+        <div className="profile-container">
+          <h1 className="profile-title">WELCOME TO THE EVENTS {userRole}!!</h1>
 
-      {userRole === "RUNNER" && (
-        <div className="profile-content">
+          {userRole === "RUNNER" && (
+            <div className="profile-content">
 
-          <section className="profile-left">
-            <h2 className="section-title">Events I'll Go</h2>
-            {joinedEventPosts.map((post) => (
-                <EventPostRunner key={post.idEvent} post={post} actionType="unjoin" handleAction={handleUnJoin} />
-            ))}
-          </section>
+              <section className="profile-left">
+                <h2 className="section-title">Events I'll Go</h2>
+                {joinedEventPosts.map((post) => (
+                    <EventPostRunner key={post.idEvent} post={post} actionType="unjoin" handleAction={handleUnJoin} />
+                ))}
+              </section>
 
-          <VerticalDivider/>
+              <VerticalDivider/>
 
-          <section className="profile-right">
-            <h2 className="section-title">Search Events</h2>
-            <SearchEventBar handleSearch={handleSearchEvent} />
-            {availableEventPosts.map((post) => (
-                <EventPostRunner key={post.idEvent} post={post} actionType="join" handleAction={handleJoin} />
-            ))}
-          </section>
+              <section className="profile-right">
+                <h2 className="section-title">Search Events</h2>
+                <SearchEventBar handleSearch={handleSearchEvent} />
+                {availableEventPosts.map((post) => (
+                    <EventPostRunner key={post.idEvent} post={post} actionType="join" handleAction={handleJoin} />
+                ))}
+              </section>
+            </div>
+          )}
+
+          {userRole === "COACH" && (
+            <div className="profile-content">
+              <section className="profile-left">
+                <h2 className="section-title">My Events</h2>
+                {allEventPosts.map((post) => (
+                  <EventPostCoach key={post.idEvent} post={post} />
+                ))}
+              </section>
+              <VerticalDivider />
+              <section className="profile-right">
+                <h2 className="section-title">Create New Events</h2>
+                <Link className="btn btn-primary" to={"/events/createEvent"}>
+                  New Event
+                </Link>
+              </section>
+            </div>
+          )}
         </div>
-      )}
-
-      {userRole === "COACH" && (
-        <div className="profile-content">
-          <section className="profile-left">
-            <h2 className="section-title">My Events</h2>
-            {allEventPosts.map((post) => (
-              <EventPostCoach key={post.idEvent} post={post} />
-            ))}
-          </section>
-          <VerticalDivider />
-          <section className="profile-right">
-            <h2 className="section-title">Create New Events</h2>
-            <Link className="btn btn-primary" to={"/events/createEvent"}>
-              New Event
-            </Link>
-          </section>
-        </div>
-      )}
-    </div>
+      </div>
   );
 }
 

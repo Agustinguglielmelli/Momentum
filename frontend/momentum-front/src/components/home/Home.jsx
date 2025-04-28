@@ -121,10 +121,8 @@ function Home(){
         <div className="home-container">
             <div className="top-bar">
                 <div>
-                    <LogoutButton/>
-                </div>
-                <div>
                     <Navbar/>
+                    <LogoutButton/>  
                 </div>
                 <div>
                     <SearchUserBar handleSearch={handleSearch}/>
