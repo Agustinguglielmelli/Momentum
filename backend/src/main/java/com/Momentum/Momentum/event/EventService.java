@@ -70,6 +70,9 @@ public class EventService {
             throw new RuntimeException("User is not a participant of the event");
         }
     }
+    public List<Event> searchEvents(String nameSearch) {
+        return eventRepository.findByTitleStartingWithIgnoreCase(nameSearch);
+    }
 
 }
 

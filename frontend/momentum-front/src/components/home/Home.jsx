@@ -22,7 +22,7 @@ function Home(){
     const [followedUsers, setFollowedUsers] = useState([]);
 
 
-    // fucnion para buscar usuarios
+    // fucnion para buscar Eventos
     const handleSearch = async (event) => {
         setUserSearch(event.target.value);
         if (event.target.value.trim() === "") {

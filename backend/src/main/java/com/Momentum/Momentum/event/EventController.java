@@ -47,6 +47,19 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el evento: " + e.getMessage());
         }
     }
+
+    @GetMapping("/event/search")
+    public List<EventDto> getEventsByName(@RequestParam String nameSearch){
+        List<Event> users = eventService.searchEvents(nameSearch);
+        return users.stream().map(
+                u -> new EventDto(
+                        u.getTitle(),
+                        u.getDate(),
+                        u.getIdEvent()
+                )
+        ).collect(Collectors.toList());
+    }
+
     @PutMapping("/events/{event_id}")
     public ResponseEntity<Event> modificarRecPost(@PathVariable long event_id, @RequestBody Event newEvent,
                                                @ModelAttribute("currentUser") Usuario currentUser) {

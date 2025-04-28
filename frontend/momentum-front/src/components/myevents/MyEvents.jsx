@@ -1,8 +1,10 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import {listEventPosts, getUserRole, unJoin, listJoinedEventPosts, 
-  joinEvent, deleteEvent, deleteParticipantsFromEvent} from "../../api/functions";
+import {
+  listEventPosts, getUserRole, unJoin, listJoinedEventPosts,
+  joinEvent, deleteEvent, deleteParticipantsFromEvent, listUsersByNameSearch, listEventsByNameSearch
+} from "../../api/functions";
 import { EventPostRunner } from "../post/eventpost/EventPostRunner";
 import { Link } from "react-router-dom";
 import "./MyEvents.css";
@@ -10,12 +12,16 @@ import VerticalDivider from "../divider/Divider";
 import SearchEventBar from "../searchbar/SearchEventBar";
 import {EventPostCoach} from "../post/eventpost/EventPostCoach";
 import Navbar from "../navbar/Navbar";
+import Button from "../button/Button";
 
 function MyEvents() {
   const [userRole, setUserRole] = useState(null);
   const [allEventPosts, setAllEventPosts] = useState([]);
   const [joinedEventPosts, setJoinedEventPosts] = useState([]);
-  
+  const [eventSearch, setEventSearch] = useState("");
+  const [event, setEvent] = useState([]);
+
+
 
 
   useEffect(() => {
@@ -92,11 +98,30 @@ function MyEvents() {
       console.error('error when updating event',error);
     }
   }
-  
-    
 
 
-  const handleSearchEvent = async (eventId) => {
+
+
+  const handleSearch = async (event) => {
+    setEventSearch(event.target.value);
+    if (event.target.value.trim() === "") {
+      setEvent([]); // Si el campo de búsqueda está vacío, limpia los resultados
+    } else {
+      try {
+        const response = await listEventsByNameSearch(event.target.value);
+        console.log("Full response:", response);
+        console.log("Response data:", response.data);  // Verifica la respuesta completa
+
+        if (Array.isArray(response.data)) {
+          setEvent(response.data); // Solo actualizar si la respuesta es un array
+        } else {
+          console.error('Error: La respuesta no es un array:', response.data);
+          setEvent([]); // Limpiar si no es un array
+        }
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
 
   }
   const availableEventPosts = allEventPosts.filter(post =>
@@ -122,7 +147,18 @@ function MyEvents() {
 
               <section className="profile-right">
                 <h2 className="section-title">Search Events</h2>
-                <SearchEventBar handleSearch={handleSearchEvent} />
+                <SearchEventBar handleSearch={handleSearch} />
+                {event.length > 0 && (
+                    <div className="search-results-container">
+                      {event.map(ev => (
+                          <div className="search-result-item" key={ev.idEvent}>
+                            <h2>{ev.title}</h2>
+                            <h2>{ev.date}</h2>
+                            <Button text="Join event" className="btn-secondary" onClick={() => handleJoin(ev.idEvent)}></Button>
+                          </div>
+                      ))}
+                    </div>
+                )}
                 {availableEventPosts.map((post) => (
                     <EventPostRunner key={post.idEvent} post={post} actionType="join" handleAction={handleJoin} />
                 ))}

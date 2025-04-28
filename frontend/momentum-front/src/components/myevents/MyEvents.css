@@ -52,3 +52,26 @@
     align-items: flex-start; 
     gap: 10px;
   }
+
+.search-results-container {
+    margin-top: 10px; /* Espacio desde la parte superior */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+/* Asegúrate de que el botón también se vea bien */
+.search-result-item button {
+    margin-top: 10px;
+}

@@ -218,7 +218,7 @@ export async function listJoinedEvents(){
     return result;
 }
 export async function listEventsByNameSearch(nameSearch){
-    const result = await axios.get(`http://localhost:8080/usuario/search?nameSearch=${nameSearch}`,
+    const result = await axios.get(`http://localhost:8080/event/search?nameSearch=${nameSearch}`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

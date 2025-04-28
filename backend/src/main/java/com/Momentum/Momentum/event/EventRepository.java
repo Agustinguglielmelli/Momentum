@@ -14,5 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Set<Event> findByCreadorId(Long id);
     List<Event> findByParticipantes_Id(Long id);
     Event findByIdEvent(long id);
+    List<Event> findByTitleStartingWithIgnoreCase(String title);
 
 }
