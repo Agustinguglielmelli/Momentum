@@ -37,6 +37,15 @@ public class EventController {
     public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.createEvent(event, currentUser);
     }
+    @DeleteMapping("/events/{eventId}")
+    public String deleteEvent(@PathVariable Long eventId, @ModelAttribute("currentUser") Usuario currentUser) {
+        try {
+            eventService.deleteEventById(eventId);
+            return "Evento eliminado exitosamente";
+        } catch (Exception e) {
+            return "Error al eliminar el evento: " + e.getMessage();
+        }
+    }
 
     @GetMapping("/events")
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser) {

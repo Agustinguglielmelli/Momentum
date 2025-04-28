@@ -30,6 +30,14 @@ public class EventService {
         event.setCreador(currentUser);
         return eventRepository.save(event);
     }
+    public void deleteEventById(Long eventId) {
+        Event event = eventRepository.findByIdEvent(eventId);
+
+        for (Usuario participant : event.getParticipantes()) {
+            participant.getEventsImIn().remove(event); // los borro los participantes del evento antes de eliminarlo
+        }
+        eventRepository.deleteById(eventId);
+    }
 
     public List<Event> listAllEvents() {
         return eventRepository.findAll();
