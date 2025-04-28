@@ -68,6 +68,7 @@ export async function deleteParticipantsFromEvent(idEvent) {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
+        return result.data;
 }
 
 
