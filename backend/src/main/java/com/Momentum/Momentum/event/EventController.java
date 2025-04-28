@@ -47,7 +47,7 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el evento: " + e.getMessage());
         }
     }
-<<<<<<< HEAD
+
 
     @GetMapping("/event/search")
     public List<EventDto> getEventsByName(@RequestParam String nameSearch){
@@ -61,7 +61,7 @@ public class EventController {
         ).collect(Collectors.toList());
     }
 
-=======
+
     @DeleteMapping("events/{event_id}/participants")
     public ResponseEntity<String> deleteParticipantsFromEvent(@PathVariable Long event_id,
      @ModelAttribute("currentUser") Usuario currentUser){
@@ -73,7 +73,7 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar participantes: " + e.getMessage());
         }
      }
->>>>>>> 92ebed403617528929b5c09ff08679d9e21951ce
+
     @PutMapping("/events/{event_id}")
     public ResponseEntity<Event> modificarRecPost(@PathVariable long event_id, @RequestBody Event newEvent,
                                                @ModelAttribute("currentUser") Usuario currentUser) {
