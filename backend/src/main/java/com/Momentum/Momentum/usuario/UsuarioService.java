@@ -14,6 +14,7 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository personRepository;
+
     @Autowired
     private EventRepository eventRepository;
 
@@ -26,8 +27,19 @@ public class UsuarioService {
         return personRepository.save(Usuario);
     }
 
-    public void deleteUserById(Long id) {
-        personRepository.deleteById(id);
+    public void deleteUserById(Long userId) {
+        // Obtener el usuario a eliminar
+        Usuario usuario = personRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Eliminar al usuario de las listas de otros usuarios
+        for (Usuario follower : usuario.getFollowers()) {
+            follower.getFollowing().remove(usuario);
+        }
+        for (Usuario followed : usuario.getFollowing()) {
+            followed.getFollowers().remove(usuario);
+        }
+        personRepository.deleteById(userId);
     }
 
 

@@ -206,5 +206,7 @@ export async function listEventsByNameSearch(nameSearch){
         });
     return result;
 }
+export async function deleteUser(){
 
+}
 

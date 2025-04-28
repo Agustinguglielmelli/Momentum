@@ -1,6 +1,8 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -63,6 +65,14 @@ public class Usuario implements UserDetails {
     @ManyToMany (mappedBy = "following")
     @JsonIgnore
     Set<Usuario> followers = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<RecreationalPost> recreationalPosts;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<TrainingPlanPost> trainingPlanPosts = new HashSet<>();
 
     public Usuario() {}
 

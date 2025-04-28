@@ -6,6 +6,8 @@ import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
 import "./MyProfile.css"
 import VerticalDivider from "../divider/Divider";
+import Button from "../button/Button";
+import {deleteUser} from "../table/Table";
 
 
 
@@ -81,8 +83,8 @@ function MyProfile(){
 
     return(
         <div className="profile-container">
-            <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!!</h1>
-            
+            <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!</h1>
+
             {userProfile && (
                 <div className="user-profile">
                     <img src={userProfile.profilePicture} alt="Profile" />
