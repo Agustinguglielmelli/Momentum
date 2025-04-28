@@ -28,17 +28,6 @@ public class UsuarioService {
     }
 
     public void deleteUserById(Long userId) {
-        // Obtener el usuario a eliminar
-        Usuario usuario = personRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        // Eliminar al usuario de las listas de otros usuarios
-        for (Usuario follower : usuario.getFollowers()) {
-            follower.getFollowing().remove(usuario);
-        }
-        for (Usuario followed : usuario.getFollowing()) {
-            followed.getFollowers().remove(usuario);
-        }
         personRepository.deleteById(userId);
     }
 
