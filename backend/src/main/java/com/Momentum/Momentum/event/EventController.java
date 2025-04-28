@@ -38,15 +38,16 @@ public class EventController {
     public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.createEvent(event, currentUser);
     }
-    @DeleteMapping("/events/{eventId}")
-    public ResponseEntity<String> deleteEvent(@PathVariable Long eventId, @ModelAttribute("currentUser") Usuario currentUser) {
+    @DeleteMapping("/events/{event_id}")
+    public ResponseEntity<String> deleteEvent(@PathVariable Long event_id, @ModelAttribute("currentUser") Usuario currentUser) {
         try {
-            eventService.deleteEventById(eventId);
+            eventService.deleteEventById(event_id);
             return ResponseEntity.ok("Evento eliminado");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el evento: " + e.getMessage());
         }
     }
+<<<<<<< HEAD
 
     @GetMapping("/event/search")
     public List<EventDto> getEventsByName(@RequestParam String nameSearch){
@@ -60,6 +61,19 @@ public class EventController {
         ).collect(Collectors.toList());
     }
 
+=======
+    @DeleteMapping("events/{event_id}/participants")
+    public ResponseEntity<String> deleteParticipantsFromEvent(@PathVariable Long event_id,
+     @ModelAttribute("currentUser") Usuario currentUser){
+        try{
+            eventService.deleteParticipantsById(event_id);
+            return ResponseEntity.ok("Participantes eliminados");
+
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar participantes: " + e.getMessage());
+        }
+     }
+>>>>>>> 92ebed403617528929b5c09ff08679d9e21951ce
     @PutMapping("/events/{event_id}")
     public ResponseEntity<Event> modificarRecPost(@PathVariable long event_id, @RequestBody Event newEvent,
                                                @ModelAttribute("currentUser") Usuario currentUser) {

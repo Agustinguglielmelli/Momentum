@@ -6,6 +6,7 @@ import com.Momentum.Momentum.usuario.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,21 @@ public class EventService {
             participant.getEventsImIn().remove(event); // los borro los participantes del evento antes de eliminarlo
         }
         eventRepository.deleteById(eventId);
+    }
+    @Transactional
+    public Event deleteParticipantsById(Long event_id) {
+        Optional<Event> optionalEvent = eventRepository.findById(event_id);
+
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+
+            // Suponiendo que el evento tiene una lista de participantes
+            event.getParticipants().clear(); // Elimina a todos los participantes del evento
+
+            return eventRepository.save(event); // Guarda los cambios
+        } else {
+            throw new RuntimeException("Event not found with ID: " + event_id);
+        }
     }
     public Event updateEvent(Event event){
         return eventRepository.save(event);
