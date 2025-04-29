@@ -23,29 +23,7 @@ function MyProfile(){
     const [userProfile, setUserProfile] = useState(null);
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                
-                const storedUser = localStorage.getItem("user");
 
-                if (!storedUser) {
-                    console.error("No user found in localStorage");
-                    return;
-                }
-
-                const user = JSON.parse(storedUser);
-                const userId = user.id;  
-
-                
-                const response = await axios.get(`/usuario/${userId}/profile`);
-                setUserProfile(response.data);
-
-            } catch (error) {
-                console.error("Error fetching user profile", error);
-            }
-        };
-
-        fetchUserProfile();
     }, []);
 
     const [trainingPlanPosts, setTrainingPlanPosts] = useState([]);
@@ -78,9 +56,6 @@ function MyProfile(){
         }
         fetchRecreationalPosts();
     }, [])
-
-    
-
 
     return(
         <div>

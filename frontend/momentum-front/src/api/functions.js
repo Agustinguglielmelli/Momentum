@@ -227,4 +227,14 @@ export async function listEventsByNameSearch(nameSearch){
     return result;
 }
 
+export async function listProfileInfo(nameSearch){
+    const result = await axios.get(`http://localhost:8080/usuario/search?nameSearch=${nameSearch}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+
 

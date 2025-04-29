@@ -75,6 +75,15 @@ public class UsuarioController {
                 )
                 ).collect(Collectors.toList());
     }
+    @GetMapping("/usuario/listMyInfo")
+    public UsuarioDto getMyDto(@ModelAttribute("currentUser") Usuario currentUser){ // dto para myProfile
+        Usuario myUser = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
+        return new UsuarioDto(myUser.getUsername(),
+                myUser.getId(),
+                myUser.getProfilePicture(), 
+                myUser.displayUserName());
+    }
+
     @GetMapping("/usuario/listUserDto") // listar usuarios en la barra de buscar
     public List<UsuarioDto> listUserDto(@ModelAttribute("currentUser") Usuario currentUser) {
         List<Usuario> users = personUsuarioService.listarUsuarios();

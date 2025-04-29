@@ -9,7 +9,7 @@ function ModifyUser () {
     useEffect(() => { //con esta funcion nos traemos los datos del usuario
         async function fetchUserData() {
             try {
-                const response = await axios.get(`http://localhost:8080/usuario/${id}`);
+                const response = await axios.get(`http://localhost:8080/usuarino/${id}`);
                 const data = response.data;
                 setusername(data.username || "");
                 setemail(data.email || "");
