@@ -153,9 +153,7 @@ function Home(){
                 </div>
             </div>
             <div className="main-container">
-                <section className="left-section">
-                    <h1>izq</h1>
-                </section>
+
                 <section className="center-section">
                     <h1>Posts de usuarios que sigo</h1>
                     {followingRecreationalPosts.length > 0 && (
@@ -179,9 +177,6 @@ function Home(){
                         ))
                     )}
 
-                </section>
-                <section className="right-section">
-                    <h1>right</h1>
                 </section>
 
             </div>

@@ -9,7 +9,9 @@ export function RecreationalPost({ post }) {
             <div className="recreational-post-carousel-container">
                 <Carousel imageList={post.images} />
             </div>
-
+            <div className="user-info">
+                <h1>{}</h1>
+            </div>
             <div className="recreational-post-body">
                 <p className="recreational-post-description">
                     Distance run: {post.distance} kms
