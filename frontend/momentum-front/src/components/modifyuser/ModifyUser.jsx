@@ -1,32 +1,39 @@
 import Button from "../button/Button";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 
 function ModifyUser () {
-    const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => { //con esta funcion nos traemos los datos del usuario
         async function fetchUserData() {
             try {
-                const response = await axios.get(`http://localhost:8080/usuarino/${id}`);
+                const response = await axios.get(`http://localhost:8080/usuario`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    });
                 const data = response.data;
                 setusername(data.username || "");
                 setemail(data.email || "");
                 setpassword(data.password); // No mostramos la contraseña real por seguridad
-                setBase64(data.profile_picture || "");
+                setBase64(data.profilePicture || "");
+
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         }
 
         fetchUserData();
-    }, [id]);
+    }, []);
 
     const [username, setusername] = useState("");
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [base64, setBase64] = useState('');
+
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -59,15 +66,22 @@ function ModifyUser () {
             username,
             email,
             password,
-            profile_picture: base64
+            profilePicture: base64
         };
 
         try {
-            const response = await axios.put(`http://localhost:8080/usuario/${id}`, userData);
+            const response = await axios.put(`http://localhost:8080/usuario/modify`, userData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
             console.log("Usuario actualizado:", response.data);
+            navigate("/myProfile");
         } catch (error) {
             console.error("Error al cargar usuario:", error);
         }
+
     }
 
     return (

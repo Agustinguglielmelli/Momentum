@@ -76,6 +76,8 @@ function MyProfile(){
                             <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
                             <h2>{userProfile.displayUserName}</h2>
                         </div>
+                        <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
+
                     </div>
                 )}
 
@@ -109,7 +111,7 @@ function MyProfile(){
                     <div className="profile-content">
                         <section className= "profile-left">
                         <h2 className="section-title">My training plans</h2>
-                        {trainingPlanPosts.map((post) => (
+                        {trainingPlanPosts?.map((post) => (
                             <TrainingPlanPost key={post.idTrainPost} post={post} />
                         ))}
                         </section>

@@ -52,6 +52,19 @@ public class UsuarioController {
        return personUsuarioService.getUserById(id);
     }
 
+    @GetMapping("/myUsuario")
+    public ModifyUserDto getUsuario(@ModelAttribute("currentUser") Usuario currentUser) {
+        Optional<Usuario> user = personUsuarioService.getUserById(currentUser.getId());
+        Usuario usuario = user.get();
+        return new ModifyUserDto(
+                usuario.getUsername(),
+                usuario.getId(),
+                usuario.getProfilePicture(),
+                usuario.displayUserName(),
+                usuario.getPassword()
+        );
+    }
+
     @PostMapping("/usuario")
     @ResponseBody
     public Usuario createUsuario(@RequestBody Usuario person) {
@@ -97,18 +110,15 @@ public class UsuarioController {
         ).collect(Collectors.toList());
     }
 
-    @PutMapping("/usuario/{id}")
-    public ResponseEntity<Usuario> modificarUsuario(@PathVariable long id, @RequestBody Usuario person) {
+    @PutMapping("/usuario/modify")
+    public ResponseEntity<Usuario> modificarUsuario(@ModelAttribute("currentUser") Usuario currentUser,@RequestBody ModifyUserDto dto) {
 
-        Optional<Usuario> usuario = personUsuarioService.getUserById(id);
-
+        Optional<Usuario> usuario = personUsuarioService.getUserById(currentUser.getId());
         Usuario existente = usuario.get();
 
-        existente.setUsername(person.getUsername());
-        existente.setEmail(person.getEmail());
-        existente.setPassword(person.getPassword());
-        existente.setProfilePicture(person.getProfilePicture());
-
+        if (dto.getProfilePicture() != null) {
+            existente.setProfilePicture(dto.getProfilePicture());
+        }
 
         Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
 

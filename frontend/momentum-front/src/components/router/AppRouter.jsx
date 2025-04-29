@@ -62,6 +62,11 @@ function AppRouter() {
                     <MyProfile/>
                 </PrivateRoute>
             } />
+            <Route path='/myprofile/modifyUser' element={
+                <PrivateRoute>
+                    <ModifyUser/>
+                </PrivateRoute>
+            } />
             <Route path='/events' element={
                 <PrivateRoute>
                     <MyEvents/>
@@ -83,7 +88,6 @@ function AppRouter() {
                 </PrivateRoute>
             } />
             
-            <Route path='/ModifyUser/:id' element={<ModifyUser/>}></Route>
             <Route path='/*' element={<Navigate to='/'/>}/>
 
 {/*
