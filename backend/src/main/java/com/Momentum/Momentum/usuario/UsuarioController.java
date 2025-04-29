@@ -80,7 +80,7 @@ public class UsuarioController {
         Usuario myUser = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
         return new UsuarioDto(myUser.getUsername(),
                 myUser.getId(),
-                myUser.getProfilePicture(), 
+                myUser.getProfilePicture(),
                 myUser.displayUserName());
     }
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {listRecreationalPosts, listTrainingPlanPosts, getUserRole} from "../../api/functions";
+import {listRecreationalPosts, listTrainingPlanPosts, getUserRole, listProfileInfo} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
@@ -14,7 +14,6 @@ import Navbar from "../navbar/Navbar";
 
 function MyProfile(){
     const [userRole, setUserRole] = useState(null);
-
     useEffect(() => {
         const role = getUserRole();
         setUserRole(role);
@@ -23,7 +22,16 @@ function MyProfile(){
     const [userProfile, setUserProfile] = useState(null);
 
     useEffect(() => {
-
+        const fetchProfileInfo = async () => {
+            try {
+            const user = await listProfileInfo();
+            console.log("respuesta:", user);
+            setUserProfile(user);
+            } catch (error){
+                console.log(error)
+            }
+        }
+        fetchProfileInfo();
     }, []);
 
     const [trainingPlanPosts, setTrainingPlanPosts] = useState([]);
@@ -62,16 +70,14 @@ function MyProfile(){
             <Navbar/>
             <div className="profile-container">
                 <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!</h1>
-
                 {userProfile && (
-                    <div className="user-profile">
-                        <img src={userProfile.profilePicture} alt="Profile" />
-                        <h2>{userProfile.username}</h2>
-                        <p>Followers: {userProfile.cantFollowers}</p>
-                        <p>Following: {userProfile.cantFollowing}</p>
+                    <div className="User-info">
+                        <div className="user-details">
+                            <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
+                            <h2>{userProfile.displayUserName}</h2>
+                        </div>
                     </div>
                 )}
-
 
                 {userRole === "RUNNER" && (
                     <div className="profile-content">
