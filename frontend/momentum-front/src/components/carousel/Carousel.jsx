@@ -25,7 +25,7 @@ function Carousel({ imageList }) {
 
     return (
 
-        <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+        <div className="carousel slide">
             <div className="carousel-inner">
                 {imageList.map((image, index) => (
                     <div
@@ -43,11 +43,12 @@ function Carousel({ imageList }) {
             </div>
 
             {imageList.length > 1 && ( // solo se muestran si hay mas de una foto
-                <>
-                    <a className="carousel-control-prev" role="button" data-bs-slide="prev" onClick={handlePrev}>
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
+                <>  <div className="previous">
+                        <a className="carousel-control-prev" role="button" data-bs-slide="prev" onClick={handlePrev}>
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="sr-only">Previous</span>
+                        </a>
+                    </div>
                     <a className="carousel-control-next" role="button" data-bs-slide="next" onClick={handleNext}>
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="sr-only">Next</span>
