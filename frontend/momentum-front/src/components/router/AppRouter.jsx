@@ -14,16 +14,16 @@ import MyEvents from '../myevents/MyEvents';
 import { EventPostRunner } from '../post/eventpost/EventPostRunner';
 import EventPostForm from '../post/eventpostform/EventPostForm';
 import UpdateEventPostForm from '../post/eventpost/updateeventpostform/UpdateEventPostForm';
+import HomePage from "../beforehome/HomePage";
 
 
 function AppRouter() {
     return (
         <>
         <Routes>
-
             <Route path='/' element={
                 <PublicOnlyRoute>
-                    <SignupUser />
+                    <HomePage />
                 </PublicOnlyRoute>
             } />
             <Route path='/signup' element={
@@ -31,6 +31,7 @@ function AppRouter() {
                     <SignupUser />
                 </PublicOnlyRoute>
             } />
+
             <Route path='/login' element={
                 <PublicOnlyRoute>
                     <LoginUser />

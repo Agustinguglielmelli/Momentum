@@ -35,7 +35,7 @@ function SignupUser() {
 
     return (
     <div className="container">
-        <Link to={"/Login"} className="btn btn-primary">Log in</Link>
+        <Link to={"/"} className="btn btn-primary">Back</Link>
         <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
             <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>

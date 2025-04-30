@@ -117,7 +117,7 @@ public class UsuarioController {
         Usuario existente = usuario.get();
 
         if (dto.getProfilePicture() != null) {
-            existente.setProfilePicture(dto.getProfilePicture());
+            existente.setProfilePicture(dto.getProfilePicture()                      );
         }
 
         Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
