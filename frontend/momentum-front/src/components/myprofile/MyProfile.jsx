@@ -75,7 +75,6 @@ function MyProfile(){
                             <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
                             <h2>{userProfile.displayUserName}</h2>
                             <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
-
                         </div>
 
                     </div>
@@ -89,32 +88,28 @@ function MyProfile(){
                         </Link>
                         <div className="profile-content">
                             {recreationalPosts.map((post) => (
-                                <RecreationalPost key={post.idRecPost} post={post}/>
+                                <div className="post-item">
+                                    <RecreationalPost key={post.idRecPost} post={post}/>
+                                </div>
                             ))}
 
                         </div>
                     </div>
                 )}
-
-                <section className="left">
                     {userRole === "COACH" && (
-                        <div className="profile-content">
-                            <section className="profile-left">
-                        <h2 className="section-title">My training plans</h2>
-                        {trainingPlanPosts?.map((post) => (
-                            <TrainingPlanPost key={post.idTrainPost} post={post} />
-                        ))}
-                        </section>
-                        <VerticalDivider/>
-                        <section className="profile-right">
-                        <h2 className="section-title">Create training plans</h2>
-                        <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
-                            New Post
-                        </Link>
-                        </section>
-                    </div>
-                )}
-                </section>
+                        <div className="container-general">
+                            <h2 className="section-title">My Training plans</h2>
+                            <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
+                                New Post
+                            </Link>
+                            <div className="profile-content">
+                                    {trainingPlanPosts?.map((post) => (
+                                        <TrainingPlanPost key={post.idTrainPost} post={post}/>
+                                    ))}
+                            </div>
+                        </div>
+                    )}
+
             </div>
         </div>
     )

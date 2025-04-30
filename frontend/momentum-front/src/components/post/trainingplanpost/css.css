@@ -12,10 +12,8 @@
     border-radius: 10px;
     border: 1px #ddd solid;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    margin: 20px;
-    padding: 30px;
+    width: 250px;
+    padding: 10px;
     text-align: left;
     transition: transform 0.3s ease;
 }

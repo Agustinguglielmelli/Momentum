@@ -35,22 +35,13 @@
 }
 
 .profile-content {
-    align-items: stretch;
     display: flex;
-    gap: 20px; /* espacio entre izquierda y derecha */
-  }
+    flex-wrap: wrap;           /* Permitir que los hijos salten de línea */
+    gap: 20px;                 /* Espacio entre los posts */
+    justify-content: flex-start;  /* Centrar los posts horizontalmente */
+}
   
-  .profile-left {
-    flex: 1; /* ocupa más espacio */
-  }
-  
-  .profile-right {
-    flex: 1; /* ocupa menos espacio */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Alinear botones a la izquierda */
-    gap: 10px;
-  }
+
 .user-info {
     display: flex;
     align-items: center;
@@ -86,6 +77,10 @@
     color: #333;
     flex-grow: 2;
 }
-
+.post-item {
+    flex: 1 1 calc(33.333% - 20px); /* 3 por fila con gap */
+    max-width: calc(33.333% - 20px);
+    box-sizing: border-box;
+}
 
 
