@@ -6,25 +6,25 @@ export function RecreationalPost({ post }) {
     return (
 
         <div className="recreational-post-card">
-            <div className="recreational-post-carousel-container">
-                <Carousel imageList={post.images} />
-            </div>
-            <div className="user-info">
+            <div className="post-header">
                 <h1>{}</h1>
             </div>
-            <div className="recreational-post-body">
+            <div className="post-carousel">
+                <Carousel imageList={post.images}/>
+            </div>
+            <div className="post-body">
                 <p className="recreational-post-description">
                     Distance run: {post.distance} kms
                 </p>
-                <p className="recreational-post-description">
+                <p className="post-description">
                     Duration: {post.distance}{post.description}
                 </p>
                 {post.calories != null && (
-                <p className="recreational-post-description">
-                    Calories burnt: {post.calories}
-                </p>
+                    <p className="post-description">
+                        Calories burnt: {post.calories}
+                    </p>
                 )}
-                <p className="recreational-post-description">
+                <p className="post-description">
                     {post.description}
                 </p>
             </div>
