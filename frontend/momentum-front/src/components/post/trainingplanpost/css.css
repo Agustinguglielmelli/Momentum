@@ -1,45 +1,74 @@
+
 .post-container {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    align-items: center;
+    padding: 10px;
 }
 
+/* Tarjeta que envuelve el contenido del post */
 .post-card {
-    background-color: white;
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 400px;
+    border: 1px #ddd solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    border: 1px solid #e0e0e0;
-}
-
-.post-header {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    max-width: 500px;
+    margin: 20px;
+    padding: 30px;
+    text-align: left;
+    transition: transform 0.3s ease;
 }
 
 .post-title {
-    margin: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-.post-body p {
-    margin: 8px 0;
-    font-size: 0.95rem;
+/* Estilo del cuerpo del post */
+.post-body {
+    font-size: 1rem;
     color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
 
+/* Estilo de los elementos de la lista de días */
 .post-days {
-    margin-top: 15px;
-    padding-left: 20px;
-    list-style-type: disc;
-    color: #444;
-    font-size: 0.9rem;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px;
 }
 
 .post-days li {
-    margin-bottom: 5px;
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border-left: 5px solid #3498db;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #444;
+    border-radius: 5px;
 }
+
+/* Resaltar el primer día */
+.post-days li:hover {
+    background-color: #e7f7fe;
+    border-color: #2980b9;
+}
+
+/* Estilos para negritas */
+strong {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Títulos para las secciones */
+.post-body strong {
+    font-size: 1.1rem;
+    color: #3498db;
+}
+
+
