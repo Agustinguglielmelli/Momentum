@@ -69,47 +69,37 @@ function MyProfile(){
         <div>
             <Navbar/>
             <div className="profile-container">
-                <h1 className="profile-title"> WELCOME TO YOUR PROFILE {userRole}!</h1>
                 {userProfile && (
                     <div className="User-info">
                         <div className="user-details">
                             <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
                             <h2>{userProfile.displayUserName}</h2>
+                            <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
+
                         </div>
-                        <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
 
                     </div>
                 )}
 
                 {userRole === "RUNNER" && (
-                    <div className="profile-content">
-
-                        <section className="profile-left">
-                            <h2 className="section-title">My Posts</h2>
-                            <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
+                    <div className="container-general">
+                        <h2 className="section-title">My Posts</h2>
+                        <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
                             New Post
-                            </Link>
-                            {recreationalPosts.map((post) => (
-                            <RecreationalPost key={post.idRecPost} post={post} />
-                        ))}
-                        </section>
-                        <VerticalDivider/>
-                        <section className="profile-right">
-                        <h2 className="section-title">My Goals</h2>
-                        <Link className="btn btn-secondary">
-                            New Goal
                         </Link>
-                        <p>
-                            You don't have any goals yet
-                        </p>
-                        </section>
+                        <div className="profile-content">
+                            {recreationalPosts.map((post) => (
+                                <RecreationalPost key={post.idRecPost} post={post}/>
+                            ))}
+
+                        </div>
                     </div>
                 )}
 
                 <section className="left">
-                {userRole === "COACH" && (
-                    <div className="profile-content">
-                        <section className= "profile-left">
+                    {userRole === "COACH" && (
+                        <div className="profile-content">
+                            <section className="profile-left">
                         <h2 className="section-title">My training plans</h2>
                         {trainingPlanPosts?.map((post) => (
                             <TrainingPlanPost key={post.idTrainPost} post={post} />
