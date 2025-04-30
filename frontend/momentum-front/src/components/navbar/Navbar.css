@@ -1,34 +1,39 @@
 
 .navbar {
-
-  margin: 10px 300px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  background-color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.nav-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
   gap: 1.5rem;
-  border-radius: 9999px; /* Hace el borde redondeado */
-  background-color: #882121;
-  padding: 0.75rem 1.5rem;
-  color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
-/* Estilo de los links */
-.navbar-link {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem; /* 14px */
-  color: white;
-  text-decoration: none; /* Elimina el subrayado */
-  transition: background-color 0.3s ease; /* Transición suave */
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-/* Efecto hover */
-.navbar-link:hover {
-  background-color: #af2828;
+.nav-links a:hover {
+  color: #007bff;
 }
+

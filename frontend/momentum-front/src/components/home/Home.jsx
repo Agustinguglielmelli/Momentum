@@ -12,6 +12,7 @@ import {
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import Button from "../button/Button";
+import {Link} from "react-router-dom";
 
 
 function Home(){
@@ -120,6 +121,7 @@ function Home(){
 
     return (
         <div className="home-container">
+
             <div className="top-bar">
                 <div>
                     <Navbar/>
@@ -132,7 +134,7 @@ function Home(){
                         <div className="search-results-container">
                             {users.map(user => (
                                 <div className="search-result-item" key={user.id}>
-                                    <img src={user.profilePicture} alt="profilePicture" className="profile-picture" />
+                                    <img src={user.profilePicture} alt="profilePicture" className="profile-picture"/>
                                     <h2>{user.displayUserName}</h2>
                                     <Button
                                         onClick={() => {
@@ -159,7 +161,7 @@ function Home(){
                     {followingRecreationalPosts.length > 0 && (
                         followingRecreationalPosts.map((post) => (
                             <div className="post-container">
-                               {/* <div className="user-info">
+                                {/* <div className="user-info">
                                     <img
                                         src={post.usuario.profilePicture}
                                         alt="Foto de perfil"
@@ -173,7 +175,7 @@ function Home(){
                     )}
                     {followingTrainingPlanPosts.length > 0 && (
                         followingTrainingPlanPosts.map((post) => (
-                            <TrainingPlanPost key={post.idTrainPost} post={post} />
+                            <TrainingPlanPost key={post.idTrainPost} post={post}/>
                         ))
                     )}
 

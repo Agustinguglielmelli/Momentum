@@ -4,9 +4,12 @@ function Navbar() {
     return (
         <div>
             <nav className="navbar">
-                <Link to="/myprofile" className="navbar-link">My profile</Link>
-                <Link to="/home" className="navbar-link">Feed</Link>
-                <Link to="/events" className="navbar-link">Events</Link>
+                <div className="logo">Momentum</div>
+                <ul className="nav-links">
+                    <li><Link to="/myProfile">My Profile</Link></li>
+                    <li><Link to="/feed">Feed</Link></li>
+                    <li><Link to="/events">Events</Link></li>
+                </ul>
             </nav>
         </div>
     )
