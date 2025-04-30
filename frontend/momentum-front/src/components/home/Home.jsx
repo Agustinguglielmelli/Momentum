@@ -124,17 +124,16 @@ function Home(){
 
             <div className="top-bar">
                 <div>
-                    <Navbar/>
+                    <Navbar searchBar={<SearchUserBar handleSearch={handleSearch} />}/>
                     <LogoutButton/>
                 </div>
                 <div>
-                    <SearchUserBar handleSearch={handleSearch}/>
                     {/*Muestro una ventana con los usuarios si escribo en la searchbar*/}
                     {users.length > 0 && (
                         <div className="search-results-container">
                             {users.map(user => (
                                 <div className="search-result-item" key={user.id}>
-                                    <img src={user.profilePicture} alt="profilePicture" className="profile-picture"/>
+                                    <img src={user.profilePicture} alt="profilePicture" className="profile-picture-search"/>
                                     <h2>{user.displayUserName}</h2>
                                     <Button
                                         onClick={() => {

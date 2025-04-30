@@ -6,11 +6,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Sección izquierda de la barra superior */
-.top-left, .top-center, .top-right {
-    display: flex;
-    align-items: center;
-}
 
 /* Contenedor principal (debajo de la barra superior) */
 .main-container {
@@ -21,19 +16,6 @@ body {
     gap: 20px;
 }
 
-/* Sección de la izquierda */
-.left-section {
-    flex: 1;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.left-section h1 {
-    font-size: 20px;
-    color: #333;
-}
 
 /* Sección del centro (donde están los posts) */
 .center-section {
@@ -57,36 +39,49 @@ body {
 
 /*-------------------------search users result--------------------------------*/
 .search-results-container {
-    margin: auto auto;
-    width: 500px;
-    max-height: 300px; /* Ajusta la altura según sea necesario */
-    overflow-y: auto;
-    background-color: white;
+    margin-top: 5px; /* Añadir un margen pequeño debajo de la Navbar */
+    padding: 10px;
+    background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 500px; /* Reducir la altura para hacerlo más pequeño */
+    width: 450px; /* Ajusta el ancho para que sea más pequeño */
+    position: absolute; /* Posicionar el contenedor de resultados */
+    top: 60px; /* Ubicar justo debajo de la Navbar (ajusta según la altura de la navbar) */
+    right: 20px; /* Coloca el contenedor a la derecha */
+    z-index: 100; /* Asegúrate de que esté sobre otros elementos */
+    overflow-y: auto; /* Permite el scroll si hay demasiados resultados */
+    border-radius: 5px; /* Opcional: agrega bordes redondeados para un diseño más limpio */
 }
 
 .search-result-item {
-    padding: 10px;
-    cursor: pointer;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #eee;
     justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    width: 100%;
+    height: 80px;
 }
 
+.search-result-item:hover {
+    background-color: #f0f0f0; /* Resaltar los elementos al pasar el mouse */
+}
+
+.profile-picture-search {
+    width: 75px; /* Hacer la imagen más pequeña */
+    height: 75px;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
 
 .search-result-item h2 {
-    font-size: 16px;
-    margin: auto;
-    flex-grow: 2;
+    flex-grow: 1;
+    font-size: 14px; /* Hacer el texto más pequeño */
+    font-weight: 600;
+    margin: 0 0 0 30px;
+
 }
-.profile-picture {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-right: 40px;
-}
+

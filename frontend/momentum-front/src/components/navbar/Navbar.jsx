@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css'
-function Navbar() {
+function Navbar({ searchBar }) {
     return (
         <div>
             <nav className="navbar">
@@ -10,6 +10,7 @@ function Navbar() {
                     <li><Link to="/feed">Feed</Link></li>
                     <li><Link to="/events">Events</Link></li>
                 </ul>
+                {searchBar && <div className="search-bar-container">{searchBar}</div>}
             </nav>
         </div>
     )
