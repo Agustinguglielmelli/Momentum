@@ -4,9 +4,15 @@ export function TrainingPlanPost({ post }) {
     return (
         <div className="post-container">
             <div className="post-card">
-                <div className="post-header">
-                    <h2 className="post-title">{post.title}</h2>
-                </div>
+                {post.usuario && (
+                    <div>
+                        <div className="post-header">
+                            <img src={post.usuario.profilePicture} alt="Profile picture"/>
+                            <h1>{post.usuario.displayUserName}</h1>
+                        </div>
+                    </div>
+                )}
+                <h2 className="post-title">{post.title}</h2>
                 <div className="post-body">
                     <p><strong>Description:</strong> {post.description}</p>
                     <p><strong>Duration:</strong> {post.duration}</p>

@@ -5,10 +5,12 @@ export function RecreationalPost({ post }) {
 
     return (
         <div className="recreational-post-card">
-            <div className="post-header">
-                <img src={post.usuario.profilePicture} alt="Profile picture"/>
-                <h1>{post.usuario.displayUserName}</h1>
-            </div>
+            {post.usuario && (
+                <div className="post-header">
+                    <img src={post.usuario.profilePicture} alt="Profile picture"/>
+                    <h1>{post.usuario.displayUserName}</h1>
+                </div>
+            )}
             <div className="post-carousel">
                 <Carousel imageList={post.images}/>
             </div>

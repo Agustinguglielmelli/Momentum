@@ -5,6 +5,7 @@ import com.Momentum.Momentum.recreationalpost.RecPostDto;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostService;
 import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPostDto;
 import com.Momentum.Momentum.trainingplanpost.TrainingPlanPostService;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
@@ -334,7 +335,7 @@ public class UsuarioController {
 
 
     @GetMapping("/usuario/trainingPlanPostsFollowing")
-    public List<TrainingPlanPost> getTrainingPlanPostsFollowing() {
+    public List<TrainingPlanPostDto> getTrainingPlanPostsFollowing() {
         // Obtener el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -351,11 +352,35 @@ public class UsuarioController {
                 .flatMap(user -> trainingPlanPostService.getPostsByUserId(user.getId()).stream())
                 .collect(Collectors.toList());
 
-        return posts;
+        List<TrainingPlanPostDto> postDtos = posts.stream().map(
+                post -> {
+                    Usuario autor = post.getUsuario(); // Usuario del post
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            autor.getUsername(),
+                            autor.getId(),
+                            autor.getProfilePicture(),
+                            autor.displayUserName()
+                    );
+
+                    return new TrainingPlanPostDto(
+                            post.getIdTrainPost(),
+                            usuarioDto,
+                            post.getDescription(),
+                            post.getFrequency(),
+                            post.getTitle(),
+                            post.getDuration(),
+                            post.getDia1(),
+                            post.getDia2(),
+                            post.getDia3(),
+                            post.getDia4(),
+                            post.getDia5(),
+                            post.getDia6(),
+                            post.getDia7()
+                    );
+                }
+        ).collect(Collectors.toList());
+
+        return postDtos;
     }
-   // @GetMapping("/{userId}/profile")
-   // public ResponseEntity<UsuarioProfileDto> getUserProfile(@PathVariable Long userId) {
-       // UsuarioProfileDto profile = usuarioService.getUserProfile(userId);
-       // return ResponseEntity.ok(profile);
-    //}
+
 }

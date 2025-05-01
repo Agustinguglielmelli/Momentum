@@ -17,6 +17,7 @@ public class TrainingPlanPost {
     private long idTrainPost;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "userId", nullable = false)
     private Usuario usuario;
 

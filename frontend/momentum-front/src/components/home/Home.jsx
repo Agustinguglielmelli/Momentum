@@ -168,7 +168,11 @@ function Home(){
                     )}
                     {followingTrainingPlanPosts.length > 0 && (
                         followingTrainingPlanPosts.map((post) => (
-                            <TrainingPlanPost key={post.idTrainPost} post={post}/>
+                            <div className="post-container2">
+                                <div className="post-content">
+                                    <TrainingPlanPost key={post.idTrainPost} post={post}/>
+                                </div>
+                            </div>
                         ))
                     )}
 
