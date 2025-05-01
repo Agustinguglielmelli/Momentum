@@ -58,6 +58,7 @@ const EventPostForm = () => {
           <div className="mb-3">
             <label htmlFor="title" className="form-label">Title: </label>
             <input type="text"
+                   maxLength={20}
                    required
                    className="form-control"
                    onChange={(e) => setTitle(e.target.value)}
@@ -76,6 +77,7 @@ const EventPostForm = () => {
           <div className="mb-3">
             <label htmlFor="startAtPlace" className="form-label">Start At Place: </label>
             <input type="text"
+                   maxLength={50}
                    required
                    className="form-control"
                    onChange={(e) => setStartAtPlace(e.target.value)}
@@ -84,6 +86,7 @@ const EventPostForm = () => {
           <div className="mb-3">
             <label htmlFor="endAtPlace" className="form-label">End At Place: </label>
             <input type="text"
+                   maxLength={50}
                    required
                    className="form-control"
                    onChange={(e) => setEndAtPlace(e.target.value)}
@@ -92,7 +95,8 @@ const EventPostForm = () => {
 
           <div className="mb-3">
             <label htmlFor="kmToRun" className="form-label">KM To Run: </label>
-            <input type="text"
+            <input type="number"
+                   maxLength={5}
                    required
                    className="form-control"
                    onChange={(e) => setKmToRun(e.target.value)}
@@ -102,6 +106,7 @@ const EventPostForm = () => {
           <div className="mb-3">
             <label htmlFor="description" className="form-label">Description: </label>
             <textarea type="text"
+                      maxLength={150}
                       style= {{resize: "none"}}
                       rows = "5"
                    className="form-control"

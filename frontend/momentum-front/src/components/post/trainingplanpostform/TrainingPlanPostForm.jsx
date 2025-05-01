@@ -66,13 +66,16 @@ const TrainingPlanPostForm = () => {
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Title: </label>
           <input type="text"
+                 maxLength={20}
                  className="form-control"
                  onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="frequency" className="form-label">Frequency: </label>
-          <input type="text"
+          <label htmlFor="frequency" className="form-label">Frequency (days per week): </label>
+          <input type="number"
+                 min="1"
+                 max="7"
                  className="form-control"
                  onChange={(e) => setFrequency(e.target.value)}
           />
@@ -80,25 +83,35 @@ const TrainingPlanPostForm = () => {
         <div className="mb-3">
           <label htmlFor="duration" className="form-label">Duration: </label>
           <input type="text"
+                 maxLength={30}
                  className="form-control"
                  onChange={(e) => setDuration(e.target.value)}
           />
         </div>
-        {[...Array(7)].map((_, i) => (
-            <div key={i}>
-              <label>Day {i + 1}</label>
-              <input
-                  type="text"
-                  name={`dia${i + 1}`}
-                  value={plan[`dia${i + 1}`]}
-                  onChange={handleChange}
-                  className="form-control"
-              />
-            </div>
-        ))}
+        {[...Array(7)].map((_, i) => {
+          const freqNum = parseInt(frequency); // convertimos frequency a número
+          if (isNaN(freqNum) || freqNum < 1 || freqNum > 7 || i >= freqNum) {
+            return null; // No renderiza días que estén fuera del límite
+          }
+          return (
+              <div key={i} className="mb-3">
+                <label htmlFor={`dia${i + 1}`} className="form-label">Day {i + 1}</label>
+                <input
+                    type="text"
+                    maxLength={150}
+                    name={`dia${i + 1}`}
+                    value={plan[`dia${i + 1}`]}
+                    onChange={handleChange}
+                    className="form-control"
+                />
+              </div>
+          );
+        })}
+
         <div className="mb-3">
           <label htmlFor="description" className="form-label">Description: </label>
           <textarea type="text"
+                    maxLength={150}
                     style= {{resize: "none"}}
                     rows = "5"
                  className="form-control"

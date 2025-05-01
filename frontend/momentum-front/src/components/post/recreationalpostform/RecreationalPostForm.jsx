@@ -70,7 +70,8 @@ function RecreationalPostForm({ id }) {
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="title" className="form-label">Distance (kms): </label>
-              <input type="text"
+              <input type="number"
+                     maxLength={5}
                      className="form-control"
                      onChange={(e) => setDistance(e.target.value)}
                      required
@@ -78,7 +79,8 @@ function RecreationalPostForm({ id }) {
             </div>
             <div className="mb-3">
               <label htmlFor="frequency" className="form-label">Duration (minutes): </label>
-              <input type="text"
+              <input type="number"
+                     maxLength={10}
                      className="form-control"
                      onChange={(e) => setDuration(e.target.value)}
                      required
@@ -87,7 +89,8 @@ function RecreationalPostForm({ id }) {
 
             <div className="mb-3">
               <label htmlFor="duration" className="form-label">Calories: </label>
-              <input type="text"
+              <input type="number"
+                     maxLength={5}
                      className="form-control"
                      onChange={(e) => setCalories(e.target.value)}
               />
@@ -111,6 +114,7 @@ function RecreationalPostForm({ id }) {
             <div className="mb-3">
               <label htmlFor="description" className="form-label">Description: </label>
               <textarea type="text"
+                        maxLength={150}
                         style={{resize: "none"}}
                         rows="5"
                         className="form-control"
