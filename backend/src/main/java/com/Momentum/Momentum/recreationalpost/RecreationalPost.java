@@ -5,14 +5,16 @@ import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 //import lombok.Setter;
 //import lombok.Getter;
 
 
 import java.util.List;
 
-//@Getter
-//@Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "RecPost")
 public class RecreationalPost {
@@ -53,44 +55,6 @@ public class RecreationalPost {
     }
 
     public RecreationalPost() {
-    }
-    public String getDistance(){
-        return distance;
-    }
-    public void setDistance(String distance){
-        this.distance = distance;
-    }
-    public String getDescription(){
-        return description;
-    }
-    public void setDescription(String description){
-        this.description= description;
-    }
-    public String getDuration(){
-        return duration;
-    }
-    public void setDuration(String duration){
-        this.duration= duration;
-    }
-    public String getCalories(){
-        return calories;
-    }
-    public void setCalories(String calories){
-        this.calories= calories;
-    }
-    public List<Image> getImages() {
-        return this.images;
-    }
-
-    public Usuario getUsuario() {
-        return usuario; 
-    }
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public long getIdRecPost() {
-        return idRecPost;
     }
 }
 

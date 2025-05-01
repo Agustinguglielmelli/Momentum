@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.recreationalpost.RecPostDto;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostService;
 import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
@@ -287,7 +288,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario/recreationalPostsFollowing")
-    public List<RecreationalPost> getRecreationalPostsFollowing() {
+    public List<RecPostDto> getRecreationalPostsFollowing() {
         // Obtener el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -299,15 +300,39 @@ public class UsuarioController {
         Usuario currentUser = currentUserOpt.get();
         Set<Usuario> following = currentUser.getFollowing(); // busco los usuarios que sigo
 
+
         // Obtener todos los posts de los usuarios que sigue
         List<RecreationalPost> posts = following.stream()
                 .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
                 .collect(Collectors.toList());
 
-        return posts;
+        // Crear los DTOs para cada post
+        List<RecPostDto> postDtos = posts.stream().map(
+                post -> {
+                    Usuario autor = post.getUsuario(); // Usuario del post
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            autor.getUsername(),
+                            autor.getId(),
+                            autor.getProfilePicture(),
+                            autor.displayUserName()
+                    );
 
+                    return new RecPostDto(
+                            post.getIdRecPost(),
+                            post.getDistance(),
+                            post.getDescription(),
+                            post.getDuration(),
+                            post.getCalories(),
+                            usuarioDto,
+                            post.getImages()
+                    );
+                }
+        ).collect(Collectors.toList());
 
+        return postDtos;
     }
+
+
     @GetMapping("/usuario/trainingPlanPostsFollowing")
     public List<TrainingPlanPost> getTrainingPlanPostsFollowing() {
         // Obtener el usuario actual

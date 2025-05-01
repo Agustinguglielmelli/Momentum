@@ -13,9 +13,6 @@ function SearchUserBar({ handleSearch }) {
           />
           <FiSearch className="search-icon" />
         </div>
-        <button type="submit" className="search-button">
-          Search
-        </button>
       </form>
     );
   }

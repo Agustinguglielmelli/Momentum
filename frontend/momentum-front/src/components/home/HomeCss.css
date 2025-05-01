@@ -75,4 +75,26 @@ body {
     margin: 0 0 0 30px;
 
 }
+.post-container2 {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 16px;
+}
 

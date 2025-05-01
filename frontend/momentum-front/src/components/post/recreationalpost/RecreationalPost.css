@@ -13,16 +13,18 @@
 /* Estilo para el header */
 .post-header {
     display: flex;
-    align-items: center;
+    align-items: center; /* Centra el contenido verticalmente */
     padding: 12px 16px;
-    border-bottom: 1px solid #efefef;
 }
 
+/* Centrado y eliminación de borde del h1 */
 .post-header h1 {
     font-size: 1rem;
     font-weight: 600;
     color: #262626;
-    margin: 0;
+    text-align: center; /* Asegura que el texto dentro de h1 esté centrado */
+    margin: 0 0 0 20px;
+    border: none;
 }
 
 /* Carrusel de imágenes */
@@ -60,4 +62,11 @@
 .recreational-post-card:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     transition: box-shadow 0.3s ease;
+}
+
+.post-header img {
+    width: 50px; /* Ajusta el tamaño a tu preferencia */
+    height: 50px; /* Mantén la misma altura que el ancho para un círculo perfecto */
+    border-radius: 50%; /* Hace la imagen redonda */
+    object-fit: cover; /* Asegura que la imagen se recorte de manera adecuada si es necesario */
 }
