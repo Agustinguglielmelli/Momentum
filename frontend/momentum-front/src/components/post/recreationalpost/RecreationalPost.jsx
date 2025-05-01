@@ -4,7 +4,6 @@ import "./RecreationalPost.css";
 export function RecreationalPost({ post }) {
 
     return (
-
         <div className="recreational-post-card">
             <div className="post-header">
                 <h1>{}</h1>

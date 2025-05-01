@@ -2,7 +2,7 @@ import "./RecreationalPosFormt.css"
 import React, { useState} from "react";
 import axios from "axios";
 import {convertToBase64, getUserId} from "../../../api/functions";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 function RecreationalPostForm({ id }) {
@@ -63,60 +63,63 @@ function RecreationalPostForm({ id }) {
   };
 
   return (
-      <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
-        <h1> Create Post </h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="title" className="form-label">Distance (kms): </label>
-            <input type="text"
-                   className="form-control"
-                   onChange={(e) => setDistance(e.target.value)}
-                   required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="frequency" className="form-label">Duration (minutes): </label>
-            <input type="text"
-                   className="form-control"
-                   onChange={(e) => setDuration(e.target.value)}
-                   required
-            />
-          </div>
+      <div>
+        <Link to={"/myProfile"} className="btn btn-primary">Back</Link>
+        <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
+          <h1> Create Post </h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="title" className="form-label">Distance (kms): </label>
+              <input type="text"
+                     className="form-control"
+                     onChange={(e) => setDistance(e.target.value)}
+                     required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="frequency" className="form-label">Duration (minutes): </label>
+              <input type="text"
+                     className="form-control"
+                     onChange={(e) => setDuration(e.target.value)}
+                     required
+              />
+            </div>
 
-          <div className="mb-3">
-            <label htmlFor="duration" className="form-label">Calories: </label>
-            <input type="text"
-                   className="form-control"
-                   onChange={(e) => setCalories(e.target.value)}
-            />
-          </div>
+            <div className="mb-3">
+              <label htmlFor="duration" className="form-label">Calories: </label>
+              <input type="text"
+                     className="form-control"
+                     onChange={(e) => setCalories(e.target.value)}
+              />
+            </div>
 
-          <div className="mb-3">
-            <label htmlFor="duration" className="form-label">Images: </label>
-            <input type="file" id="profilePicture" name="profilePicture" required
-                   accept="image/*" onChange={handleMultipleImages}/>
-            {base64.length > 0 && (
-                <div>
-                  <p>Preview:</p>
-                  {base64.map((img, index) => (
-                      <img key={index} src={img} alt={`preview-${index}`}
-                           style={{ maxWidth: '200px', marginRight: '10px' }} />
-                  ))}
-                </div>
-            )}
-          </div>
+            <div className="mb-3">
+              <label htmlFor="duration" className="form-label">Images: </label>
+              <input type="file" id="profilePicture" name="profilePicture" required
+                     accept="image/*" onChange={handleMultipleImages}/>
+              {base64.length > 0 && (
+                  <div>
+                    <p>Preview:</p>
+                    {base64.map((img, index) => (
+                        <img key={index} src={img} alt={`preview-${index}`}
+                             style={{ maxWidth: '200px', marginRight: '10px' }} />
+                    ))}
+                  </div>
+              )}
+            </div>
 
-          <div className="mb-3">
-            <label htmlFor="description" className="form-label">Description: </label>
-            <textarea type="text"
-                      style={{resize: "none"}}
-                      rows="5"
-                      className="form-control"
-                      onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <button type="submit">Create post</button>
-        </form>
+            <div className="mb-3">
+              <label htmlFor="description" className="form-label">Description: </label>
+              <textarea type="text"
+                        style={{resize: "none"}}
+                        rows="5"
+                        className="form-control"
+                        onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <button type="submit">Create post</button>
+          </form>
+        </div>
       </div>
   );
 }
