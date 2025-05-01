@@ -18,6 +18,22 @@ const TrainingPlanPostForm = () => {
   const [frequency, setFrequency] = useState('');
   const [duration, setDuration] = useState('');
   const [description, setDescription] = useState('');
+
+  const handleFrequencyChange = (e) => { // para lo del renderizado de dias
+    const value = e.target.value;
+    setFrequency(value);
+
+    const freqNum = parseInt(value);
+    if (!isNaN(freqNum) && freqNum >= 1 && freqNum <= 7) {
+      setPlan(prevPlan => {
+        const newPlan = { ...prevPlan };
+        for (let i = freqNum + 1; i <= 7; i++) {
+          newPlan[`dia${i}`] = ''; // Limpiar días que ya no se usan
+        }
+        return newPlan;
+      });
+    }
+  };
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,11 +89,11 @@ const TrainingPlanPostForm = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="frequency" className="form-label">Frequency (days per week): </label>
-          <input type="number"
-                 min="1"
-                 max="7"
-                 className="form-control"
-                 onChange={(e) => setFrequency(e.target.value)}
+          <input type="text"
+                        maxLength={1}
+                        className="form-control"
+                        value={frequency}
+                        onChange={handleFrequencyChange}
           />
         </div>
         <div className="mb-3">
