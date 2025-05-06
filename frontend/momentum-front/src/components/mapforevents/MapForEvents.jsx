@@ -1,4 +1,4 @@
-
+import "./MapForEvents.css"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -45,25 +45,23 @@ const SearchControl = ({ setCoords }) => {
 };
 
 // Componente principal
-const MapaConBuscador = ({ onLocationSelect }) => {
+const MapaConBuscador = () => {
   const [coords, setCoords] = useState([-34.6037, -58.3816]); // Obelisco (CABA)
 
-  useEffect(() => {
-    // Informar ubicación inicial si es útil
-    onLocationSelect(coords);
-  }, []);
 
   return (
-    <MapContainer center={coords} zoom={13} style={{ height: '500px', width: '100%' }}>
-      <TileLayer
-        attribution='© OpenStreetMap contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={coords}>
-        <Popup>Ubicación buscada</Popup>
-      </Marker>
-      <SearchControl setCoords={setCoords} />
-    </MapContainer>
+      <div>
+        <MapContainer center={coords} zoom={13} style={{ height: '500px', width: '100%' }}>
+          <TileLayer
+            attribution='© OpenStreetMap contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={coords}>
+            <Popup>Ubicación buscada</Popup>
+          </Marker>
+          <SearchControl setCoords={setCoords} />
+        </MapContainer>
+      </div>
   );
 };
 

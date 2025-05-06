@@ -13,6 +13,7 @@ import SearchEventBar from "../searchbar/SearchEventBar";
 import {EventPostCoach} from "../post/eventpost/EventPostCoach";
 import Navbar from "../navbar/Navbar";
 import Button from "../button/Button";
+import MapForEvents from "../mapforevents/MapForEvents";
 
 function MyEvents() {
   const [userRole, setUserRole] = useState(null);
@@ -168,7 +169,6 @@ function MyEvents() {
               <div className="profile-content">
                 <section className="profile-left">
                   <h2 className="section-title">My Events</h2>
-
                   <div className="event-list">
                     {allEventPosts.map(post => (
                         <EventPostCoach
