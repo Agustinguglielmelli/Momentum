@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.message.Message;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -64,7 +65,14 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     Set<Usuario> followers = new HashSet<>();
 
+    @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+    private Set<Message> messagesSent = new HashSet<>();
 
+    @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
+    private Set<Message> messagesReceived = new HashSet<>();
+    
     public Usuario() {}
 
     public Usuario(long id, String username, String email, String password, String profilePicture, Role role) {
