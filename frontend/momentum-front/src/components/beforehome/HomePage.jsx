@@ -1,5 +1,6 @@
 import "./css.css";
 import {Link} from "react-router-dom";
+import ChatComponent from "../chat/ChatComponent";
 function HomePage() {
     return (
         <div>
@@ -10,7 +11,7 @@ function HomePage() {
                     <Link className="nav-buttons nav-btn" to="/signup">Signup</Link>
                 </div>
             </nav>
-
+            <ChatComponent/>
             <main class="hero">
                 <div class="hero-content">
                     <h1>Impulsa tu entrenamiento con Momentum</h1>

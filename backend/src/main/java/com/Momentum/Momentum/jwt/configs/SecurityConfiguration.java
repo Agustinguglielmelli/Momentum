@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth ->
                         auth
-                            .requestMatchers("/auth/**")
+                            .requestMatchers("/auth/**", "/ws/**")
                             .permitAll()
                             .anyRequest()
                             .authenticated()
@@ -60,6 +60,8 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET","POST", "DELETE", "PUT"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

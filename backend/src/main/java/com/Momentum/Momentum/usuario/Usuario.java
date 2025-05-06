@@ -72,7 +72,7 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "receiver")
     @JsonIgnore
     private Set<Message> messagesReceived = new HashSet<>();
-    
+
     public Usuario() {}
 
     public Usuario(long id, String username, String email, String password, String profilePicture, Role role) {
