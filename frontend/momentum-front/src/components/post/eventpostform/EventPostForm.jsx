@@ -46,7 +46,6 @@ const EventPostForm = () => {
           const role = getUserRole();
           setUserRole(role);
       }, []);
-  
 
   return (
     <div>

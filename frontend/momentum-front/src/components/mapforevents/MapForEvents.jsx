@@ -45,8 +45,13 @@ const SearchControl = ({ setCoords }) => {
 };
 
 // Componente principal
-const MapaConBuscador = () => {
+const MapaConBuscador = ({ onLocationSelect }) => {
   const [coords, setCoords] = useState([-34.6037, -58.3816]); // Obelisco (CABA)
+
+  useEffect(() => {
+    // Informar ubicación inicial si es útil
+    onLocationSelect(coords);
+  }, []);
 
   return (
     <MapContainer center={coords} zoom={13} style={{ height: '500px', width: '100%' }}>

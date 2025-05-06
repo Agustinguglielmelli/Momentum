@@ -100,8 +100,6 @@ function MyEvents() {
   }
 
 
-
-
   const handleSearch = async (event) => {
     setEventSearch(event.target.value);
     if (event.target.value.trim() === "") {
@@ -121,7 +119,7 @@ function MyEvents() {
       } catch (error) {
         console.error("Error fetching events:", error);
       }
-    };
+    }
 
   }
   const availableEventPosts = allEventPosts.filter(post =>
@@ -132,63 +130,63 @@ function MyEvents() {
         <Navbar/>
         <div className="profile-container">
           <h1 className="profile-title">WELCOME TO THE EVENTS {userRole}!!</h1>
-
           {userRole === "RUNNER" && (
-            <div className="profile-content">
+              <div className="profile-content">
 
-              <section className="profile-left">
-                <h2 className="section-title">Events I'll Go</h2>
-                {joinedEventPosts.map((post) => (
-                    <EventPostRunner key={post.idEvent} post={post} actionType="unjoin" handleAction={handleUnJoin} />
-                ))}
-              </section>
+                <section className="profile-left">
+                  <h2 className="section-title">Events I'll Go</h2>
+                  {joinedEventPosts.map((post) => (
+                      <EventPostRunner key={post.idEvent} post={post} actionType="unjoin" handleAction={handleUnJoin}/>
+                  ))}
+                </section>
 
-              <VerticalDivider/>
+                <VerticalDivider/>
 
-              <section className="profile-right">
-                <h2 className="section-title">Search Events</h2>
-                <SearchEventBar handleSearch={handleSearch} />
-                {event.length > 0 && (
-                    <div className="search-results-container">
-                      {event.map(ev => (
-                          <div className="search-result-item" key={ev.idEvent}>
-                            <h2>{ev.title}</h2>
-                            <h2>{ev.date}</h2>
-                            <Button text="Join event" className="btn-secondary" onClick={() => handleJoin(ev.idEvent)}></Button>
-                          </div>
-                      ))}
-                    </div>
-                )}
-                {availableEventPosts.map((post) => (
-                    <EventPostRunner key={post.idEvent} post={post} actionType="join" handleAction={handleJoin} />
-                ))}
-              </section>
-            </div>
+                <section className="profile-right">
+                  <h2 className="section-title">Search Events</h2>
+                  <SearchEventBar handleSearch={handleSearch}/>
+                  {event.length > 0 && (
+                      <div className="search-results-container">
+                        {event.map(ev => (
+                            <div className="search-result-item" key={ev.idEvent}>
+                              <h2>{ev.title}</h2>
+                              <h2>{ev.date}</h2>
+                              <Button text="Join event" className="btn-secondary"
+                                      onClick={() => handleJoin(ev.idEvent)}></Button>
+                            </div>
+                        ))}
+                      </div>
+                  )}
+                  {availableEventPosts.map((post) => (
+                      <EventPostRunner key={post.idEvent} post={post} actionType="join" handleAction={handleJoin}/>
+                  ))}
+                </section>
+              </div>
           )}
 
           {userRole === "COACH" && (
-            <div className="profile-content">
-              <section className="profile-left">
-                <h2 className="section-title">My Events</h2>
+              <div className="profile-content">
+                <section className="profile-left">
+                  <h2 className="section-title">My Events</h2>
 
-                <div className="event-list">
-                {allEventPosts.map(post => (
-                <EventPostCoach 
-                 key={post.idEvent}
-                 post={post} 
-                 handleDelete={handleDelete}
-                 handleUpdate={handleUpdate} />
-                ))}
-                </div>
-              </section>
-              <VerticalDivider />
-              <section className="profile-right">
-                <h2 className="section-title">Create New Events</h2>
-                <Link className="btn btn-primary" to={"/events/createEvent"}>
-                  New Event
-                </Link>
-              </section>
-            </div>
+                  <div className="event-list">
+                    {allEventPosts.map(post => (
+                        <EventPostCoach
+                            key={post.idEvent}
+                            post={post}
+                            handleDelete={handleDelete}
+                            handleUpdate={handleUpdate}/>
+                    ))}
+                  </div>
+                </section>
+                <VerticalDivider/>
+                <section className="profile-right">
+                  <h2 className="section-title">Create New Events</h2>
+                  <Link className="btn btn-primary" to={"/events/createEvent"}>
+                    New Event
+                  </Link>
+                </section>
+              </div>
           )}
         </div>
       </div>
