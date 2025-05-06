@@ -7,6 +7,7 @@ export default function ChatComponent() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
 
+
     useEffect(() => {
         const stompClient = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
@@ -27,9 +28,13 @@ export default function ChatComponent() {
 
     const sendMessage = () => {
         if (client && client.connected) {
+            const message = {
+                content: input,
+                timestamp: new Date().toISOString()
+            }
             client.publish({
                 destination: "/app/chat",
-                body: input
+                body: JSON.stringify(message)
             });
             setInput("");
         }
