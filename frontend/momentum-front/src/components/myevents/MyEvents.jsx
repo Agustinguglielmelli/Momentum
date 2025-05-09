@@ -135,6 +135,9 @@ function MyEvents() {
               <div className="profile-content">
 
                 <section className="profile-left">
+                  <Link className="btn btn-warning" to={"/events/searchEvent"}>
+                    Search Event
+                  </Link>
                   <h2 className="section-title">Events I'll Go</h2>
                   {joinedEventPosts.map((post) => (
                       <EventPostRunner key={post.idEvent} post={post} actionType="unjoin" handleAction={handleUnJoin}/>
@@ -168,6 +171,9 @@ function MyEvents() {
           {userRole === "COACH" && (
               <div className="profile-content">
                 <section className="profile-left">
+                <Link className="btn btn-warning" to={"/events/searchEvent"}>
+                    Search Event
+                </Link>
                   <h2 className="section-title">My Events</h2>
                   <div className="event-list">
                     {allEventPosts.map(post => (

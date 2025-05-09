@@ -16,6 +16,7 @@ import EventPostForm from '../post/eventpostform/EventPostForm';
 import UpdateEventPostForm from '../post/eventpost/updateeventpostform/UpdateEventPostForm';
 import HomePage from "../beforehome/HomePage";
 import MapaConBuscador from '../mapforevents/MapForEvents';
+import MyMapComponent from '../mapforevents/MyMapComponent';
 
 
 function AppRouter() {
@@ -91,7 +92,7 @@ function AppRouter() {
             } />
             <Route path='/events/searchEvent' element={
                 <PrivateRoute>
-                    <MapaConBuscador/>
+                    <MyMapComponent/>
                 </PrivateRoute>
             } />
             
