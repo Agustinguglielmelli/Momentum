@@ -15,8 +15,8 @@ import { EventPostRunner } from '../post/eventpost/EventPostRunner';
 import EventPostForm from '../post/eventpostform/EventPostForm';
 import UpdateEventPostForm from '../post/eventpost/updateeventpostform/UpdateEventPostForm';
 import HomePage from "../beforehome/HomePage";
-import MapaConBuscador from '../mapforevents/MapForEvents';
 import MyMapComponent from '../mapforevents/MyMapComponent';
+import Leaderboard from "../Leaderboard/Leaderboard";
 
 
 function AppRouter() {
@@ -43,6 +43,11 @@ function AppRouter() {
             <Route path='/home' element={
                 <PrivateRoute>
                     <Home/>
+                </PrivateRoute>
+            } />
+            <Route path='/leaderboards' element={
+                <PrivateRoute>
+                    <Leaderboard/>
                 </PrivateRoute>
             } />
             <Route path='/myprofile/createTrainingPlan' element={

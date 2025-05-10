@@ -9,6 +9,7 @@ function Navbar({ searchBar }) {
                     <li><Link to="/myProfile">My Profile</Link></li>
                     <li><Link to="/feed">Feed</Link></li>
                     <li><Link to="/events">Events</Link></li>
+                    <li><Link to="/leaderboards">Leaderboards</Link></li>
                 </ul>
                 {searchBar && <div className="search-bar-container">{searchBar}</div>}
             </nav>
