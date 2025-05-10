@@ -2,9 +2,9 @@ import "./LeaderboardCss.css"
 
 function Leaderboard () {
     return (
-        <body>
+        <body className="leaderboard-body">
         <div className="leaderboard">
-            <h1>Top Runners</h1>
+            <h1 className="h1-leaderboard">Top Runners</h1>
             <div className="podium">
                 <div className="runner third">
                     <div className="trophy bronze">🥉</div>
@@ -23,39 +23,34 @@ function Leaderboard () {
                 </div>
             </div>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Kilometers ran</th>
+            <table className="leaderboard-table">
+                <thead className="leaderboard-thead">
+                <tr className="leaderboard-tr">
+                    <th className="leaderboard-th">Rank</th>
+                    <th className="leaderboard-th">Name</th>
+                    <th className="leaderboard-th">Kilometers ran</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className="leaderboard-tbody">
                 <tr>
-                    <td>1</td>
-                    <td>santoro #1651997</td>
-                    <td>1502</td>
+                    <td className="leaderboard-td">1</td>
+                    <td className="leaderboard-td">santoro #1651997</td>
+                    <td className="leaderboard-td">1502</td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Balhwen</td>
-                    <td>1474</td>
+                    <td className="leaderboard-td">1</td>
+                    <td className="leaderboard-td">santoro #1651997</td>
+                    <td className="leaderboard-td">1502</td>
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>Yokito</td>
-                    <td>1239</td>
+                    <td className="leaderboard-td">1</td>
+                    <td className="leaderboard-td">santoro #1651997</td>
+                    <td className="leaderboard-td">1502</td>
                 </tr>
                 <tr>
-                    <td>4</td>
-                    <td>#3 Yokito's | Coqui</td>
-                    <td>1117</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>#1 Yokito's | Rigo</td>
-                    <td>1081</td>
+                    <td className="leaderboard-td">1</td>
+                    <td className="leaderboard-td">santoro #1651997</td>
+                    <td className="leaderboard-td">1502</td>
                 </tr>
                 </tbody>
             </table>

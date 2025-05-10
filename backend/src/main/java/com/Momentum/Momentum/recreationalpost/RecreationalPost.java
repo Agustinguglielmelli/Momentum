@@ -33,7 +33,7 @@ public class RecreationalPost {
     private Usuario usuario;
 
     @Column
-    private String distance;
+    private Double distance;
 
     @Column(nullable = false)
     private String description;
@@ -44,7 +44,7 @@ public class RecreationalPost {
     @Column
     private String calories;
 
-    public RecreationalPost(long idRecPost, String distance, String description,
+    public RecreationalPost(long idRecPost, Double distance, String description,
                             String duration, String calories)
     {
         this.idRecPost = idRecPost;
@@ -58,4 +58,3 @@ public class RecreationalPost {
     }
 }
 
-   

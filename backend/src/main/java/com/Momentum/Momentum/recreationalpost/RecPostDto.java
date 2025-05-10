@@ -11,14 +11,14 @@ import java.util.List;
 @Getter
 public class RecPostDto {
     private long idRecPost;
-    private String distance;
+    private Double distance;
     private String description;
     private String duration;
     private String calories;
     private UsuarioDto usuario;
     private List<Image> images; // O adaptalo a tu DTO de imagen
 
-    public RecPostDto(long idRecPost, String distance, String description,
+    public RecPostDto(long idRecPost, Double distance, String description,
                                String duration, String calories, UsuarioDto usuario,
                                List<Image> images) {
         this.idRecPost = idRecPost;

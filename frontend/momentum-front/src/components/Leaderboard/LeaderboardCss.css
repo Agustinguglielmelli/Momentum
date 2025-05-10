@@ -1,13 +1,14 @@
-body {
+.leaderboard-body {
     color: #fff;
     text-align: center;
     margin: 0;
     padding: 2em;
 }
 
-h1 {
+.h1-leaderboard {
     margin-bottom: 2rem;
     font-size: 2.5em;
+    color: #000;
 }
 
 .leaderboard {
@@ -58,7 +59,7 @@ h1 {
     font-size: 1.2em;
 }
 
-table {
+.leaderboard-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 2em;
@@ -67,18 +68,18 @@ table {
     overflow: hidden;
 }
 
-thead {
+.leaderboard-thead {
     background-color: #393b57;
 }
 
-th, td {
+.leaderboard-th, .leaderboard-td {
     padding: 1em;
 }
 
-tbody tr:nth-child(odd) {
+.leaderboard-tbody tr:nth-child(odd) {
     background-color: #353753;
 }
 
-tbody tr:nth-child(even) {
+.leaderboard-tbody tr:nth-child(even) {
     background-color: #2e3047;
 }
