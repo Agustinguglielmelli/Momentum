@@ -24,21 +24,29 @@ function Leaderboard () {
         <div className="leaderboard">
             <h1 className="h1-leaderboard">Top Runners</h1>
             <div className="podium">
-                <div className="runner third">
-                    <div className="trophy bronze">🥉</div>
-                    <p className="name">Yokito</p>
-                    <p className="score">1239 km</p>
-                </div>
-                <div className="runner first">
-                    <div className="trophy gold">🥇</div>
-                    <p className="name">santoro #1651997</p>
-                    <p className="score">1502 km</p>
-                </div>
-                <div className="runner second">
-                    <div className="trophy silver">🥈</div>
-                    <p className="name">Balhwen</p>
-                    <p className="score">1474 km</p>
-                </div>
+
+                {users[1] && (
+                    <div className="runner second">
+                        <div className="trophy silver">🥈</div>
+                        <p className="name">{users[1].usuario.displayUserName}</p>
+                        <p className="score">{users[1].totalKms} km</p>
+                    </div>
+                )}
+                {users[0] && (
+                    <div className="runner first">
+                        <div className="trophy gold">🥇</div>
+                        <p className="name">{users[0].usuario.displayUserName}</p>
+                        <p className="score">{users[0].totalKms} km</p>
+                    </div>
+                )}
+                {users[2] && (
+                    <div className="runner third">
+                        <div className="trophy bronze">🥉</div>
+                        <p className="name">{users[2].usuario.displayUserName}</p>
+                        <p className="score">{users[2].totalKms} km</p>
+                    </div>
+                )}
+
             </div>
 
             <table className="leaderboard-table">
