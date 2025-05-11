@@ -73,9 +73,9 @@ public class UsuarioController {
         return personUsuarioService.createUser(person);
     }
 
-    @DeleteMapping("/usuario/{id}")
-    public void deleteUsuario(@PathVariable long id) {
-        personUsuarioService.deleteUserById(id);
+    @DeleteMapping("/usuario")
+    public void deleteUsuario(@ModelAttribute("currentUser") Usuario currentUser) {
+        personUsuarioService.deleteUserById(currentUser);
     }
 
     @GetMapping("/usuario/search")
