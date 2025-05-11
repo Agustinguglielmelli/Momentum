@@ -6,9 +6,13 @@ import com.Momentum.Momentum.event.EventRepository;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class UsuarioService {
@@ -90,6 +94,34 @@ public class UsuarioService {
                 .toList();
     }
 
+    public List<UsuarioConEventosDto> getFollowingEventsCompleted(Usuario loggedUser) {
+        Set<Usuario> seguidos = loggedUser.getFollowing();
+
+        return seguidos.stream()
+                .map(usuario -> {
+                    long eventosCompletados = usuario.getEventsImIn().stream()
+                            .filter(event -> {
+                                try {
+                                    LocalDate fechaEvento = LocalDate.parse(event.getDate());
+                                    return fechaEvento.isBefore(LocalDate.now());
+                                } catch (Exception e) {
+                                    return false;
+                                }
+                            })
+                            .count();
+
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            usuario.getuserUsername(),
+                            usuario.getId(),
+                            usuario.getProfilePicture(),
+                            usuario.displayUserName()
+                    );
+
+                    return new UsuarioConEventosDto(usuarioDto, eventosCompletados);
+                })
+                .sorted(Comparator.comparingLong(UsuarioConEventosDto::getEventosCompletados).reversed())
+                .collect(Collectors.toList());
+    }
 
 
 

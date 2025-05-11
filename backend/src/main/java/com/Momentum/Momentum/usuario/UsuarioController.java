@@ -394,4 +394,10 @@ public class UsuarioController {
         return personUsuarioService.getFollowedUsersByKms(user);
     }
 
+    @GetMapping("/usuario/following-events-completed")
+    public List<UsuarioConEventosDto> followingEventsCompletedForLeaderboard(@ModelAttribute("currentUser") Usuario currentUser){
+        Usuario user = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
+        return personUsuarioService.getFollowingEventsCompleted(user);
+    }
+
 }

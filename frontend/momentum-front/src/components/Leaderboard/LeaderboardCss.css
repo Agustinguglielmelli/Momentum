@@ -91,3 +91,6 @@
 .leaderboard-tbody tr:nth-child(even) {
     background-color: #2e3047;
 }
+.empty-leaderboard {
+    color:  #000;
+}

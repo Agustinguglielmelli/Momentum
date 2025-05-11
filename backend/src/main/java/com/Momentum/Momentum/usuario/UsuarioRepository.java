@@ -20,7 +20,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "WHERE u = :usuario " +
             "GROUP BY f " +
             "ORDER BY SUM(rp.distance) DESC")
-    List<Object[]> findFollowedUsersAndKms(@Param("usuario") Usuario usuario);
+    List<Object[]> findFollowedUsersAndKms(@Param("usuario") Usuario usuario); // leaderboard seguidos kms
 
 
 }
