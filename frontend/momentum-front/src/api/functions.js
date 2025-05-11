@@ -245,7 +245,16 @@ export async function listFollowingOrderedByKms() {
             }
         });
     return result.data;
+
 }
+export async function listFollowingOrderedByEventsCompleted() {
+    const result = await axios.get(`http://localhost:8080/usuario/following-events-completed`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
 
-
+}
 

@@ -16,7 +16,8 @@ import EventPostForm from '../post/eventpostform/EventPostForm';
 import UpdateEventPostForm from '../post/eventpost/updateeventpostform/UpdateEventPostForm';
 import HomePage from "../beforehome/HomePage";
 import MyMapComponent from '../mapforevents/MyMapComponent';
-import Leaderboard from "../Leaderboard/Leaderboard";
+import LeaderboardKms from "../leaderboardkms/LeaderboardKms";
+import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
 
 
 function AppRouter() {
@@ -45,9 +46,14 @@ function AppRouter() {
                     <Home/>
                 </PrivateRoute>
             } />
-            <Route path='/leaderboards' element={
+            <Route path='/leaderboard-kms' element={
                 <PrivateRoute>
-                    <Leaderboard/>
+                    <LeaderboardKms/>
+                </PrivateRoute>
+            } />
+            <Route path='/leaderboard-events' element={
+                <PrivateRoute>
+                    <LeaderboardEvents/>
                 </PrivateRoute>
             } />
             <Route path='/myprofile/createTrainingPlan' element={
