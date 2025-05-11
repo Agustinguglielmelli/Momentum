@@ -2,10 +2,14 @@ import "./LeaderboardCss.css"
 import React, {useEffect, useState} from "react";
 import {listFollowingOrderedByKms} from "../../api/functions";
 import {Link} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 function LeaderboardKms () {
 
     const [users, setUsers] = useState([])
+    const token = localStorage.getItem("token");
+
+    const loggedUserId = Number((jwtDecode(token)).userId);
 
     const fetchUsers = async () => {
         try {
@@ -62,7 +66,9 @@ function LeaderboardKms () {
 
                         <tbody className="leaderboard-tbody">
                         {users.map((userWithKms, index) => (
-                            <tr key={userWithKms.usuario.id}>
+                            <tr key={userWithKms.usuario.id}
+                            className={Number(userWithKms.usuario.id) === loggedUserId ? "highlighted-user" : ""}
+                            >
                                 <td className="leaderboard-td">{index + 1}</td>
                                 <td className="leaderboard-td">
                                     <img
