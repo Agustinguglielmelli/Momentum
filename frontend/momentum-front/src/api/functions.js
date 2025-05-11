@@ -237,5 +237,15 @@ export async function listProfileInfo(){
     return result.data;
 }
 
+export async function listFollowingOrderedByKms() {
+    const result = await axios.get(`http://localhost:8080/usuario/following-total-kms`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+
 
 

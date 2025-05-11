@@ -1,6 +1,24 @@
 import "./LeaderboardCss.css"
+import {useEffect, useState} from "react";
+import {listFollowingOrderedByKms} from "../../api/functions";
 
 function Leaderboard () {
+
+    const [users, setUsers] = useState([])
+
+    const fetchUsers = async () => {
+        try {
+            const result = await listFollowingOrderedByKms();
+            setUsers(result);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
     return (
         <body className="leaderboard-body">
         <div className="leaderboard">
@@ -31,32 +49,23 @@ function Leaderboard () {
                     <th className="leaderboard-th">Kilometers ran</th>
                 </tr>
                 </thead>
+
                 <tbody className="leaderboard-tbody">
-                <tr>
-                    <td className="leaderboard-td">1</td>
-                    <td className="leaderboard-td">santoro #1651997</td>
-                    <td className="leaderboard-td">1502</td>
-                </tr>
-                <tr>
-                    <td className="leaderboard-td">1</td>
-                    <td className="leaderboard-td">santoro #1651997</td>
-                    <td className="leaderboard-td">1502</td>
-                </tr>
-                <tr>
-                    <td className="leaderboard-td">1</td>
-                    <td className="leaderboard-td">santoro #1651997</td>
-                    <td className="leaderboard-td">1502</td>
-                </tr>
-                <tr>
-                    <td className="leaderboard-td">1</td>
-                    <td className="leaderboard-td">santoro #1651997</td>
-                    <td className="leaderboard-td">1502</td>
-                </tr>
+                {users.map((userWithKms, index) => (
+                    <tr key={userWithKms.usuario.id}>
+                        <td className="leaderboard-td">{index + 1}</td>
+                        <td className="leaderboard-td">
+                            <img className="leaderboard-img" src={userWithKms.usuario.profilePicture} alt="avatar" width="30"/>
+                            {userWithKms.usuario.displayUserName}
+                        </td>
+                        <td className="leaderboard-td">{userWithKms.totalKms?.toFixed(2)}</td>
+                    </tr> // el toFixed redondea 2 decimales
+                ))}
                 </tbody>
             </table>
         </div>
-        </body>
-    )
+</body>
+)
 }
 
 export default Leaderboard
