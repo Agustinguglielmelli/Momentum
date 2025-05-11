@@ -5,6 +5,7 @@ import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.event.EventRepository;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.AbstractMap;
@@ -35,8 +36,32 @@ public class UsuarioService {
         return personRepository.save(Usuario);
     }
 
-    public void deleteUserById(Long userId) {
-        personRepository.deleteById(userId);
+    @Transactional // se realiza completa la operacion o no se realiza en absoluto
+    public void deleteUserById(Usuario user) {
+        Optional<Usuario> optionalUsuario = personRepository.findById(user.getId());
+        if (optionalUsuario.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        Usuario usuario = optionalUsuario.get();
+
+        // Eliminar relaciones de followers
+        for (Usuario follower : new HashSet<>(usuario.getFollowers())) {
+            follower.getFollowing().remove(usuario);
+        }
+        usuario.getFollowers().clear();
+
+        // Eliminar relaciones de following
+        for (Usuario followed : new HashSet<>(usuario.getFollowing())) {
+            followed.getFollowers().remove(usuario);
+        }
+        usuario.getFollowing().clear();
+
+        // eliminar el usuario como participante de eventos
+        for (Event evento : usuario.getEventsImIn()) {
+            evento.getParticipantes().remove(usuario);
+        }
+
+        personRepository.deleteById(user.getId());
     }
 
 

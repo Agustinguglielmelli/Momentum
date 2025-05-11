@@ -44,7 +44,7 @@ public class Usuario implements UserDetails {
     @Column
     private Role role;
 
-    @OneToMany(mappedBy = "creador")
+    @OneToMany(mappedBy = "creador", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Event> eventosCreados = new HashSet<>();
 
@@ -65,11 +65,11 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     Set<Usuario> followers = new HashSet<>();
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Message> messagesSent = new HashSet<>();
 
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Message> messagesReceived = new HashSet<>();
 
