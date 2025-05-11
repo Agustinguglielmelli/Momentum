@@ -38,4 +38,5 @@ public class RecreationalPostService {
     public List<RecreationalPost> getPostsByUserId(Long userId) {
         return recreationalPostRepository.findByUsuarioId(userId);
     }
+
 }

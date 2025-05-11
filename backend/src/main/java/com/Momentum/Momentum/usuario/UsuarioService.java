@@ -3,6 +3,7 @@ package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.event.EventRepository;
+import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Set;
 
 @org.springframework.stereotype.Service
 public class UsuarioService {
+    @Autowired
+    RecreationalPostRepository recreationalPostRepository;
 
     @Autowired
     UsuarioRepository personRepository;
@@ -61,4 +64,9 @@ public class UsuarioService {
             cantFollowers,
             cantFollowing
         ); */
+
+   public double getTotalKmForUser(Long userId) {
+       Double total = recreationalPostRepository.getTotalDistanceByUserId(userId);
+       return total != null ? total : 0.0;
+   }
     }

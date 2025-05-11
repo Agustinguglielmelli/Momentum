@@ -34,18 +34,18 @@ public class RecreationalPostController {
        return recreationalPostService.getRecPostById(id);
     }
 
-        @PostMapping("/miperfil/recPost")
-        public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
-            recpost.setUsuario(currentUser);
+    @PostMapping("/miperfil/recPost")
+    public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
+        recpost.setUsuario(currentUser);
 
-            if (recpost.getImages() != null) {
-                for (Image img : recpost.getImages()) {
-                    img.setRecreationalPost(recpost);
-                }
+        if (recpost.getImages() != null) {
+            for (Image img : recpost.getImages()) {
+                img.setRecreationalPost(recpost);
             }
-
-            return recreationalPostService.createRecPost(recpost);
         }
+
+        return recreationalPostService.createRecPost(recpost);
+    }
 
     @DeleteMapping("/miperfil/recPost/{id}")
     public ResponseEntity<Void> deleteRecPost(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
@@ -83,4 +83,6 @@ public class RecreationalPostController {
 
         return ResponseEntity.ok(nuevoRecpost);
     }
+
+
 }

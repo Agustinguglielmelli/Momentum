@@ -382,5 +382,11 @@ public class UsuarioController {
 
         return postDtos;
     }
+    @GetMapping("/usuario/total-kms")
+    public ResponseEntity<Double> getTotalKm(@ModelAttribute("currentUser") Usuario currentUser) {
+        Usuario user = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
+        double totalKm = personUsuarioService.getTotalKmForUser(user.getId());
+        return ResponseEntity.ok(totalKm);
+    }
 
 }
