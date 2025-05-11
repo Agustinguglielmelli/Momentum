@@ -65,8 +65,32 @@ public class UsuarioService {
             cantFollowing
         ); */
 
-   public double getTotalKmForUser(Long userId) {
+    public double getTotalKmForUser(Long userId) {
        Double total = recreationalPostRepository.getTotalDistanceByUserId(userId);
        return total != null ? total : 0.0;
-   }
     }
+
+    public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
+        List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
+
+        return rawResults.stream()
+                .map(obj -> {
+                    Usuario seguido = (Usuario) obj[0];
+                    Double kms = (Double) obj[1];
+
+                    UsuarioDto dto = new UsuarioDto(
+                            seguido.getUsername(),
+                            seguido.getId(),
+                            seguido.getProfilePicture(),
+                            seguido.displayUserName()
+                    );
+
+                    return new UsuarioConKmsDto(dto, kms);
+                })
+                .toList();
+    }
+
+
+
+
+}

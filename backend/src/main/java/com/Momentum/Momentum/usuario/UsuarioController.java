@@ -388,5 +388,10 @@ public class UsuarioController {
         double totalKm = personUsuarioService.getTotalKmForUser(user.getId());
         return ResponseEntity.ok(totalKm);
     }
+    @GetMapping("/usuario/following-total-kms")
+    public List<UsuarioConKmsDto> followingTotalKmsForLeaderboard(@ModelAttribute("currentUser") Usuario currentUser) {
+        Usuario user = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
+        return personUsuarioService.getFollowedUsersByKms(user);
+    }
 
 }
