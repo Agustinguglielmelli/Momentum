@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -77,6 +78,11 @@ public class UsuarioService {
     public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
         List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
 
+        Double kmsUserLogged = recreationalPostRepository.getTotalDistanceByUserId(usuario.getId());
+
+        Object[] selfEntry = new Object[]{usuario, kmsUserLogged};
+        rawResults.add(selfEntry);
+
         return rawResults.stream()
                 .map(obj -> {
                     Usuario seguido = (Usuario) obj[0];
@@ -95,9 +101,10 @@ public class UsuarioService {
     }
 
     public List<UsuarioConEventosDto> getFollowingEventsCompleted(Usuario loggedUser) {
-        Set<Usuario> seguidos = loggedUser.getFollowing();
+        Set<Usuario> users = new HashSet<>(loggedUser.getFollowing());
+        users.add(loggedUser);
 
-        return seguidos.stream()
+        return users.stream()
                 .map(usuario -> {
                     long eventosCompletados = usuario.getEventsImIn().stream()
                             .filter(event -> {

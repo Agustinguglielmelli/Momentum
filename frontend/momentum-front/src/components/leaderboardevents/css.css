@@ -94,3 +94,8 @@
 .empty-leaderboard {
     color:  #000;
 }
+.highlighted-user {
+    background-color: #ffeaa7;
+    font-weight: bold;
+    border-left: 5px solid gold;
+}
