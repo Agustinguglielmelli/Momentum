@@ -18,6 +18,7 @@ import HomePage from "../beforehome/HomePage";
 import MyMapComponent from '../mapforevents/MyMapComponent';
 import LeaderboardKms from "../leaderboardkms/LeaderboardKms";
 import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
+import ChatApp from "../chatsegversion/Chat";
 
 
 function AppRouter() {
@@ -79,6 +80,11 @@ function AppRouter() {
             <Route path='/myprofile/modifyUser' element={
                 <PrivateRoute>
                     <ModifyUser/>
+                </PrivateRoute>
+            } />
+            <Route path='/myprofile/chats' element={
+                <PrivateRoute>
+                    <ChatApp/>
                 </PrivateRoute>
             } />
             <Route path='/events' element={

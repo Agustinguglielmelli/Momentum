@@ -109,6 +109,7 @@ function MyProfile(){
                             <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
                             <h2>{userProfile.displayUserName}</h2>
                             <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
+                            <Link to="/myprofile/chats" className="btn btn-primary">Chats</Link>
                             <Button className="btn-danger" text="Delete account" onClick={() => deleteMyUser(userProfile.id)}></Button>
 
                         </div>
