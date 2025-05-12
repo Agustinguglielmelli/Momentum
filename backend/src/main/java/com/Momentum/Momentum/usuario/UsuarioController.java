@@ -326,7 +326,7 @@ public class UsuarioController {
                             post.getCalories(),
                             usuarioDto,
                             post.getImages(),
-                            post.getFechaPublicacion()
+                            post.getCreationDate()
                     );
                 }
         ).collect(Collectors.toList());
@@ -376,7 +376,8 @@ public class UsuarioController {
                             post.getDia4(),
                             post.getDia5(),
                             post.getDia6(),
-                            post.getDia7()
+                            post.getDia7(),
+                            post.getFechaPublicacion()
                     );
                 }
         ).collect(Collectors.toList());

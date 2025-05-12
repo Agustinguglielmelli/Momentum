@@ -5,6 +5,8 @@ import com.Momentum.Momentum.usuario.UsuarioDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class TrainingPlanPostDto {
@@ -22,13 +24,14 @@ public class TrainingPlanPostDto {
     private String dia5;
     private String dia6;
     private String dia7;
+    private LocalDate creationDate;
 
     public TrainingPlanPostDto() {
     }
 
     public TrainingPlanPostDto(long idTrainPost, UsuarioDto usuario, String description, String frequency,
                                String title, String duration, String dia1, String dia2, String dia3,
-                               String dia4, String dia5, String dia6, String dia7) {
+                               String dia4, String dia5, String dia6, String dia7, LocalDate creationDate) {
         this.idTrainPost = idTrainPost;
         this.usuario = usuario;
         this.description = description;
@@ -42,5 +45,6 @@ public class TrainingPlanPostDto {
         this.dia5 = dia5;
         this.dia6 = dia6;
         this.dia7 = dia7;
+        this.creationDate = creationDate;
     }
 }

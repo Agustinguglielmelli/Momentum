@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -54,8 +56,11 @@ public class TrainingPlanPost {
     @Column
     private String dia7;
 
+    @Column(updatable = false)
+    private LocalDate fechaPublicacion;
+
     public TrainingPlanPost(long idTrainPost, String description, Usuario usuario, String dia1, String dia2,
-                            String dia3, String dia4, String dia5, String dia6, String dia7) {
+                            String dia3, String dia4, String dia5, String dia6, String dia7, LocalDate fechaPublicacion) {
         this.idTrainPost = idTrainPost;
         this.description = description;
         this.usuario = usuario;
@@ -66,6 +71,7 @@ public class TrainingPlanPost {
         this.dia5 = dia5;
         this.dia6 = dia6;
         this.dia7 = dia7;
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public TrainingPlanPost() {
