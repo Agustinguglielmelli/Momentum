@@ -264,4 +264,13 @@ export async function deleteRecPost(postId){
         });
     return result;
 }
+export async function deleteTrainPost(postId){
+    const result = await axios.delete(`http://localhost:8080/miperfil/trainingPlan/${postId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
 

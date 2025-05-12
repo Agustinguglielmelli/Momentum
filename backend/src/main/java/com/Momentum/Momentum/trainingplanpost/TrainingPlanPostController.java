@@ -42,7 +42,7 @@ public class TrainingPlanPostController {
     @DeleteMapping("/miperfil/trainingPlan/{id}")
     public ResponseEntity<Void> deleteTrainingPlanPostById(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<TrainingPlanPost> optional = trainingPlanPostService.getTrainingPlanById(id);
-        if (optional.isEmpty() || optional.get().getUsuario().getId() != currentUser.getId()) {
+        if (optional.isEmpty()) {
             return ResponseEntity.status(403).build(); // Forbidden
         }
         trainingPlanPostService.deleteTrainingPlanById(id);

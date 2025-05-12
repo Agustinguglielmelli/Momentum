@@ -5,7 +5,7 @@ import {
     listTrainingPlanPosts,
     getUserRole,
     listProfileInfo,
-    deleteRecPost
+    deleteRecPost, deleteTrainPost
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
@@ -71,7 +71,7 @@ function MyProfile(){
         fetchRecreationalPosts();
     }, [])
 
-    async function deletePost(id){
+    async function deleteRecreationalPost(id){
         try {
             await deleteRecPost(id);
 
@@ -79,6 +79,15 @@ function MyProfile(){
             console.log(e)
         }
         setRecreationalPosts(prevPosts => prevPosts.filter(post => post.idRecPost !== id));
+
+    }
+    async function deleteTrainingPlanPost(id){
+        try {
+            await deleteTrainPost(id);
+        } catch (e){
+            console.log(e)
+        }
+        setTrainingPlanPosts(prevPosts => prevPosts.filter(post => post.idTrainPost !== id));
 
     }
 
@@ -106,7 +115,7 @@ function MyProfile(){
                         <div className="profile-content">
                             {recreationalPosts.map((post) => (
                                 <div className="post-item">
-                                    <Button className="btn-danger" text="Delete post" onClick={()=>deletePost(post.idRecPost)}></Button>
+                                    <Button className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></Button>
                                     <RecreationalPost key={post.idRecPost} post={post}/>
                                 </div>
                             ))}
@@ -122,7 +131,10 @@ function MyProfile(){
                             </Link>
                             <div className="profile-content">
                                     {trainingPlanPosts?.map((post) => (
-                                        <TrainingPlanPost key={post.idTrainPost} post={post}/>
+                                        <div>
+                                            <Button className="btn-danger" text="Delete post" onClick={()=>deleteTrainingPlanPost(post.idTrainPost)}></Button>
+                                            <TrainingPlanPost key={post.idTrainPost} post={post}/>
+                                        </div>
                                     ))}
                             </div>
                         </div>
