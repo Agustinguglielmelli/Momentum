@@ -325,7 +325,8 @@ public class UsuarioController {
                             post.getDuration(),
                             post.getCalories(),
                             usuarioDto,
-                            post.getImages()
+                            post.getImages(),
+                            post.getFechaPublicacion()
                     );
                 }
         ).collect(Collectors.toList());

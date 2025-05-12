@@ -5,6 +5,7 @@ import com.Momentum.Momentum.usuario.UsuarioDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Setter
@@ -16,11 +17,12 @@ public class RecPostDto {
     private String duration;
     private String calories;
     private UsuarioDto usuario;
-    private List<Image> images; // O adaptalo a tu DTO de imagen
+    private List<Image> images;
+    private LocalDate fechaPublicacion;
 
     public RecPostDto(long idRecPost, Double distance, String description,
-                               String duration, String calories, UsuarioDto usuario,
-                               List<Image> images) {
+                      String duration, String calories, UsuarioDto usuario,
+                      List<Image> images, LocalDate fechaPublicacion) {
         this.idRecPost = idRecPost;
         this.distance = distance;
         this.description = description;
@@ -28,6 +30,6 @@ public class RecPostDto {
         this.calories = calories;
         this.usuario = usuario;
         this.images = images;
+        this.fechaPublicacion = fechaPublicacion;
     }
-
 }

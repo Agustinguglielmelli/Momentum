@@ -11,6 +11,7 @@ import lombok.Setter;
 //import lombok.Getter;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -44,14 +45,18 @@ public class RecreationalPost {
     @Column
     private String calories;
 
+    @Column(updatable = false)
+    private LocalDate fechaPublicacion;
+
     public RecreationalPost(long idRecPost, Double distance, String description,
-                            String duration, String calories)
+                            String duration, String calories, LocalDate fechaPublicacion)
     {
         this.idRecPost = idRecPost;
         this.distance = distance;
         this.description = description;
         this.duration = duration;
         this.calories = calories;
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public RecreationalPost() {
