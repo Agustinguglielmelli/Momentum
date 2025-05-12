@@ -13,6 +13,7 @@ import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import Button from "../button/Button";
     import {Link} from "react-router-dom";
+import NewPostCard from "../NewPostCard";
 
 
 function Home(){
@@ -121,7 +122,6 @@ function Home(){
 
     return (
         <div className="home-container">
-
             <div className="top-bar">
                 <div>
                     <Navbar searchBar={<SearchUserBar handleSearch={handleSearch} />}/>
@@ -154,7 +154,6 @@ function Home(){
                 </div>
             </div>
             <div className="main-container">
-
                 <section className="center-section">
                     <h1>Posts de usuarios que sigo</h1>
                     {followingRecreationalPosts.length > 0 && (
