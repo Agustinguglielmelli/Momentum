@@ -13,7 +13,6 @@ import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import Button from "../button/Button";
     import {Link} from "react-router-dom";
-import NewPostCard from "../NewPostCard";
 
 
 function Home(){
