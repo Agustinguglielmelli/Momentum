@@ -121,7 +121,6 @@ function Home(){
 
     return (
         <div className="home-container">
-
             <div className="top-bar">
                 <div>
                     <Navbar searchBar={<SearchUserBar handleSearch={handleSearch} />}/>
@@ -154,7 +153,6 @@ function Home(){
                 </div>
             </div>
             <div className="main-container">
-
                 <section className="center-section">
                     <h1>Posts de usuarios que sigo</h1>
                     {followingRecreationalPosts.length > 0 && (

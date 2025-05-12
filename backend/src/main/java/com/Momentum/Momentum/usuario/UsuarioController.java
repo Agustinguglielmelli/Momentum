@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.jwt.services.JwtService;
 import com.Momentum.Momentum.recreationalpost.RecPostDto;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +32,8 @@ public class UsuarioController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
+    @Autowired
+    JwtService jwtService;
 
     @Autowired
     UsuarioService personUsuarioService;
@@ -59,11 +63,10 @@ public class UsuarioController {
         Optional<Usuario> user = personUsuarioService.getUserById(currentUser.getId());
         Usuario usuario = user.get();
         return new ModifyUserDto(
-                usuario.getUsername(),
-                usuario.getId(),
-                usuario.getProfilePicture(),
                 usuario.displayUserName(),
-                usuario.getPassword()
+                usuario.getProfilePicture(),
+                usuario.getUsername()
+
         );
     }
 
@@ -113,18 +116,28 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuario/modify")
-    public ResponseEntity<Usuario> modificarUsuario(@ModelAttribute("currentUser") Usuario currentUser,@RequestBody ModifyUserDto dto) {
+    public ResponseEntity<?> modificarUsuario(@ModelAttribute("currentUser") Usuario currentUser,@RequestBody ModifyUserDto dto) {
 
         Optional<Usuario> usuario = personUsuarioService.getUserById(currentUser.getId());
         Usuario existente = usuario.get();
 
         if (dto.getProfilePicture() != null) {
-            existente.setProfilePicture(dto.getProfilePicture()                      );
+            existente.setProfilePicture(dto.getProfilePicture());
+        }
+        if (dto.getUsername() != null) {
+            existente.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null) {
+            existente.setEmail(dto.getEmail());
         }
 
         Usuario nuevoUsuario = personUsuarioService.modifyUser(existente);
 
-        return ResponseEntity.ok(nuevoUsuario);
+        // Generar un nuevo token con los datos del usuario actualizado
+        String nuevoToken = jwtService.generateToken(nuevoUsuario);
+
+        // Devolver el nuevo token
+        return ResponseEntity.ok(Map.of("token", nuevoToken));
     }
 
     @GetMapping ("/usuario/events")

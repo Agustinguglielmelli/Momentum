@@ -6,10 +6,14 @@ import {Link, Navigate, useNavigate} from "react-router-dom";
 function ModifyUser () {
     const navigate = useNavigate();
 
+    const [username, setusername] = useState("");
+    const [base64, setBase64] = useState('');
+    const [email, setEmail] = useState("");
+
     useEffect(() => { //con esta funcion nos traemos los datos del usuario
         async function fetchUserData() {
             try {
-                const response = await axios.get(`http://localhost:8080/usuario`,
+                const response = await axios.get(`http://localhost:8080/myUsuario`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -17,9 +21,9 @@ function ModifyUser () {
                     });
                 const data = response.data;
                 setusername(data.username || "");
-                setemail(data.email || "");
-                setpassword(data.password); // No mostramos la contraseña real por seguridad
+                setEmail(data.email || "");
                 setBase64(data.profilePicture || "");
+                console.log(data)
 
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -28,12 +32,6 @@ function ModifyUser () {
 
         fetchUserData();
     }, []);
-
-    const [username, setusername] = useState("");
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
-    const [base64, setBase64] = useState('');
-
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -65,7 +63,6 @@ function ModifyUser () {
         const userData = {
             username,
             email,
-            password,
             profilePicture: base64
         };
 
@@ -76,6 +73,9 @@ function ModifyUser () {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 });
+            if (response.data.token){
+                localStorage.setItem("token", response.data.token);
+            }
             console.log("Usuario actualizado:", response.data);
             navigate("/myProfile");
         } catch (error) {
@@ -91,7 +91,7 @@ function ModifyUser () {
                 <h1>Update User</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="username" className="form-label">New username: </label>
+                        <label htmlFor="username" className="form-label">Username: </label>
                         <input
                             type="text"
                             className="form-control"
@@ -102,29 +102,18 @@ function ModifyUser () {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">New email address: </label>
+                        <label htmlFor="email" className="form-label">Email address: </label>
                         <input
                             type="email"
                             className="form-control"
                             id="email"
                             value={email}
-                            onChange={(e) => setemail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="password" className="form-label">New password: </label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setpassword(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="profilePicture">New profile picture:</label>
+                        <label htmlFor="profilePicture">Profile picture:</label>
                         <input
                             type="file"
                             id="profilePicture"

@@ -123,15 +123,16 @@ function MyProfile(){
                         <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
                             New Post
                         </Link>
-                        <div className="profile-content">
-                            {recreationalPosts.map((post) => (
-                                <div className="post-item">
-                                    <Button className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></Button>
-                                    <RecreationalPost key={post.idRecPost} post={post}/>
-                                </div>
-                            ))}
-
-                        </div>
+                        {recreationalPosts.length > 0 && (
+                            <div className="profile-content">
+                                {recreationalPosts.map((post) => (
+                                    <div className="post-item">
+                                        <Button className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></Button>
+                                        <RecreationalPost key={post.idRecPost} post={post}/>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
                     {userRole === "COACH" && (
