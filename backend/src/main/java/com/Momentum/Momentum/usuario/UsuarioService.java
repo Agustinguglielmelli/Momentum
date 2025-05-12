@@ -3,6 +3,7 @@ package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.event.EventRepository;
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

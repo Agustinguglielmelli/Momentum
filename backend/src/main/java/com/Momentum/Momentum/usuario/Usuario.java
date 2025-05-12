@@ -2,6 +2,8 @@ package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.message.Message;
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -43,6 +45,14 @@ public class Usuario implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     @Column
     private Role role;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<RecreationalPost> recPosts = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<TrainingPlanPost> trainingPlanPosts = new HashSet<>();
 
     @OneToMany(mappedBy = "creador", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
