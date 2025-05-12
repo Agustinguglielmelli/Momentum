@@ -88,6 +88,8 @@ function MyProfile(){
         setTrainingPlanPosts(prevPosts => prevPosts.filter(post => post.idTrainPost !== id));
     }
     async function deleteMyUser(id){
+        const confirmDelete = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        if (!confirmDelete) return;
         try {
             await deleteAccount(id);
         } catch (e){
