@@ -273,4 +273,13 @@ export async function deleteTrainPost(postId){
         });
     return result;
 }
+export async function deleteAccount(){
+    const result = await axios.delete(`http://localhost:8080/usuario`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
 

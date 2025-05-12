@@ -1,24 +1,22 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {
     listRecreationalPosts,
     listTrainingPlanPosts,
     getUserRole,
     listProfileInfo,
-    deleteRecPost, deleteTrainPost
+    deleteRecPost, deleteTrainPost, deleteAccount
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./MyProfile.css"
-import VerticalDivider from "../divider/Divider";
 import Button from "../button/Button";
-import {deleteUser} from "../table/Table";
 import Navbar from "../navbar/Navbar";
 
 
 
 function MyProfile(){
+    const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
     useEffect(() => {
         const role = getUserRole();
@@ -88,7 +86,15 @@ function MyProfile(){
             console.log(e)
         }
         setTrainingPlanPosts(prevPosts => prevPosts.filter(post => post.idTrainPost !== id));
-
+    }
+    async function deleteMyUser(id){
+        try {
+            await deleteAccount(id);
+        } catch (e){
+            console.log(e)
+        }
+        localStorage.removeItem("token");
+        navigate("/login");
     }
 
     return(
@@ -101,6 +107,8 @@ function MyProfile(){
                             <img src={userProfile.profilePicture} alt="profilePicture" className="profile-picture"/>
                             <h2>{userProfile.displayUserName}</h2>
                             <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
+                            <Button className="btn-danger" text="Delete account" onClick={() => deleteMyUser(userProfile.id)}></Button>
+
                         </div>
 
                     </div>
