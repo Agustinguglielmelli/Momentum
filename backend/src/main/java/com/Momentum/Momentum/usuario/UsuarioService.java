@@ -3,12 +3,19 @@ package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.event.EventRepository;
+import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.AbstractMap;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class UsuarioService {
@@ -30,8 +37,32 @@ public class UsuarioService {
         return personRepository.save(Usuario);
     }
 
-    public void deleteUserById(Long userId) {
-        personRepository.deleteById(userId);
+    @Transactional // se realiza completa la operacion o no se realiza en absoluto
+    public void deleteUserById(Usuario user) {
+        Optional<Usuario> optionalUsuario = personRepository.findById(user.getId());
+        if (optionalUsuario.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        Usuario usuario = optionalUsuario.get();
+
+        // Eliminar relaciones de followers
+        for (Usuario follower : new HashSet<>(usuario.getFollowers())) {
+            follower.getFollowing().remove(usuario);
+        }
+        usuario.getFollowers().clear();
+
+        // Eliminar relaciones de following
+        for (Usuario followed : new HashSet<>(usuario.getFollowing())) {
+            followed.getFollowers().remove(usuario);
+        }
+        usuario.getFollowing().clear();
+
+        // eliminar el usuario como participante de eventos
+        for (Event evento : usuario.getEventsImIn()) {
+            evento.getParticipantes().remove(usuario);
+        }
+
+        personRepository.deleteById(user.getId());
     }
 
 
@@ -73,6 +104,11 @@ public class UsuarioService {
     public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
         List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
 
+        Double kmsUserLogged = recreationalPostRepository.getTotalDistanceByUserId(usuario.getId());
+
+        Object[] selfEntry = new Object[]{usuario, kmsUserLogged};
+        rawResults.add(selfEntry);
+
         return rawResults.stream()
                 .map(obj -> {
                     Usuario seguido = (Usuario) obj[0];
@@ -90,6 +126,35 @@ public class UsuarioService {
                 .toList();
     }
 
+    public List<UsuarioConEventosDto> getFollowingEventsCompleted(Usuario loggedUser) {
+        Set<Usuario> users = new HashSet<>(loggedUser.getFollowing());
+        users.add(loggedUser);
+
+        return users.stream()
+                .map(usuario -> {
+                    long eventosCompletados = usuario.getEventsImIn().stream()
+                            .filter(event -> {
+                                try {
+                                    LocalDate fechaEvento = LocalDate.parse(event.getDate());
+                                    return fechaEvento.isBefore(LocalDate.now());
+                                } catch (Exception e) {
+                                    return false;
+                                }
+                            })
+                            .count();
+
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            usuario.getuserUsername(),
+                            usuario.getId(),
+                            usuario.getProfilePicture(),
+                            usuario.displayUserName()
+                    );
+
+                    return new UsuarioConEventosDto(usuarioDto, eventosCompletados);
+                })
+                .sorted(Comparator.comparingLong(UsuarioConEventosDto::getEventosCompletados).reversed())
+                .collect(Collectors.toList());
+    }
 
 
 

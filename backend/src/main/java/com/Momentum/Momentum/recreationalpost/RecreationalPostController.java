@@ -50,7 +50,7 @@ public class RecreationalPostController {
     @DeleteMapping("/miperfil/recPost/{id}")
     public ResponseEntity<Void> deleteRecPost(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<RecreationalPost> optional = recreationalPostService.getRecPostById(id);
-        if (optional.isEmpty() || optional.get().getUsuario().getId() != currentUser.getId()) {
+        if (optional.isEmpty()) {
             return ResponseEntity.status(403).build(); // Forbidden
         }
         recreationalPostService.deleteRecPostById(id);

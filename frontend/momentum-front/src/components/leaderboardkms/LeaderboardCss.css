@@ -4,6 +4,14 @@
     margin: 0;
     padding: 2em;
 }
+.leaderboard-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
 
 .h1-leaderboard {
     margin-bottom: 2rem;
@@ -76,10 +84,13 @@
     padding: 1em;
 }
 
-.leaderboard-tbody tr:nth-child(odd) {
+.leaderboard-tbody tr {
     background-color: #353753;
 }
 
-.leaderboard-tbody tr:nth-child(even) {
-    background-color: #2e3047;
+.empty-leaderboard {
+    color:  #000;
+}
+tr.highlighted-user, tr.highlighted-user td {
+    background-color: #414257;
 }

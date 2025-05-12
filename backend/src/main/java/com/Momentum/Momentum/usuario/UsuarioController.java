@@ -73,9 +73,9 @@ public class UsuarioController {
         return personUsuarioService.createUser(person);
     }
 
-    @DeleteMapping("/usuario/{id}")
-    public void deleteUsuario(@PathVariable long id) {
-        personUsuarioService.deleteUserById(id);
+    @DeleteMapping("/usuario")
+    public void deleteUsuario(@ModelAttribute("currentUser") Usuario currentUser) {
+        personUsuarioService.deleteUserById(currentUser);
     }
 
     @GetMapping("/usuario/search")
@@ -392,6 +392,12 @@ public class UsuarioController {
     public List<UsuarioConKmsDto> followingTotalKmsForLeaderboard(@ModelAttribute("currentUser") Usuario currentUser) {
         Usuario user = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
         return personUsuarioService.getFollowedUsersByKms(user);
+    }
+
+    @GetMapping("/usuario/following-events-completed")
+    public List<UsuarioConEventosDto> followingEventsCompletedForLeaderboard(@ModelAttribute("currentUser") Usuario currentUser){
+        Usuario user = personUsuarioService.getUserById(currentUser.getId()).orElseThrow();
+        return personUsuarioService.getFollowingEventsCompleted(user);
     }
 
 }
