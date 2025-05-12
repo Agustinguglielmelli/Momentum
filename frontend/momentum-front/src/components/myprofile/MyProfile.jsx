@@ -1,6 +1,12 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {listRecreationalPosts, listTrainingPlanPosts, getUserRole, listProfileInfo} from "../../api/functions";
+import {
+    listRecreationalPosts,
+    listTrainingPlanPosts,
+    getUserRole,
+    listProfileInfo,
+    deleteRecPost
+} from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link} from "react-router-dom";
@@ -65,6 +71,17 @@ function MyProfile(){
         fetchRecreationalPosts();
     }, [])
 
+    async function deletePost(id){
+        try {
+            await deleteRecPost(id);
+
+        } catch (e){
+            console.log(e)
+        }
+        setRecreationalPosts(prevPosts => prevPosts.filter(post => post.idRecPost !== id));
+
+    }
+
     return(
         <div>
             <Navbar/>
@@ -89,6 +106,7 @@ function MyProfile(){
                         <div className="profile-content">
                             {recreationalPosts.map((post) => (
                                 <div className="post-item">
+                                    <Button className="btn-danger" text="Delete post" onClick={()=>deletePost(post.idRecPost)}></Button>
                                     <RecreationalPost key={post.idRecPost} post={post}/>
                                 </div>
                             ))}

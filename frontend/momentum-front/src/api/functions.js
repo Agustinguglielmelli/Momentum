@@ -245,7 +245,6 @@ export async function listFollowingOrderedByKms() {
             }
         });
     return result.data;
-
 }
 export async function listFollowingOrderedByEventsCompleted() {
     const result = await axios.get(`http://localhost:8080/usuario/following-events-completed`,
@@ -255,6 +254,14 @@ export async function listFollowingOrderedByEventsCompleted() {
             }
         });
     return result.data;
-
+}
+export async function deleteRecPost(postId){
+    const result = await axios.delete(`http://localhost:8080/miperfil/recPost/${postId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
 }
 
