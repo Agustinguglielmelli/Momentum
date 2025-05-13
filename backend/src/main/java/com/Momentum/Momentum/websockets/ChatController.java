@@ -1,17 +1,16 @@
 package com.Momentum.Momentum.websockets;
 
 import com.Momentum.Momentum.message.Message;
-
 import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.SimpleMessagingTemplate; 
 
+//esta clase chatController puede ser util para manejar chats de grupos, pero si solo es mensajes 1 a 1,
+//entonces solo sera necesarios los conversation controller. 
 @Controller
 public class ChatController {
 

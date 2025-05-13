@@ -2,6 +2,7 @@ package com.Momentum.Momentum.conversation.rest;
 
 import com.Momentum.Momentum.conversation.Conversation;
 import com.Momentum.Momentum.conversation.ConversationDTO;
+import com.Momentum.Momentum.conversation.ConversationFullDTO;
 import com.Momentum.Momentum.conversation.ConversationService;
 import com.Momentum.Momentum.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,10 @@ public class ConversationControllerRest {
     }
 
     
-    @GetMapping("/my")
-    public List<Conversation> getMyConversations(@ModelAttribute("currentUser") Usuario currentUser) {
-        return conversationService.getUserConversations(currentUser.getId());
+    @GetMapping("/")
+    public List<ConversationFullDTO> getMyConversations(@ModelAttribute("currentUser") Usuario currentUser) {
+        return conversationService.getUserConversationDTOs(currentUser.getId());
     }
-
   
     @GetMapping("/{id}")
     public Optional<Conversation> getConversationById(@PathVariable Long id) {

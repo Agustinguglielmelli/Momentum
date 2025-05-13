@@ -35,9 +35,34 @@ public class ConversationService {
         return conversationRepository.save(conversation);
     }
 
-    public List<Conversation> obtenerConversacionesDeUsuario(Long userId) {
-        return conversationRepository.findByUsuarioId(userId);
-    }
+   // public List<Conversation> obtenerConversacionesDeUsuario(Long userId) {
+    //    return conversationRepository.findByUsuarioId(userId);
+   // }
+
+    public List<ConversationFullDTO> getUserConversationDTOs(Long userId) {
+    List<Conversation> conversations = getUserConversations(userId);
+
+    return conversations.stream().map(conversation -> {
+        // Determinar el otro usuario en la conversación
+        Usuario otherUser = conversation.getUser1().getId().equals(userId)
+                ? conversation.getUser2()
+                : conversation.getUser1();
+
+        return new ConversationFullDTO(
+                conversation.getId(),
+                otherUser.getId(),
+                otherUser.getDisplayUsername(),
+                otherUser.getProfilePicture(), 
+                conversation.getMessages().stream().map(message -> new MessageDTO(
+                        message.getId(),
+                        message.getSender().getId(),
+                        message.getContent(),
+                        message.getTimestamp()
+                )).toList(),
+                conversation.getLastUpdated()
+        );
+    }).toList();
+}
 
     public Optional<Conversation> obtenerPorId(Long id) {
         return conversationRepository.findById(id);

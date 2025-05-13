@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Container,
   TextField,
@@ -9,8 +8,10 @@ import {
   Box,
 } from "@mui/material";
 import "./Chat.css";
+import SockJS from "sockjs-client";
+import { CompatClient, Stomp } from "@stomp/stompjs";
 
-//para convertir fecha a Hoy / Ayer / DD/MM/YYYY
+// Utilidades para mostrar fechas
 const formatDateLabel = (dateStr) => {
   const today = new Date();
   const msgDate = new Date(dateStr);
@@ -26,7 +27,7 @@ const groupMessagesByDate = (messages) => {
   const groups = {};
   messages.forEach((msg) => {
     const date = new Date(msg.timestampDate || Date.now());
-    const dateStr = date.toISOString().split("T")[0]; // YYYY-MM-DD
+    const dateStr = date.toISOString().split("T")[0];
     if (!groups[dateStr]) groups[dateStr] = [];
     groups[dateStr].push(msg);
   });
@@ -35,72 +36,87 @@ const groupMessagesByDate = (messages) => {
 
 const ChatApp = () => {
   const [input, setInput] = useState("");
-  //uso conversaciones de ejemplo por ahora, despues voy a traer conversacion de la db
-  const [conversations, setConversations] = useState([
-    {
-      id: 1,
-      name: "Juan",
-      avatar: "https://i.pravatar.cc/40?img=3",
-      lastMessage: "Hola, ¿cómo estás?",
-      messages: [
-        {
-          text: "Hola, ¿cómo estás?",
-          fromMe: false,
-          timestamp: "14:30",
-          timestampDate: "2025-05-12T14:30:00.000Z",
-        },
-        {
-          text: "Bien, ¿y vos?",
-          fromMe: true,
-          timestamp: "14:31",
-          timestampDate: "2025-05-12T14:31:00.000Z",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Lucía",
-      avatar: "https://i.pravatar.cc/40?img=5",
-      lastMessage: "Nos vemos mañana",
-      messages: [
-        {
-          text: "Nos vemos mañana",
-          fromMe: false,
-          timestamp: "13:00",
-          timestampDate: "2025-05-12T13:00:00.000Z",
-        },
-      ],
-    },
-  ]);
-  const [activeChatId, setActiveChatId] = useState(1);
+  const [conversations, setConversations] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
 
-  const activeChat = conversations.find((c) => c.id === activeChatId);
-  const messages = activeChat.messages;
+  const stompClient = useRef(null);
+
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:8080/api/conversations", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al obtener las conversaciones");
+        }
+
+        const data = await response.json();
+        setConversations(data);
+        if (data.length > 0) {
+          setActiveChatId(data[0].id);
+        }
+      } catch (error) {
+        console.error("Error al cargar conversaciones:", error);
+      }
+    };
+
+    fetchConversations();
+  }, []);
+
+  useEffect(() => {
+    const connectWebSocket = () => {
+      const socket = new SockJS("http://localhost:8080/ws");
+      stompClient.current = Stomp.over(socket);
+
+      stompClient.current.connect({}, () => {
+        stompClient.current.subscribe("/user/private", (msg) => {
+          const body = JSON.parse(msg.body);
+          const updatedConvs = conversations.map((conv) => {
+            if (conv.id === body.conversationId) {
+              return { ...conv, messages: [...conv.messages, body] };
+            }
+            return conv;
+          });
+          setConversations(updatedConvs);
+        });
+      });
+    };
+
+    connectWebSocket();
+
+    return () => {
+      if (stompClient.current) {
+        stompClient.current.disconnect();
+      }
+    };
+  }, [conversations]);
 
   const handleSend = () => {
-    if (input.trim()) {
+    if (input.trim() && stompClient.current && stompClient.current.connected) {
       const now = new Date();
-      const newMessage = {
-        text: input.trim(),
-        fromMe: true,
-        timestamp: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      const message = {
+        content: input.trim(),
+        conversationId: activeChatId,
         timestampDate: now.toISOString(),
       };
-      const updatedConversations = conversations.map((conv) =>
-        conv.id === activeChatId
-          ? { ...conv, messages: [...conv.messages, newMessage] }
-          : conv
-      );
-      setConversations(updatedConversations);
+
+      stompClient.current.send("/app/private-message", {}, JSON.stringify(message));
       setInput("");
     }
   };
 
+  const activeChat = conversations.find((c) => c.id === activeChatId);
+  const messages = activeChat?.messages || [];
   const grouped = groupMessagesByDate(messages);
 
   return (
     <Container maxWidth="lg" className="chat-layout">
-      {/* Columna izquierda */}
+      {/* Sidebar */}
       <div className="chat-sidebar">
         {conversations.map((conv) => (
           <div
@@ -117,9 +133,9 @@ const ChatApp = () => {
         ))}
       </div>
 
-      {/* Columna derecha */}
+      {/* Main Chat */}
       <div className="chat-main">
-        <h2>{activeChat.name}</h2>
+        <h2>{activeChat?.name || "Selecciona una conversación"}</h2>
         <div className="chat-messages">
           {Object.entries(grouped).map(([date, msgs], i) => (
             <div key={i}>
@@ -139,8 +155,13 @@ const ChatApp = () => {
                     />
                   )}
                   <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
-                    <div className="chat-text">{msg.text}</div>
-                    <div className="chat-time">{msg.timestamp}</div>
+                    <div className="chat-text">{msg.text || msg.content}</div>
+                    <div className="chat-time">
+                      {new Date(msg.timestampDate).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </div>
                   </Paper>
                 </Box>
               ))}
