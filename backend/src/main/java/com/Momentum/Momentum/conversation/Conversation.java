@@ -8,9 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -24,27 +23,27 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "conversations")
+@Table(name = "conversation")
 public class Conversation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Usuarios que participan en la conversación
-    @ManyToMany
-    @JoinTable(
-        name = "conversation_usuarios",
-        joinColumns = @JoinColumn(name = "conversation_id"),
-        inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
-    private List<Usuario> participantes;
+    // Usuario que inicia la conversación
+    @ManyToOne
+    @JoinColumn(name = "user1_id", nullable = false)
+    private Usuario user1;
+
+    // Usuario receptor
+    @ManyToOne
+    @JoinColumn(name = "user2_id", nullable = false)
+    private Usuario user2;
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    private List<Message> mensajes;
+    private List<Message> messages;
 
     @Column(nullable = false)
     private Instant lastUpdated;
 
-   
 }

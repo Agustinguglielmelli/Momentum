@@ -1,5 +1,7 @@
 package com.Momentum.Momentum.message;
 
+import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioDto;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,6 +18,14 @@ public class MessageController {
     private MessageService messageService;
 
 
+    public UsuarioDto toUsuarioDto(Usuario usuario) {
+        return new UsuarioDto(
+                usuario.getUsername(),
+                usuario.getId(),
+                usuario.getProfilePicture(),
+                usuario.displayUserName()
+        );
+    }
     @GetMapping("/history/conversation/{conversationId}")
     public List<MessageDTO> getMessagesByConversation(@PathVariable Long conversationId) {
         List<Message> messages = messageService.findByConversationId(conversationId);
@@ -23,8 +33,8 @@ public class MessageController {
             .map(msg -> new MessageDTO(
                 msg.getContent(),
                 msg.getTimestamp(),
-                msg.getSender().getId(),
-                msg.getReceiver().getId()
+                    toUsuarioDto(msg.getSender()),
+                    toUsuarioDto(msg.getReceiver())
             ))
             .toList();
         }   

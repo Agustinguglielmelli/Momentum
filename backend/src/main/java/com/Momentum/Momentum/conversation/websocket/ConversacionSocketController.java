@@ -2,12 +2,15 @@ package com.Momentum.Momentum.conversation.websocket;
 
 
 import com.Momentum.Momentum.conversation.Conversation;
-import com.Momentum.Momentum.conversation.ConversationDTO;
+import com.Momentum.Momentum.conversation.ConversationDto;
 import com.Momentum.Momentum.conversation.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 @Controller
 public class ConversacionSocketController {
@@ -19,32 +22,25 @@ public class ConversacionSocketController {
     private ConversationService conversationService;
 
     @MessageMapping("/start-conversation") // el frontend envía a /app/start-conversation
-    public void startConversation(ConversationDTO conversationDTO) {
+    public void startConversation(@Payload Map<String, Long> request) {
 
-        // Crear conversación (si no existe ya)
-        Conversation conversacion = conversationService.crearConversation(
-            conversationDTO.getUser1Id(), conversationDTO.getUser2Id()
-        );
+        Long user1Id = request.get("user1Id");
+        Long user2Id = request.get("user2Id");
 
-        // Convertir a DTO (simplificado aquí)
-        ConversationDTO responseDTO = new ConversationDTO(
-            conversation.getId(),
-            conversationDTO.getUser1Id(),
-            conversationDTO.getUser2Id(),
-            conversation.getLastUpdated()
-        );
+        // Validaciones y lógica de negocio
+        ConversationDto conversationDto = conversationService.createConversation(user1Id, user2Id);
 
         // Notificar a ambos usuarios por WebSocket
         messagingTemplate.convertAndSendToUser(
-            conversationDTO.getUser1Id().toString(),
+            conversationDto.getUser1().toString(),
             "/queue/conversations",
-            responseDTO
+            conversationDto
         );
 
         messagingTemplate.convertAndSendToUser(
-            conversationDTO.getUser2Id().toString(),
+            conversationDto.getUser2().toString(),
             "/queue/conversations",
-            responseDTO
+            conversationDto
         );
     }
 }

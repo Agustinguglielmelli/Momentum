@@ -1,21 +1,23 @@
 package com.Momentum.Momentum.conversation;
 
 import com.Momentum.Momentum.message.MessageDTO;
+import com.Momentum.Momentum.usuario.UsuarioDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsContructor
-public class ConversationFullDTO {
+@AllArgsConstructor
+public class ConversationDto {
     private Long id;
-    private Long otherUserId;
-    private String otherUsername;
-    private String otherAvatarUrl;
+    private UsuarioDto user1;
+    private UsuarioDto user2;
     private List<MessageDTO> messages;
-    private LocalDateTime lastUpdated;
+    private Instant lastUpdated;
+
 }
