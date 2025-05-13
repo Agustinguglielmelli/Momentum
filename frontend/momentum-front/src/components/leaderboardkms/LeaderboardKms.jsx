@@ -15,6 +15,7 @@ function LeaderboardKms () {
         try {
             const result = await listFollowingOrderedByKms();
             setUsers(result);
+            console.log(users)
         } catch (e) {
             console.log(e);
         }

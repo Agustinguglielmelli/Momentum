@@ -244,6 +244,7 @@ export async function listFollowingOrderedByKms() {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
+    console.log(result.data)
     return result.data;
 }
 export async function listFollowingOrderedByEventsCompleted() {

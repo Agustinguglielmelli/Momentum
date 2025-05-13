@@ -13,13 +13,15 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
     List<Usuario> findByUsernameStartingWithIgnoreCase(String username);
 
-    @Query("SELECT f, SUM(rp.distance) " +
-            "FROM Usuario u " +
-            "JOIN u.following f " +
-            "JOIN RecreationalPost rp ON rp.usuario = f " +
-            "WHERE u = :usuario " +
-            "GROUP BY f " +
-            "ORDER BY SUM(rp.distance) DESC")
+    @Query("""
+    SELECT f, COALESCE(SUM(rp.distance), 0) 
+    FROM Usuario u 
+    JOIN u.following f 
+    LEFT JOIN RecreationalPost rp ON rp.usuario = f 
+    WHERE u = :usuario 
+    GROUP BY f 
+    ORDER BY COALESCE(SUM(rp.distance), 0) DESC
+    """)
     List<Object[]> findFollowedUsersAndKms(@Param("usuario") Usuario usuario); // leaderboard seguidos kms
 
 

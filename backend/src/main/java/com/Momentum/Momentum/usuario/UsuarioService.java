@@ -105,6 +105,9 @@ public class UsuarioService {
         List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
 
         Double kmsUserLogged = recreationalPostRepository.getTotalDistanceByUserId(usuario.getId());
+        if (kmsUserLogged == null) {
+            kmsUserLogged = 0.0;
+        }
 
         Object[] selfEntry = new Object[]{usuario, kmsUserLogged};
         rawResults.add(selfEntry);
