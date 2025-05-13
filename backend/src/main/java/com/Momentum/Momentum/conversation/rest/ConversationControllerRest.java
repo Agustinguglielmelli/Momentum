@@ -1,13 +1,16 @@
 package com.Momentum.Momentum.conversation.rest;
 
 import com.Momentum.Momentum.conversation.ConversationDto;
+import com.Momentum.Momentum.conversation.ConversationRepository;
 import com.Momentum.Momentum.conversation.ConversationService;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -16,6 +19,12 @@ public class ConversationControllerRest {
 
     @Autowired
     private ConversationService conversationService;
+
+    @Autowired
+    private ConversationRepository conversationRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser(org.springframework.security.core.Authentication authentication) {
@@ -27,6 +36,10 @@ public class ConversationControllerRest {
             @ModelAttribute("currentUser") Usuario currentUser,
             @PathVariable Long user2id
     ) {
+        Optional<Usuario> user = usuarioRepository.findById(user2id);
+        if (!user.isPresent()) {
+            throw new IllegalArgumentException("No existe el usuario con el id: " + user2id);
+        }
         return conversationService.createConversation(currentUser.getId(), user2id);
     }
 

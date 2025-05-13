@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,15 +47,20 @@ public class ConversationService {
                 conversation.getUser2().displayUserName()
         );
 
-        List<MessageDTO> messageDTOs = conversation.getMessages().stream()
-                .map(message -> new MessageDTO(
-                        message.getContent(),
-                        message.getTimestamp(),
-                        toUsuarioDto(message.getSender()),
-                        toUsuarioDto(message.getReceiver())
-                ))
-                .toList();
+        List<MessageDTO> messageDTOs;
 
+        if (conversation.getMessages() != null) {
+            messageDTOs = conversation.getMessages().stream()
+                    .map(message -> new MessageDTO(
+                            message.getContent(),
+                            message.getTimestamp(),
+                            toUsuarioDto(message.getSender()),
+                            toUsuarioDto(message.getReceiver())
+                    ))
+                    .toList();
+        } else {
+            messageDTOs = new ArrayList<>();
+        }
         return new ConversationDto(
                 conversation.getId(),
                 user1Dto,
@@ -81,6 +88,7 @@ public class ConversationService {
                     Conversation nueva = new Conversation();
                     nueva.setUser1(user1);
                     nueva.setUser2(user2);
+                    nueva.setLastUpdated(Instant.now());
                     return conversationRepository.save(nueva);
                 });
         return toConversationDto(conversation);
