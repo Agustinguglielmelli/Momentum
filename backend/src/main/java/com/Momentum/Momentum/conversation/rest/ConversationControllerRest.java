@@ -49,7 +49,7 @@ public class ConversationControllerRest {
         return conversationService.getConversationBetween(currentUser, user2id);
     }
 
-    @GetMapping("/")
+    @GetMapping("/allMyConversations")
     public List<ConversationDto> getAllConversations(@ModelAttribute("currentUser") Usuario currentUser) {
         return conversationService.findAllMyConversations(currentUser);
     }
