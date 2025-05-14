@@ -1,12 +1,13 @@
 import "./FeedNuevoCss.css"
 import PostNuevo from "./PostNuevo";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     follow, listFollowedUsers,
     listFollowingRecreationalPosts,
     listFollowingTrainingPlansPosts, listProfileInfo,
     listUsersByNameSearch, unFollow
 } from "../api/functions";
+import {Link} from "react-router-dom";
 
 
 
@@ -131,7 +132,8 @@ function FeedNuevo(){
     return(
         <div className="main-container">
             <div className="sidebar-left">
-                <div className="profile-card">
+                {userProfile && (
+                    <div className="profile-card">
                     <div>
                         <img className="profile-pic" src={userProfile.profilePicture} alt=""/>
                     </div>
@@ -152,10 +154,11 @@ function FeedNuevo(){
                         </div>
                     </div>
                 </div>
+                )}
 
                 <ul className="menu-list">
                     <li><a href="#"><span>🏠</span> Inicio</a></li>
-                    <li><a href="#"><span>🔍</span> Explorar</a></li>
+                    <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
                     <li><a href="#"><span>📊</span> Estadísticas</a></li>
                     <li><a href="#"><span>📅</span> Eventos</a></li>
                     <li><a href="#"><span>🗺️</span> Mis rutas</a></li>

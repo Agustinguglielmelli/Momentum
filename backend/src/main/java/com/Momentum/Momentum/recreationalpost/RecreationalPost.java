@@ -48,6 +48,11 @@ public class RecreationalPost {
     @Column(updatable = false)
     private LocalDate creationDate;
 
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDate.now();
+    }
+
     public RecreationalPost(long idRecPost, Double distance, String description,
                             String duration, String calories, LocalDate creationDate)
     {

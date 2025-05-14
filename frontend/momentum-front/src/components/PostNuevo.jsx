@@ -8,7 +8,7 @@ function PostNuevo({ post }){
                     <img className="post-user-avatar" src={post.usuario.profilePicture} alt="Profile picture"/>
                     <div className="post-user-info">
                         <div className="post-username">{post.usuario.displayUserName}</div>
-                        <div className="post-time">Hace 2 horas</div>
+                        <div className="post-time">{post.fechaPublicacion}</div>
                     </div>
                 </div>
             )}
