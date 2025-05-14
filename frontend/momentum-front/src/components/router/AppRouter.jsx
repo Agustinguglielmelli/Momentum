@@ -19,6 +19,7 @@ import MyMapComponent from '../mapforevents/MyMapComponent';
 import LeaderboardKms from "../leaderboardkms/LeaderboardKms";
 import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
 import ChatApp from "../chatsegversion/Chat";
+import FeedNuevo from "../FeedNuevo";
 
 
 function AppRouter() {
@@ -110,6 +111,11 @@ function AppRouter() {
             <Route path='/events/searchEvent' element={
                 <PrivateRoute>
                     <MyMapComponent/>
+                </PrivateRoute>
+            } />
+            <Route path='/feednuevo' element={
+                <PrivateRoute>
+                    <FeedNuevo/>
                 </PrivateRoute>
             } />
             
