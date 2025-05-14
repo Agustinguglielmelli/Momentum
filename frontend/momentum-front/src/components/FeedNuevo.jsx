@@ -159,9 +159,8 @@ function FeedNuevo(){
                 <ul className="menu-list">
                     <li><a href="#"><span>🏠</span> Inicio</a></li>
                     <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
-                    <li><a href="#"><span>📊</span> Estadísticas</a></li>
-                    <li><a href="#"><span>📅</span> Eventos</a></li>
-                    <li><a href="#"><span>🗺️</span> Mis rutas</a></li>
+                    <li><Link to="/events">📅 Events</Link></li>
+                    <li><Link to="/events">👤 My Profile</Link></li>
                     <li><a href="#"><span>👥</span> Comunidad</a></li>
                     <li><a href="#"><span>⚙️</span> Ajustes</a></li>
                 </ul>
