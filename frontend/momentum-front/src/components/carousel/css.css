@@ -1,0 +1,11 @@
+.carousel {
+    max-width: 400px; /* Ajusta el ancho total del carrusel */
+    margin: 0 auto; /* Centra el carrusel si es más chico que el contenedor */
+}
+
+.carousel img {
+    width: 100%;          /* Usa todo el ancho del carrusel */
+    max-height: 500px;    /* Limita la altura de la imagen */
+    object-fit: contain;  /* Evita deformar la imagen */
+    border-radius: 8px;   /* Opcional: esquinas redondeadas */
+}

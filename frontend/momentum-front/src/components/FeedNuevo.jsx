@@ -1,5 +1,121 @@
 import "./FeedNuevoCss.css"
+import PostNuevo from "./PostNuevo";
+import {useEffect, useState} from "react";
+import {
+    follow, listFollowedUsers,
+    listFollowingRecreationalPosts,
+    listFollowingTrainingPlansPosts,
+    listUsersByNameSearch, unFollow
+} from "../api/functions";
+import {RecreationalPost} from "./post/recreationalpost/RecreationalPost";
+
+
+
 function FeedNuevo(){
+
+    const [followingRecreationalPosts, setFollowingRecreationalPosts] = useState([]);
+    const [followingTrainingPlanPosts,setFollowingTrainingPlanPosts ] = useState([]);
+    const [userSearch, setUserSearch] = useState("");
+    const [users, setUsers] = useState([]);
+    const [followedUsers, setFollowedUsers] = useState([]);
+
+
+    // fucnion para buscar Eventos
+    const handleSearch = async (event) => {
+        setUserSearch(event.target.value);
+        if (event.target.value.trim() === "") {
+            setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
+        } else {
+            try {
+                const response = await listUsersByNameSearch(event.target.value);
+                console.log("Full response:", response);
+                console.log("Response data:", response.data);  // Verifica la respuesta completa
+
+                if (Array.isArray(response.data)) {
+                    setUsers(response.data); // Solo actualizar si la respuesta es un array
+                } else {
+                    console.error('Error: La respuesta no es un array:', response.data);
+                    setUsers([]); // Limpiar si no es un array
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        }
+    };
+
+
+    useEffect(() => {
+
+        const fetchFollowingRecreationalPosts = async () => {
+            try {
+                const posts = await listFollowingRecreationalPosts();
+                console.log(posts);
+                setFollowingRecreationalPosts(posts);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchFollowingRecreationalPosts();
+    }, [followedUsers]);
+
+    useEffect(() => {
+        const fetchFollowingTrainingPlanPosts = async () => {
+            try {
+                const posts = await listFollowingTrainingPlansPosts();
+                console.log(posts);
+                setFollowingTrainingPlanPosts(posts);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchFollowingTrainingPlanPosts();
+    }, [followedUsers]);
+
+    const handleFollow = async (userId) => {
+        try {
+            const response = await follow(userId);
+            console.log("Respuesta del servidor:", response);
+            if (response.status === 200) {
+                // Si la solicitud fue exitosa, actualiza el estado
+                setFollowedUsers((prevFollowed) => [...prevFollowed, userId]);
+                console.log(`Usuario ${userId} seguido con éxito`);
+            }
+        } catch (error) {
+            console.error("Error al seguir al usuario:", error);
+        }
+    };
+
+    const handleUnfollow = async (userId) => {
+        try {
+            // Llamada al endpoint de unfollow
+            const response = await unFollow(userId);
+
+            if (response.status === 200) {
+                // Si la solicitud fue exitosa, actualiza el estado
+                setFollowedUsers((prevFollowed) => prevFollowed.filter(id => id !== userId)); // elimina el user id que antes estaba y ahora no pq dejo de seguir
+                console.log(`Has dejado de seguir al usuario ${userId}`);
+            }
+        } catch (error) {
+            console.error("Error al dejar de seguir al usuario:", error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchFollowedUsers = async () => {
+            try {
+                const response = await listFollowedUsers();
+                if (Array.isArray(response.data)) {
+                    const followedIds = response.data.map(user => user.id); // guardamos solo los ids
+                    setFollowedUsers(followedIds);
+                }
+            } catch (error) {
+                console.error("Error fetching followed users:", error);
+            }
+        };
+
+        fetchFollowedUsers();
+    }, []);
+
     return(
         <div className="main-container">
             <div className="sidebar-left">
@@ -49,88 +165,16 @@ function FeedNuevo(){
                         <button className="submit-post">Publicar</button>
                     </div>
                 </div>
+                {followingRecreationalPosts.length > 0 && (
+                    followingRecreationalPosts.map((post) => (
+                        <div className="post-container2">
+                            <div className="post-content">
+                                <PostNuevo key={post.idRecPost} post={post}/>
+                            </div>
+                        </div>
+                    ))
+                )}
 
-                <div className="post">
-                    <div className="post-header">
-                        <div className="post-user-avatar">👤</div>
-                        <div className="post-user-info">
-                            <div className="post-username">Laura Gómez</div>
-                            <div className="post-time">Hace 2 horas</div>
-                        </div>
-                        <button className="post-more">•••</button>
-                    </div>
-                    <div className="post-content">
-                        <div className="post-text">
-                            ¡Increíble carrera matutina! 🏃‍♀️ Logré hacer 12km en 58 minutos. Las mañanas en el parque
-                            son perfectas para correr. #Running #MorningRun
-                        </div>
-                        <img className="post-image" src="/api/placeholder/600/400" alt="Ruta de carrera en el parque"/>
-                    </div>
-                    <div className="post-stats">
-                        <div>18 Me gusta</div>
-                        <div>5 Comentarios</div>
-                    </div>
-                    <div className="post-footer">
-                        <div className="post-action">👍 Me gusta</div>
-                        <div className="post-action">💬 Comentar</div>
-                        <div className="post-action">↗️ Compartir</div>
-                    </div>
-                </div>
-
-                <div className="post">
-                    <div className="post-header">
-                        <div className="post-user-avatar">👤</div>
-                        <div className="post-user-info">
-                            <div className="post-username">Alejandro Torres</div>
-                            <div className="post-time">Hace 5 horas</div>
-                        </div>
-                        <button className="post-more">•••</button>
-                    </div>
-                    <div className="post-content">
-                        <div className="post-text">
-                            Nuevo récord personal en media maratón: 1h 32m 🎉 La preparación para la maratón va por buen
-                            camino. Gracias a todos por sus consejos y apoyo constante. ¡A seguir entrenando!
-                        </div>
-                    </div>
-                    <div className="post-stats">
-                        <div>32 Me gusta</div>
-                        <div>12 Comentarios</div>
-                    </div>
-                    <div className="post-footer">
-                        <div className="post-action">👍 Me gusta</div>
-                        <div className="post-action">💬 Comentar</div>
-                        <div className="post-action">↗️ Compartir</div>
-                    </div>
-                </div>
-
-                <div className="post">
-                    <div className="post-header">
-                        <div className="post-user-avatar">👤</div>
-                        <div className="post-user-info">
-                            <div className="post-username">Grupo Runners Capital</div>
-                            <div className="post-time">Hace 8 horas</div>
-                        </div>
-                        <button className="post-more">•••</button>
-                    </div>
-                    <div className="post-content">
-                        <div className="post-text">
-                            🏆 ¡Atención corredores! El próximo domingo tendremos nuestro encuentro mensual en el Parque
-                            Central. Salida a las 8:30 AM, tendremos rutas de 5K, 10K y 15K. ¡No falten! Compartiremos
-                            un desayuno saludable después de la carrera.
-                        </div>
-                        <img className="post-image" src="/api/placeholder/600/350"
-                             alt="Mapa del parque con rutas marcadas"/>
-                    </div>
-                    <div className="post-stats">
-                        <div>45 Me gusta</div>
-                        <div>23 Comentarios</div>
-                    </div>
-                    <div className="post-footer">
-                        <div className="post-action">👍 Me gusta</div>
-                        <div className="post-action">💬 Comentar</div>
-                        <div className="post-action">↗️ Compartir</div>
-                    </div>
-                </div>
             </div>
 
             <div className="sidebar-right">
