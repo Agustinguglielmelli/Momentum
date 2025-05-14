@@ -4,10 +4,9 @@ import {useEffect, useState} from "react";
 import {
     follow, listFollowedUsers,
     listFollowingRecreationalPosts,
-    listFollowingTrainingPlansPosts,
+    listFollowingTrainingPlansPosts, listProfileInfo,
     listUsersByNameSearch, unFollow
 } from "../api/functions";
-import {RecreationalPost} from "./post/recreationalpost/RecreationalPost";
 
 
 
@@ -19,6 +18,19 @@ function FeedNuevo(){
     const [users, setUsers] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
 
+    const [userProfile, setUserProfile] = useState(null);
+    useEffect(() => {
+        const fetchProfileInfo = async () => {
+            try {
+                const user = await listProfileInfo();
+                console.log("respuesta:", user);
+                setUserProfile(user);
+            } catch (error){
+                console.log(error)
+            }
+        }
+        fetchProfileInfo();
+    }, []);
 
     // fucnion para buscar Eventos
     const handleSearch = async (event) => {
@@ -120,9 +132,11 @@ function FeedNuevo(){
         <div className="main-container">
             <div className="sidebar-left">
                 <div className="profile-card">
-                    <div className="profile-pic">👤</div>
-                    <h3>Carlos Sánchez</h3>
-                    <p>@carlos_runner</p>
+                    <div>
+                        <img className="profile-pic" src={userProfile.profilePicture} alt=""/>
+                    </div>
+                    <h3>{userProfile.displayUserName}</h3>
+                    <p>{userProfile.username}</p>
                     <div className="stats">
                         <div className="stat-item">
                             <div className="stat-value">128</div>
