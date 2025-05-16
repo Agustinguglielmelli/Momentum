@@ -283,4 +283,14 @@ export async function deleteAccount(){
         });
     return result;
 }
+export async function getKmRunnedByUser() {
+    const result = await axios.get(`http://localhost:8080/api/users/${userId}/progress`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}
+
 

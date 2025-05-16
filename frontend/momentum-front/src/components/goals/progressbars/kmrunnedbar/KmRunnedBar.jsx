@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import axios from 'axios'; // o tu librería preferida para llamadas HTTP
+import { getKmRunnedByUser } from "../../../../api/functions";
 
 function UserProgressBar({ userId, targetKm }) {
     const [currentKm, setCurrentKm] = useState(0);
@@ -18,8 +18,8 @@ function UserProgressBar({ userId, targetKm }) {
     const fetchUserProgress = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`/api/users/${userId}/progress`);
-            setCurrentKm(response.data.kmRun);
+            const response = await getKmRunnedByUser(userId);
+            setCurrentKm(response.data);
             setError(null);
         } catch (err) {
             setError('Error al cargar el progreso');
