@@ -1,60 +1,20 @@
 
-import React, { useState, useEffect } from 'react';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import { getKmRunnedByUser } from "../../../../api/functions";
+import React from 'react';
+import CustomizableProgressBar from '../CustomizableProgressBar';
+import { getKmRunnedByUser } from '../../../../api/functions';
 
-function UserProgressBar({ userId, targetKm }) {
-    const [currentKm, setCurrentKm] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    // Función para calcular el porcentaje completado
-    const calculatePercentage = () => {
-        if (targetKm <= 0) return 0;
-        return Math.min(100, Math.round((currentKm / targetKm) * 100));
-    };
-
-    // Función para obtener los km actuales del usuario
-    const fetchUserProgress = async () => {
-        try {
-            setLoading(true);
-            const response = await getKmRunnedByUser(userId);
-            setCurrentKm(response.data);
-            setError(null);
-        } catch (err) {
-            setError('Error al cargar el progreso');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Efecto para cargar datos iniciales y configurar actualizaciones periódicas
-    useEffect(() => {
-        fetchUserProgress();
-
-        // Opcional: Configurar actualización periódica (cada 30 segundos)
-        const intervalId = setInterval(fetchUserProgress, 30000);
-
-        return () => clearInterval(intervalId);
-    }, [userId]);
-
-    if (loading) return <div>Cargando progreso...</div>;
-    if (error) return <div>{error}</div>;
-
+function KmProgressSection({ userId }) {
     return (
         <div>
-            <h4>Progreso de Kilómetros</h4>
-            <ProgressBar
-                animated
-                now={calculatePercentage()}
-                label={`${calculatePercentage()}%`}
+            <CustomizableProgressBar
+                userId={userId}
+                fetchData={getKmRunnedByUser}
+                label="Kilómetros recorridos"
+                unit="km"
+                initialTarget={50}
             />
-            <div className="mt-2">
-                {currentKm} km de {targetKm} km completados
-            </div>
         </div>
     );
 }
 
-export default UserProgressBar;
+export default KmProgressSection;

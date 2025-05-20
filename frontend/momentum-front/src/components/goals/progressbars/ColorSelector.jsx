@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import 'react-colorful/dist/index.css';
 
-const ColorSelector = ({ color, onChange }) => {{
+const ColorSelector = ({ color, onChange }) => {
     const [showPicker, setShowPicker] = useState(false);
 
     return (
@@ -13,7 +13,7 @@ const ColorSelector = ({ color, onChange }) => {{
                 style={{
                     padding: '8px 12px',
                     backgroundColor: color,
-                    color: '#3e2ac9',
+                    color: 'rgba(26,104,205,0.51)',
                     border: 'none',
                     borderRadius: '5px',
                     cursor: 'pointer',
@@ -29,5 +29,5 @@ const ColorSelector = ({ color, onChange }) => {{
             )}
         </div>
     );
-}};
+};
 export default ColorSelector;

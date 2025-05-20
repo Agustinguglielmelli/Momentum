@@ -1,6 +1,2 @@
-import ColorSelector  from "./ColorSelector";
+import ColorSelector  from "./progressbars/ColorSelector";
 
-<ColorSelector
-    color={selected.color}
-    onChange={(newColor) => handleCustomization('color', newColor)}
-/>
