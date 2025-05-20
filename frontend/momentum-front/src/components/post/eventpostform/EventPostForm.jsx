@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, useNavigate} from "react-router-dom";
 import { getUserRole } from '../../../api/functions';
-import Button from "../../button/Button";
+import ButtonNuestro from "../../button/ButtonNuestro";
 
 const EventPostForm = () => {
   const navigate = useNavigate()
@@ -114,7 +114,7 @@ const EventPostForm = () => {
             />
           </div>
           {userRole === "COACH" && (
-            <Button className="btn-primary" type="submit" text="Create event" ></Button>
+            <ButtonNuestro className="btn-primary" type="submit" text="Create event" ></ButtonNuestro>
           )}
 
         </form>

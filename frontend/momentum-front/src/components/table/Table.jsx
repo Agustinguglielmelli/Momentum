@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
 import {listUsers} from "../../api/functions";
 import { Link } from "react-router-dom";
 import "./Table.css"
@@ -53,7 +53,7 @@ function Table() {
                         <td><img src={user.profilePicture} alt="Perfil" width="50"/></td>
                         <td>
                             <Link to={`ModifyUser/${user.id}`} className=" btn btn-primary">Update</Link>
-                            <Button text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
+                            <ButtonNuestro text="Delete" className="btn-danger" onClick={() => deleteUser(user.id)}/>
                         </td>
                     </tr>))
                 }

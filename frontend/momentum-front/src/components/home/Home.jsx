@@ -11,7 +11,7 @@ import {
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
     import {Link} from "react-router-dom";
 
 
@@ -134,7 +134,7 @@ function Home(){
                                 <div className="search-result-item" key={user.id}>
                                     <img src={user.profilePicture} alt="profilePicture" className="profile-picture-search"/>
                                     <h2>{user.displayUserName}</h2>
-                                    <Button
+                                    <ButtonNuestro
                                         onClick={() => {
                                             if (followedUsers.includes(user.id)) {
                                                 handleUnfollow(user.id);

@@ -283,7 +283,7 @@ export async function deleteAccount(){
         });
     return result;
 }
-export async function getKmRunnedByUser() {
+export async function getKmRunnedByUser(userId) {
     const result = await axios.get(`http://localhost:8080/api/users/${userId}/progress`,
         {
             headers: {
@@ -293,4 +293,21 @@ export async function getKmRunnedByUser() {
     return result;
 }
 
-
+export async function listUsersFollowing() {
+    const result =  await axios.get("http://localhost:8080/usuario/following",
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+export async function createConversation(user2id){
+    const result = await axios.post(`http://localhost:8080/api/conversations/create/${user2id}`, {},
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result;
+}

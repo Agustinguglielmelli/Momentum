@@ -12,7 +12,7 @@ import VerticalDivider from "../divider/Divider";
 import SearchEventBar from "../searchbar/SearchEventBar";
 import {EventPostCoach} from "../post/eventpost/EventPostCoach";
 import Navbar from "../navbar/Navbar";
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
 import MapForEvents from "../mapforevents/MapForEvents";
 
 function MyEvents() {
@@ -155,8 +155,8 @@ function MyEvents() {
                             <div className="search-result-item" key={ev.idEvent}>
                               <h2>{ev.title}</h2>
                               <h2>{ev.date}</h2>
-                              <Button text="Join event" className="btn-secondary"
-                                      onClick={() => handleJoin(ev.idEvent)}></Button>
+                              <ButtonNuestro text="Join event" className="btn-secondary"
+                                             onClick={() => handleJoin(ev.idEvent)}></ButtonNuestro>
                             </div>
                         ))}
                       </div>

@@ -1,4 +1,4 @@
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
 import axios from "axios";
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
@@ -58,7 +58,7 @@ function LoginUser() {
                             required
                     />
                 </div>
-                <Button type="submit" className="btn-primary" text="Submit"></Button>
+                <ButtonNuestro type="submit" className="btn-primary" text="Submit"></ButtonNuestro>
                 {errorMessage && (
                     <div className="alert alert-danger" role="alert">
                         {errorMessage}

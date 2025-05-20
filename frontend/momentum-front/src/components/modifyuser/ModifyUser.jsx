@@ -1,4 +1,4 @@
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, Navigate, useNavigate} from "react-router-dom";
@@ -129,7 +129,7 @@ function ModifyUser () {
                         )}
                     </div>
 
-                    <Button type="submit" className="btn-primary" text="Submit" />
+                    <ButtonNuestro type="submit" className="btn-primary" text="Submit" />
                 </form>
             </div>
         </div>

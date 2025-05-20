@@ -2,14 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import {
   Container,
   TextField,
-  Button,
   Paper,
   Avatar,
   Box,
+  ListItem,
+  Button,
+  ListItemText,
+  List,
 } from "@mui/material";
 import "./Chat.css";
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
+import {createConversation, listUsersFollowing} from "../../api/functions";
+import ButtonNuestro from "../button/ButtonNuestro";
 
 // Utilidades para mostrar fechas
 const formatDateLabel = (dateStr) => {
@@ -41,15 +46,20 @@ const ChatApp = () => {
 
   const stompClient = useRef(null);
 
+  const [usersFollowing, setUsersFollowing] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
   useEffect(() => {
     const fetchConversations = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:8080/api/conversations", {
+        const response = await fetch("http://localhost:8080/api/conversations/allMyConversations", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("Response:", response);
 
         if (!response.ok) {
           throw new Error("Error al obtener las conversaciones");
@@ -101,11 +111,10 @@ const ChatApp = () => {
       const now = new Date();
       const message = {
         content: input.trim(),
-        conversationId: activeChatId,
         timestampDate: now.toISOString(),
       };
 
-      stompClient.current.send("/app/private-message", {}, JSON.stringify(message));
+      stompClient.current.send("/app/send-message", {}, JSON.stringify(message));
       setInput("");
     }
   };
@@ -114,73 +123,125 @@ const ChatApp = () => {
   const messages = activeChat?.messages || [];
   const grouped = groupMessagesByDate(messages);
 
+  // Función para cargar usuarios al mostrar la lista
+  const handleToggleUsers = async () => {
+    if (!showUsers) {
+      setLoadingUsers(true);
+      try {
+        const usersData = await listUsersFollowing();
+        setUsersFollowing(usersData);
+      } catch (error) {
+        console.error("Error al traer usuarios:", error);
+      } finally {
+        setLoadingUsers(false);
+      }
+    }
+    setShowUsers(!showUsers);
+  };
+  const startConversation = async (userId) => {
+    try {
+      const result = await createConversation(userId)
+      console.log("Conversation created:", result);
+    } catch (error) {
+        console.error("Error creating conversation:", error);
+    }
+  }
   return (
-    <Container maxWidth="lg" className="chat-layout">
-      {/* Sidebar */}
-      <div className="chat-sidebar">
-        {conversations.map((conv) => (
-          <div
-            key={conv.id}
-            className={`chat-contact ${conv.id === activeChatId ? "active" : ""}`}
-            onClick={() => setActiveChatId(conv.id)}
-          >
-            <Avatar src={conv.avatar} alt={conv.name} />
-            <div className="contact-info">
-              <div className="contact-name">{conv.name}</div>
-              <div className="contact-last">{conv.lastMessage}</div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Container maxWidth="lg" className="chat-layout">
+        {/* Sidebar */}
+        <div className="chat-sidebar">
+          <h2>Conversaciones</h2>
+          <div>
+            <Button variant="contained" onClick={handleToggleUsers}>
+              {showUsers ? "Ocultar usuarios" : "Mostrar usuarios"}
+            </Button>
 
-      {/* Main Chat */}
-      <div className="chat-main">
-        <h2>{activeChat?.name || "Selecciona una conversación"}</h2>
-        <div className="chat-messages">
-          {Object.entries(grouped).map(([date, msgs], i) => (
-            <div key={i}>
-              <div className="date-label">{formatDateLabel(date)}</div>
-              {msgs.map((msg, idx) => (
-                <Box
-                  key={idx}
-                  className={`chat-message-wrapper ${
-                    msg.fromMe ? "chat-right-wrapper" : "chat-left-wrapper"
-                  }`}
+            {showUsers && (
+                <Paper
+                    elevation={3}
+                    style={{ marginTop: 10, maxHeight: 200, overflowY: "auto", padding: 10 }}
                 >
-                  {!msg.fromMe && (
-                    <Avatar
-                      src={activeChat.avatar}
-                      alt={activeChat.name}
-                      className="chat-avatar"
-                    />
+                  {loadingUsers ? (
+                      <p>Cargando usuarios...</p>
+                  ) : usersFollowing.length === 0 ? (
+                      <p>No hay usuarios para mostrar</p>
+                  ) : (
+                      <List>
+                        {usersFollowing.map((user) => (
+                            <ListItem key={user.id} button>
+                              <ListItemText primary={user.displayUserName || user.username || user.email} />
+                              <ButtonNuestro className="btn-primary" text="Start conversation" onClick={() => startConversation(user.id)}></ButtonNuestro>
+                            </ListItem>
+                        ))}
+                      </List>
                   )}
-                  <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
-                    <div className="chat-text">{msg.text || msg.content}</div>
-                    <div className="chat-time">
-                      {new Date(msg.timestampDate).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </div>
-                  </Paper>
-                </Box>
-              ))}
-            </div>
+                </Paper>
+            )}
+          </div>
+
+          {conversations.map((conv) => (
+              <div
+                  key={conv.id}
+                  className={`chat-contact ${conv.id === activeChatId ? "active" : ""}`}
+                  onClick={() => setActiveChatId(conv.id)}
+              >
+                <Avatar src={conv.avatar} alt={conv.name} />
+                <div className="contact-info">
+                  <div className="contact-name">{conv.name}</div>
+                  <div className="contact-last">{conv.lastMessage}</div>
+                </div>
+              </div>
           ))}
         </div>
-        <div className="chat-input-area">
-          <TextField
-            fullWidth
-            placeholder="Escribe tu mensaje..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <Button variant="contained" color="primary" onClick={handleSend}>
-            Enviar
-          </Button>
+
+        {/* Main Chat */}
+        <div className="chat-main">
+          <h2>{activeChat?.name || "Selecciona una conversación"}</h2>
+          <div className="chat-messages">
+            {Object.entries(grouped).map(([date, msgs], i) => (
+                <div key={i}>
+                  <div className="date-label">{formatDateLabel(date)}</div>
+                  {msgs.map((msg, idx) => (
+                      <Box
+                          key={idx}
+                          className={`chat-message-wrapper ${
+                              msg.fromMe ? "chat-right-wrapper" : "chat-left-wrapper"
+                          }`}
+                      >
+                        {!msg.fromMe && (
+                            <Avatar
+                                src={activeChat.avatar}
+                                alt={activeChat.name}
+                                className="chat-avatar"
+                            />
+                        )}
+                        <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
+                          <div className="chat-text">{msg.text || msg.content}</div>
+                          <div className="chat-time">
+                            {new Date(msg.timestampDate).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </div>
+                        </Paper>
+                      </Box>
+                  ))}
+                </div>
+            ))}
+          </div>
+          <div className="chat-input-area">
+            <TextField
+                fullWidth
+                placeholder="Escribe tu mensaje..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+            />
+            <ButtonNuestro variant="contained" color="primary" onClick={handleSend}>
+              Enviar
+            </ButtonNuestro>
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
   );
 };
 

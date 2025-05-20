@@ -10,7 +10,7 @@ import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import {Link, useNavigate} from "react-router-dom";
 import "./MyProfile.css"
-import Button from "../button/Button";
+import ButtonNuestro from "../button/ButtonNuestro";
 import Navbar from "../navbar/Navbar";
 
 
@@ -110,7 +110,7 @@ function MyProfile(){
                             <h2>{userProfile.displayUserName}</h2>
                             <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
                             <Link to="/myprofile/chats" className="btn btn-primary">Chats</Link>
-                            <Button className="btn-danger" text="Delete account" onClick={() => deleteMyUser(userProfile.id)}></Button>
+                            <ButtonNuestro className="btn-danger" text="Delete account" onClick={() => deleteMyUser(userProfile.id)}></ButtonNuestro>
 
                         </div>
 
@@ -127,7 +127,7 @@ function MyProfile(){
                             <div className="profile-content">
                                 {recreationalPosts.map((post) => (
                                     <div className="post-item">
-                                        <Button className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></Button>
+                                        <ButtonNuestro className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></ButtonNuestro>
                                         <RecreationalPost key={post.idRecPost} post={post}/>
                                     </div>
                                 ))}
@@ -144,7 +144,7 @@ function MyProfile(){
                             <div className="profile-content">
                                     {trainingPlanPosts?.map((post) => (
                                         <div>
-                                            <Button className="btn-danger" text="Delete post" onClick={()=>deleteTrainingPlanPost(post.idTrainPost)}></Button>
+                                            <ButtonNuestro className="btn-danger" text="Delete post" onClick={()=>deleteTrainingPlanPost(post.idTrainPost)}></ButtonNuestro>
                                             <TrainingPlanPost key={post.idTrainPost} post={post}/>
                                         </div>
                                     ))}

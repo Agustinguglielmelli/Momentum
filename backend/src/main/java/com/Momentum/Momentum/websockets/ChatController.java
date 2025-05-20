@@ -1,7 +1,15 @@
 package com.Momentum.Momentum.websockets;
 
+import com.Momentum.Momentum.conversation.Conversation;
+import com.Momentum.Momentum.conversation.ConversationRepository;
 import com.Momentum.Momentum.message.Message;
 import java.security.Principal;
+import java.time.Instant;
+import java.util.Optional;
+
+import com.Momentum.Momentum.message.MessageDTO;
+import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -20,27 +28,62 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpleMessagingTemplate;
 
-    @MessageMapping("/chat")
-    @SendTo("/chatroom/messages")
-    public Message send(Message message) {
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ConversationRepository conversationRepository;
+
+    @MessageMapping("/send-message") // el frontend enviará a /app/send-message
+    public void sendMessage(@Payload MessageDTO messageDTO) {
+
+        Optional<Usuario> senderOpt = usuarioRepository.findById(messageDTO.getSender().getId());
+        Optional<Usuario> receiverOpt = usuarioRepository.findById(messageDTO.getReceiver().getId());
+
+        if (senderOpt.isEmpty() || receiverOpt.isEmpty()) {
+            return;
+        }
+
+        Usuario sender = senderOpt.get();
+        Usuario receiver = receiverOpt.get();
+
+        Optional<Conversation> conversationOpt = conversationRepository.findBetweenUsers(sender, receiver);
+        if (conversationOpt.isEmpty()) {
+            return;
+        }
+
+        Conversation conversation = conversationOpt.get();
+
+        Message message = new Message(
+                messageDTO.getContent(),
+                Instant.now(),
+                sender,
+                receiver,
+                conversation
+        );
+
         chatService.saveMessage(message);
-        return message;
-    }
 
-    @MessageMapping("message")
-    @SendTo("/chatroom/public")
-    public Message receivePublicMessage(@Payload Message message){
-        return message;
-    }
+        MessageDTO dto = new MessageDTO(
+                message.getContent(),
+                message.getTimestamp(),
+                messageDTO.getSender(),
+                messageDTO.getReceiver()
+        );
 
-    @MessageMapping("/private-message")
-    public void receivePrivateMessage(@Payload Message message, Principal principal) {
-    // Asegúrate de que 'principal.getName()' coincida con message.getSender().getUsername()
+        // Enviamos el mensaje al receptor
         simpleMessagingTemplate.convertAndSendToUser(
-        message.getReceiver().getUsername(),
-        "/private", 
-        message
-    );
-}
+                messageDTO.getReceiver().getUsername(),
+                "/queue/messages",
+                dto
+        );
+
+        // Enviamos el mensaje al emisor también (para que vea reflejado el envío en tiempo real)
+        simpleMessagingTemplate.convertAndSendToUser(
+                messageDTO.getSender().getUsername(),
+                "/queue/messages",
+                dto
+        );
+    }
 
 }
