@@ -284,13 +284,13 @@ export async function deleteAccount(){
     return result;
 }
 export async function getKmRunnedByUser(userId) {
-    const result = await axios.get(`http://localhost:8080/api/users/${userId}/progress`,
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/kmrunned`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
-    return result;
+    return result.data;
 }
 
 export async function listUsersFollowing() {
@@ -310,4 +310,40 @@ export async function createConversation(user2id){
             }
         });
     return result;
+}
+export async function getCaloriesBurnedByUser(userId){
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/caloriesburned`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+export async function getEventsCompletedByUser(userId){
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/eventscompleted`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+export async function getFriendsMadeByUser(userId){
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/friendsmade`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
+}
+export async function getGoalsCompletedByUser(userId){
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/goalscompleted`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+    return result.data;
 }

@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8d4b7e2-56e7-484f-b339-83cf9d0f5024" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/ColorSelector.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/ColorSelector.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/GoalsSelector.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/GoalsSelector.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/caloriesburnedbar/CaloriesBurnedBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/caloriesburnedbar/CaloriesBurnedBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/eventscompletedbar/EventsCompletedBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/eventscompletedbar/EventsCompletedBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/friendsmadedbar/FriendsMadedBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/friendsmadedbar/FriendsMadedBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/goalscompletedbar/GoalsCompletedBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/goalscompletedbar/GoalsCompletedBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/kmrunnedbar/KmRunnedBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/momentum-front/src/components/goals/progressbars/kmrunnedbar/KmRunnedBar.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,33 +52,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
-    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.MomentumApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/faculty/projects/laboratorio1/Momentum&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2025.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.MomentumApplication.executor": "Debug",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Usuario/faculty/projects/laboratorio1/Momentum",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2025.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Usuario\faculty\projects\laboratorio1\Momentum\frontend\momentum-front\src\components\goals\progressbars" />
@@ -106,8 +98,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -147,7 +138,11 @@
       <workItem from="1747425928404" duration="2317000" />
       <workItem from="1747490861882" duration="653000" />
       <workItem from="1747742531310" duration="1712000" />
-      <workItem from="1747749579789" duration="398000" />
+      <workItem from="1747749579789" duration="1077000" />
+      <workItem from="1747750720780" duration="1264000" />
+      <workItem from="1747783693363" duration="21000" />
+      <workItem from="1747825292656" duration="49000" />
+      <workItem from="1748174894764" duration="72000" />
     </task>
     <servers />
   </component>

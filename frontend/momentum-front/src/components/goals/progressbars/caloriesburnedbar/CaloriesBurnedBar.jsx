@@ -3,17 +3,19 @@ import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
 import { getCaloriesBurnedByUser } from '../../../../api/functions';
 
-function CaloriesProgressSection({ userId }) {
+function CaloriesProgressSection({userId, initialTarget, color, onRemove, onEdit}) {
     return (
-        <div>
-            <CustomizableProgressBar
-                userId={userId}
-                fetchData={getCaloriesBurnedByUser}
-                label="Calories Burned"
-                unit="kcal"
-                initialTarget={1000}
-            />
-        </div>
+        <CustomizableProgressBar
+            userId={userId}
+            fetchData={() => getCaloriesBurnedByUser(userId)}
+            label="Calories Burned"
+            unit="Kcal"
+            initialTarget={initialTarget}
+            customColor={color}
+            onRemove={onRemove}
+            onEdit={onEdit}
+            hideControls={true}
+        />
     );
 }
 
