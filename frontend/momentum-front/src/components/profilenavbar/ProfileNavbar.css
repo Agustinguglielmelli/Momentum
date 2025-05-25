@@ -1,0 +1,25 @@
+
+.profile-navbar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+.profile-navbar button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    color: gray;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.profile-navbar button.active {
+    color: black;
+    border-bottom: 2px solid black;
+}
