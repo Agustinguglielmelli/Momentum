@@ -1,6 +1,8 @@
 package com.Momentum.Momentum.goal;
 
 
+import com.Momentum.Momentum.event.EventRepository;
+import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.goal.GoalRepository;
@@ -13,27 +15,50 @@ import java.util.Set;
 
 @Service
 public class GoalService {
-    private GoalRepository goalRepository;
-    private UsuarioRepository userRepository;
 
     @Autowired
-    public GoalService(GoalRepository goalRepository, UsuarioRepository userRespository) {
-        this.goalRepository = goalRepository;
+    private GoalRepository goalRepository;
+
+    @Autowired
+    private RecreationalPostRepository recPostRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+    @Autowired
+    private RecreationalPostRepository recreationalPostRepository;
+
+    public Goal createGoal(Goal goal) {
+        return goalRepository.save(goal);
     }
 
-    public Goal createGoal(Goal goal){
+    public Goal updateGoal(Goal goal) {
         return goalRepository.save(goal);
     }
-    public Goal updateGoal(Goal goal){
-        return goalRepository.save(goal);
-    }
-    public List<Goal> listAllGoalsOfUser(long userId){
+
+    public List<Goal> listAllGoalsOfUser(long userId) {
         return goalRepository.findByUsuarioId(userId);
     }
-    public Optional<Goal> getGoalById(long goalId){
+
+    public Optional<Goal> getGoalById(long goalId) {
         return goalRepository.findById(goalId);
     }
 
+    public void deleteGoal(long goalId) {
+        goalRepository.deleteById(goalId);
+    }
 
-
+    // Método para obtener el progreso actual basado en el tipo de meta
+    public int getCurrentProgress(long userId, String goalType) {
+        switch (goalType) {
+            case "RUNNING":
+                return (int) recreationalPostRepository.getTotalDistanceByUserId(userId);
+            case "CALORIES":
+                return recreationalPostRepository.getTotalCaloriesByUserId(userId);
+            case "EVENTS":
+                return eventRepository.countCompletedEventsByUser(userId);
+            // aca se agregaran demas casos de metas
+            default:
+                return 0;
+        }
+    }
 }

@@ -43,7 +43,7 @@ public class RecreationalPost {
     private String duration;
 
     @Column
-    private String calories;
+    private int calories;
 
     @Column(updatable = false)
     private LocalDate creationDate;
@@ -54,7 +54,7 @@ public class RecreationalPost {
     }
 
     public RecreationalPost(long idRecPost, Double distance, String description,
-                            String duration, String calories, LocalDate creationDate)
+                            String duration, int calories, LocalDate creationDate)
     {
         this.idRecPost = idRecPost;
         this.distance = distance;

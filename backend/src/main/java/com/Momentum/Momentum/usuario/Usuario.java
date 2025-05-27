@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.goal.Goal;
 import com.Momentum.Momentum.message.Message;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
@@ -82,6 +83,10 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Message> messagesReceived = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Goal> goals = new HashSet<>();
 
     public Usuario() {}
 
