@@ -12,12 +12,14 @@ import {Link, useNavigate} from "react-router-dom";
 import "./MyProfile.css"
 import ButtonNuestro from "../button/ButtonNuestro";
 import Navbar from "../navbar/Navbar";
+import ProfileNavbar from "../profilenavbar/ProfileNavbar"
 
 
 
 function MyProfile(){
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
+    const [selectedTab, setSelectedTab] = useState("posts");
     useEffect(() => {
         const role = getUserRole();
         setUserRole(role);
@@ -116,8 +118,8 @@ function MyProfile(){
 
                     </div>
                 )}
-
-                {userRole === "RUNNER" && (
+                <ProfileNavbar selectedTab={selectedTab} onSelectTab={setSelectedTab} />
+                {selectedTab === "posts" && userRole === "RUNNER" && (
                     <div className="container-general">
                         <h2 className="section-title">My Posts</h2>
                         <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
@@ -135,7 +137,7 @@ function MyProfile(){
                         )}
                     </div>
                 )}
-                    {userRole === "COACH" && (
+                    {selectedTab === "posts" && userRole === "COACH" && (
                         <div className="container-general">
                             <h2 className="section-title">My Training plans</h2>
                             <Link className="btn btn-primary" to={"/myprofile/createTrainingPlan"}>
@@ -151,6 +153,12 @@ function MyProfile(){
                             </div>
                         </div>
                     )}
+                {selectedTab === "Goals" && (
+                    <div className="container-general">
+                        <h2 className="section-title">My Goals</h2>
+                        <p>Aún no tenés metas</p>
+                    </div>
+                )}
 
             </div>
         </div>

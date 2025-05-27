@@ -3,17 +3,19 @@ import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
 import { getEventsCompletedByUser } from '../../../../api/functions';
 
-function EventsProgressSection({ userId }) {
+function EventsProgressSection({userId, initialTarget, color, onRemove, onEdit}) {
     return (
-        <div>
-            <CustomizableProgressBar
-                userId={userId}
-                fetchData={getEventsCompletedByUser}
-                label="Events assisted"
-                unit="number"
-                initialTarget={10}
-            />
-        </div>
+        <CustomizableProgressBar
+            userId={userId}
+            fetchData={()=> getEventsCompletedByUser(userId)}
+            label="Events Completed"
+            unit=""
+            initialTarget={initialTarget}
+            customColor={color}
+            onRemove={onRemove}
+            onEdit={onEdit}
+            hideControls={true}
+        />
     );
 }
 

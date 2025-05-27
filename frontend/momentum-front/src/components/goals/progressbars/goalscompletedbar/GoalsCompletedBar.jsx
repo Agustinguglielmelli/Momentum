@@ -1,19 +1,21 @@
 
 import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
-import { getGoalsCompletedByUser } from '../../../../api/functions';
+import { getGoalsCompletedByUser} from '../../../../api/functions';
 
-function GoalsProgressSection({ userId }) {
+function GoalsProgressSection({userId, initialTarget, color, onRemove, onEdit}) {
     return (
-        <div>
-            <CustomizableProgressBar
-                userId={userId}
-                fetchData={getGoalsCompletedByUser}
-                label="Goals Completed"
-                unit=""
-                initialTarget={10}
-            />
-        </div>
+        <CustomizableProgressBar
+            userId={userId}
+            fetchData={() => getGoalsCompletedByUser(userId)}
+            label="Goals Completed"
+            unit=""
+            initialTarget={initialTarget}
+            customColor={color}
+            onRemove={onRemove}
+            onEdit={onEdit}
+            hideControls={true}
+        />
     );
 }
 

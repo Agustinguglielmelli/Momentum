@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="d8d4b7e2-56e7-484f-b339-83cf9d0f5024" name="Changes" comment="" />
+=======
+    <list default="true" id="d8d4b7e2-56e7-484f-b339-83cf9d0f5024" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> 1193a3b8e042df5827d7374f9a3419d6406a239b
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,7 +70,11 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
     "last_opened_file_path": "C:/Users/agusg/faculty/Laboratorio1/Momentum/frontend",
+=======
+    "last_opened_file_path": "C:/Users/Usuario/faculty/projects/laboratorio1/Momentum",
+>>>>>>> 1193a3b8e042df5827d7374f9a3419d6406a239b
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,7 +106,11 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+<<<<<<< HEAD
         <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
+=======
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
+>>>>>>> 1193a3b8e042df5827d7374f9a3419d6406a239b
       </set>
     </attachedChunks>
   </component>
@@ -136,8 +150,16 @@
       <workItem from="1747425928404" duration="2317000" />
       <workItem from="1747490861882" duration="653000" />
       <workItem from="1747742531310" duration="1712000" />
+<<<<<<< HEAD
       <workItem from="1747749579789" duration="398000" />
       <workItem from="1748348659752" duration="360000" />
+=======
+      <workItem from="1747749579789" duration="1077000" />
+      <workItem from="1747750720780" duration="1264000" />
+      <workItem from="1747783693363" duration="21000" />
+      <workItem from="1747825292656" duration="49000" />
+      <workItem from="1748174894764" duration="72000" />
+>>>>>>> 1193a3b8e042df5827d7374f9a3419d6406a239b
     </task>
     <servers />
   </component>

@@ -1,13 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import ColorSelector from './ColorSelector'; // Asegurate que la ruta sea correcta según tu estructura
+import ColorSelector from './ColorSelector';
 import 'react-colorful/dist/index.css';
 
-function CustomizableProgressBar({ userId, fetchData, initialTarget = 100, label = "Progreso", unit = "" }) {
+function CustomizableProgressBar({userId, fetchData, initialTarget = 100,
+                                     label = "Progress", unit = "",
+                                     customColor = "#007bff", onRemove, onEdit, hideControls=false}) {
+
     const [currentValue, setCurrentValue] = useState(0);
     const [targetValue, setTargetValue] = useState(initialTarget);
-    const [color, setColor] = useState("#007bff");
+    const [color, setColor] = useState(customColor);
     const [error, setError] = useState(null);
 
     const fetchProgress = async () => {
@@ -34,7 +37,44 @@ function CustomizableProgressBar({ userId, fetchData, initialTarget = 100, label
     };
 
     return (
-        <div style={{ maxWidth: "400px", margin: "20px auto" }}>
+        <div style={{
+            maxWidth: "400px",
+            margin: "20px auto",
+            position: 'relative',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            padding: '15px'
+        }}>
+            <div style={{ position: 'absolute', right: '10px', top: '10px' }}>
+                <button
+                    onClick={onEdit}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        marginRight: '10px',
+                        color: '#6c757d'
+                    }}
+                    title="Editar"
+                >
+                    ✏️
+                </button>
+                <button
+                    onClick={onRemove}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        color: '#dc3545'
+                    }}
+                    title="Eliminar"
+                >
+                    ×
+                </button>
+            </div>
+
             <h4>{label}</h4>
 
             <ProgressBar
@@ -53,20 +93,21 @@ function CustomizableProgressBar({ userId, fetchData, initialTarget = 100, label
                 {currentValue} {unit} de {targetValue} {unit} completados
             </div>
 
-            <div className="mt-4">
-                <label>
-                    🎯 Meta:
-                    <input
-                        type="number"
-                        value={targetValue}
-                        onChange={(e) => setTargetValue(Number(e.target.value))}
-                        className="form-control"
-                        min="0"
-                    />
-                </label>
-                <ColorSelector color={color} onChange={setColor} />
-            </div>
-
+            {!hideControls && (
+                <div className="mt-4">
+                    <label>
+                        🎯 Meta:
+                        <input
+                            type="number"
+                            value={targetValue}
+                            onChange={(e) => setTargetValue(Number(e.target.value))}
+                            className="form-control"
+                            min="0"
+                        />
+                    </label>
+                    <ColorSelector color={color} onChange={setColor} />
+                </div>
+            )}
             {error && <div className="alert alert-danger mt-3">{error}</div>}
         </div>
     );

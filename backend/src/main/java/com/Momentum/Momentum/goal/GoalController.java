@@ -5,6 +5,7 @@ import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,33 +38,63 @@ public class GoalController {
     @RequestBody Goal goal){
          return goalService.createGoal(goal);
     }
-    @PutMapping("/goals/{id}")
-    public ResponseEntity<Goal> updateGoal(@PathVariable long id,
-     @ModelAttribute("currentUser") Usuario currentUser, @RequestBody Goal newGoal){
-        Optional<Goal> goal = goalService.getGoalById(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Goal> updateGoal(
+            @PathVariable long id,
+            @ModelAttribute("currentUser") Usuario currentUser,
+            @RequestBody Goal updatedGoal) {
 
-        if(goal.isEmpty()){
+        Optional<Goal> existingGoal = goalService.getGoalById(id);
+        if (existingGoal.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Goal existente = goal.get();
 
-        existente.setId(newGoal.getId());
-        existente.setColor(newGoal.getColor());
-        existente.setProgress(newGoal.getProgress());
-        existente.setCreationDate(newGoal.getCreationDate());
-
-        if (existente.getUsuario() == null || existente.getUsuario().getId() != currentUser.getId()) {
-            return ResponseEntity.status(403).build(); // 403 Forbidden
+        Goal goal = existingGoal.get();
+        if (!(goal.getUsuario().getId() == (currentUser.getId()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        Goal nuevaGoal = goalService.updateGoal(existente);
 
-        return ResponseEntity.ok(nuevaGoal);
+        goal.setProgress(updatedGoal.getProgress());
+        goal.setColor(updatedGoal.getColor());
+        goal.setTarget(updatedGoal.getTarget());
 
+        Goal savedGoal = goalService.updateGoal(goal);
+        return ResponseEntity.ok(savedGoal);
     }
 
-    @GetMapping("/goals")
+    /*@GetMapping("/goals")
     public List<Goal> getAllGoals(@ModelAttribute("currentUser") Usuario currentUser){
         return goalService.listAllGoalsOfUser(currentUser.getId());
+    }*/
+    @GetMapping
+    public ResponseEntity<List<Goal>> getUserGoals(
+            @ModelAttribute("currentUser") Usuario currentUser) {
+        List<Goal> goals = goalService.listAllGoalsOfUser(currentUser.getId());
+        return ResponseEntity.ok(goals);
     }
 
-}
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getGoalTypes() {
+        List<String> types = List.of("RUNNING", "CALORIES", "EVENTS", "FRIENDS", "GOALS");
+        return ResponseEntity.ok(types);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGoal(
+            @PathVariable long id,
+            @ModelAttribute("currentUser") Usuario currentUser) {
+
+        Optional<Goal> goal = goalService.getGoalById(id);
+        if (goal.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!(goal.get().getUsuario().getId() == (currentUser.getId()))) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        goalService.deleteGoal(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    }

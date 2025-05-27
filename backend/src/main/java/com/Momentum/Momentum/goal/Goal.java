@@ -33,6 +33,16 @@ public class Goal {
     @Column(nullable = false)
     private String color;
 
+    @Column(nullable = false)
+    private String label;
+
+    @Column(nullable = false)
+    private String unit;
+
+    @Column(nullable = false)
+    private int target;
+
+
     @Column(updatable = false)
     private LocalDate creationDate;
 

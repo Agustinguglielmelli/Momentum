@@ -1,20 +1,21 @@
 
 import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
-import { getFriendsMadedByUser } from '../../../../api/functions';
+import { getFriendsMadeByUser } from '../../../../api/functions';
 
-function FriendsProgressSection({ userId }) {
+function FriendsProgressSection({userId, initialTarget, color, onRemove, onEdit}) {
     return (
-        <div>
-            <CustomizableProgressBar
-                userId={userId}
-                fetchData={getFriendsMadedByUser}
-                label="Friends made"
-                unit="Friends"
-                initialTarget={100}
-            />
-        </div>
+        <CustomizableProgressBar
+            userId={userId}
+            fetchData={() => getFriendsMadeByUser(userId)}
+            label="Friends Made"
+            unit=""
+            initialTarget={initialTarget}
+            customColor={color}
+            onRemove={onRemove}
+            onEdit={onEdit}
+            hideControls={true}
+        />
     );
 }
-
 export default FriendsProgressSection;
