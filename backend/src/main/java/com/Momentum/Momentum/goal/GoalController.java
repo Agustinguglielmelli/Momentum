@@ -96,8 +96,16 @@ public class GoalController {
 
     @DeleteMapping("/goals/{id}")
     public ResponseEntity<Void> deleteGoal(
-            @PathVariable long id,
-            @ModelAttribute("currentUser") Usuario currentUser) {
+            @PathVariable long id) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<Usuario> currentUserOptional = usuarioRepository.findByEmail(username);
+
+        if (currentUserOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Usuario currentUser = currentUserOptional.get();
 
         Optional<Goal> goal = goalService.getGoalById(id);
         if (goal.isEmpty()) {

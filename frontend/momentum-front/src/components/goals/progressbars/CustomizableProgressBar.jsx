@@ -14,7 +14,8 @@ function CustomizableProgressBar({userId, fetchData, initialTarget = 100,
 
     const fetchProgress = async () => {
         try {
-            const response = await fetchData(userId);
+            const response = await fetchData();
+            console.log("Progress data:", response, response.data);
             setCurrentValue(response.data);
             setError(null);
         } catch (err) {

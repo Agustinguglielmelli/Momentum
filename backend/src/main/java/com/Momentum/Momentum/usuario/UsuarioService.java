@@ -8,6 +8,7 @@ import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.Comparator;
@@ -97,7 +98,12 @@ public class UsuarioService {
         ); */
 
     public double getTotalKmForUser(Long userId) {
-       Double total = recreationalPostRepository.getTotalDistanceByUserId(userId);
+        Optional<Usuario> userOptional = personRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        Usuario user = userOptional.get();
+       Double total = personRepository.getTotalDistanceByUsuario(user);
        return total != null ? total : 0.0;
     }
 

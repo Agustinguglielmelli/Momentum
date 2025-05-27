@@ -1,13 +1,13 @@
 
 import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
-import { getKmRunnedByUser } from '../../../../api/functions';
+import { getKmRanByUser } from '../../../../api/functions';
 
 function KmProgressSection({ userId, initialTarget, color, onRemove, onEdit }) {
     return (
         <CustomizableProgressBar
             userId={userId}
-            fetchData={() => getKmRunnedByUser(userId)}
+            fetchData={() => getKmRanByUser(userId)}
             label="Kilometers Runned"
             unit="km"
             initialTarget={initialTarget}

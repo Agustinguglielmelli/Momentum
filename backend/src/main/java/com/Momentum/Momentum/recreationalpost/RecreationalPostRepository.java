@@ -16,7 +16,7 @@ public interface RecreationalPostRepository extends JpaRepository<RecreationalPo
     Double getTotalDistanceByUserId(@Param("userId") Long userId);
 
 
-    @Query("SELECT COALESCE(SUM(r.calories), 0) FROM RecreationalPost r WHERE r.usuario.id = :userId")
-    Integer getTotalCaloriesByUserId(@Param("userId") Long userId);
+    /*@Query("SELECT COALESCE(SUM(r.calories), 0) FROM RecreationalPost r WHERE r.usuario.id = :userId")
+    Integer getTotalCaloriesByUserId(@Param("userId") Long userId);*/
 }
 

@@ -24,5 +24,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     """)
     List<Object[]> findFollowedUsersAndKms(@Param("usuario") Usuario usuario); // leaderboard seguidos kms
 
-
+    @Query("""
+    SELECT COALESCE(SUM(rp.distance), 0) 
+    FROM RecreationalPost rp 
+    WHERE rp.usuario = :usuario
+""")
+    Double getTotalDistanceByUsuario(@Param("usuario") Usuario usuario);
 }

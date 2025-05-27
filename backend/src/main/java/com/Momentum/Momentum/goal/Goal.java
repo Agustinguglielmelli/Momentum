@@ -28,6 +28,9 @@ public class Goal {
     private Usuario usuario;
 
     @Column(nullable = false)
+    private String type;
+
+    @Column(nullable = false)
     private int progress;
 
     @Column(nullable = false)

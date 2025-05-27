@@ -415,4 +415,10 @@ public class UsuarioController {
         return personUsuarioService.getFollowingEventsCompleted(user);
     }
 
+    @GetMapping("users/{userId}/progress/kmran")
+    public ResponseEntity<Double> getKmRan(@PathVariable Long userId) {
+        Double totalKm = personUsuarioService.getTotalKmForUser(userId);
+        return ResponseEntity.ok(totalKm);
+    }
+
 }

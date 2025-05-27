@@ -2,11 +2,7 @@
 import ColorSelector from "./progressbars/ColorSelector";
 import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Dropdown, Container, Modal, Button, Form, Spinner, Alert } from 'react-bootstrap';
-import KmProgressSection from './progressbars/kmrunnedbar/KmRunnedBar';
-import CaloriesProgressSection from './progressbars/caloriesburnedbar/CaloriesBurnedBar';
-import EventsProgressSection from './progressbars/eventscompletedbar/EventsCompletedBar';
-import FriendsProgressSection from './progressbars/friendsmadedbar/FriendsMadedBar';
-import GoalsProgressSection from './progressbars/goalscompletedbar/GoalsCompletedBar';
+import CustomizableProgressBar from './progressbars/CustomizableProgressBar';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 const ProgressBarManager = ({ userId }) => {
@@ -161,15 +157,9 @@ const ProgressBarManager = ({ userId }) => {
                 color: template.defaults.color
             };
 
-            const savedGoal = await saveGoal(newGoal);
+            await saveGoal(newGoal);
             await fetchGoals();
-            setProgressBars([...progressBars, {
-                id: savedGoal.id,
-                ...newGoal,
-                initialTarget: savedGoal.target,
-                currentValue: savedGoal.progress,
-                color: savedGoal.color
-            }]);
+
         } catch (err) {
             setError(err.response?.data?.message || err.message);
         }
@@ -178,7 +168,7 @@ const ProgressBarManager = ({ userId }) => {
     const removeProgressBar = async (id) => {
         try {
             await deleteGoal(id);
-            setProgressBars(progressBars.filter(bar => bar.id !== id));
+            await fetchGoals()
         } catch (err) {
             setError(err.response?.data?.message || err.message);
         }
@@ -201,38 +191,28 @@ const ProgressBarManager = ({ userId }) => {
             };
 
             await saveGoal(updatedBar);
+            await fetchGoals()
 
-            setProgressBars(progressBars.map(bar =>
-                bar.id === editingBar.id ? updatedBar : bar
-            ));
             setEditingBar(null);
         } catch (err) {
             setError(err.response?.data?.message || err.message);
         }
     };
 
-    const getProgressBarComponent = (bar) => {
-        const commonProps = {
-            key: bar.id,
-            userId: userId,
-            label: bar.label,
-            initialTarget: bar.initialTarget,
-            unit: bar.unit,
-            color: bar.color,
-            onRemove: () => removeProgressBar(bar.id),
-            onEdit: () => openEditModal(bar),
-            hideControls: true
-        };
-
-        switch(bar.templateType) {
-            case 0: return <KmProgressSection {...commonProps} />;
-            case 1: return <CaloriesProgressSection {...commonProps} />;
-            case 2: return <EventsProgressSection {...commonProps} />;
-            case 3: return <FriendsProgressSection {...commonProps} />;
-            case 4: return <GoalsProgressSection {...commonProps} />;
-            default: return null;
-        }
-    };
+    const getProgressBarComponent = (bar) => (
+        <CustomizableProgressBar
+            key={bar.id}
+            userId={userId}
+            label={bar.label}
+            initialTarget={bar.initialTarget}
+            unit={bar.unit}
+            customColor={bar.color}
+            onRemove={() => removeProgressBar(bar.id)}
+            onEdit={() => openEditModal(bar)}
+            hideControls={true}
+            fetchData={() => Promise.resolve({ data: bar.currentValue })}
+        />
+    );
 
     if (isLoading) {
         return (

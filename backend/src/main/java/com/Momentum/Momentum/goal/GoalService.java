@@ -59,9 +59,9 @@ public class GoalService {
         switch (goalType) {
             case "RUNNING":
                 return  recreationalPostRepository.getTotalDistanceByUserId(userId);
-            case "CALORIES":
+            /*case "CALORIES":
                 Integer calories = recreationalPostRepository.getTotalCaloriesByUserId(userId);
-                return calories != null ? calories.doubleValue() : 0.0;
+                return calories != null ? calories.doubleValue() : 0.0;*/
 
             case "EVENTS":
                 long eventosCompletados = user.getEventsImIn().stream()

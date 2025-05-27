@@ -283,8 +283,8 @@ export async function deleteAccount(){
         });
     return result;
 }
-export async function getKmRunnedByUser(userId) {
-    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/kmrunned`,
+export async function getKmRanByUser(userId) {
+    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/kmran`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
