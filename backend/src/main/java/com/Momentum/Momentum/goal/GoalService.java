@@ -48,12 +48,14 @@ public class GoalService {
     }
 
     // Método para obtener el progreso actual basado en el tipo de meta
-    public int getCurrentProgress(long userId, String goalType) {
+    public Double getCurrentProgress(long userId, String goalType) {
         switch (goalType) {
             case "RUNNING":
-                return (int) recreationalPostRepository.getTotalDistanceByUserId(userId);
+                return  recreationalPostRepository.getTotalDistanceByUserId(userId);
             case "CALORIES":
-                return recreationalPostRepository.getTotalCaloriesByUserId(userId);
+                Integer calories = recreationalPostRepository.getTotalCaloriesByUserId(userId);
+                return calories != null ? calories.doubleValue() : 0.0;
+
             case "EVENTS":
                 return eventRepository.countCompletedEventsByUser(userId);
             // aca se agregaran demas casos de metas
