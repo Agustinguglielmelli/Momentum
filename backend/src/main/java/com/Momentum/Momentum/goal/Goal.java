@@ -24,7 +24,7 @@ public class Goal {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn (name = "userId")
+    @JoinColumn (name = "usuario_id")
     private Usuario usuario;
 
     @Column(nullable = false)

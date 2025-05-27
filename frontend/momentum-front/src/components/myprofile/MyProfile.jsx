@@ -13,6 +13,7 @@ import "./MyProfile.css"
 import ButtonNuestro from "../button/ButtonNuestro";
 import Navbar from "../navbar/Navbar";
 import ProfileNavbar from "../profilenavbar/ProfileNavbar"
+import GoalsSelector from "../goals/GoalsSelector";
 
 
 
@@ -157,6 +158,10 @@ function MyProfile(){
                     <div className="container-general">
                         <h2 className="section-title">My Goals</h2>
                         <p>Aún no tenés metas</p>
+                        <GoalsSelector
+                            userId={userProfile ? userProfile.id : null}
+                        />
+
                     </div>
                 )}
 

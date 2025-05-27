@@ -4,6 +4,7 @@ package com.Momentum.Momentum.goal;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
+import com.Momentum.Momentum.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,10 @@ import java.util.Optional;
 public class GoalController {
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+
+    @Autowired
     UsuarioRepository repository;
 
 
@@ -36,13 +41,22 @@ public class GoalController {
     @PostMapping("goals")
     public Goal createGoal(@ModelAttribute("currentUser") Usuario currentUser,
     @RequestBody Goal goal){
-         return goalService.createGoal(goal);
+       goal.setUsuario(currentUser);
+       return goalService.createGoal(goal);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/goals/{id}")
     public ResponseEntity<Goal> updateGoal(
             @PathVariable long id,
-            @ModelAttribute("currentUser") Usuario currentUser,
             @RequestBody Goal updatedGoal) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Optional<Usuario> currentUserOptional = usuarioRepository.findByEmail(username);
+
+        if (currentUserOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Usuario currentUser = currentUserOptional.get();
 
         Optional<Goal> existingGoal = goalService.getGoalById(id);
         if (existingGoal.isEmpty()) {
@@ -50,7 +64,7 @@ public class GoalController {
         }
 
         Goal goal = existingGoal.get();
-        if (!(goal.getUsuario().getId() == (currentUser.getId()))) {
+        if (!(goal.getUsuario().getId() == currentUser.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -62,11 +76,12 @@ public class GoalController {
         return ResponseEntity.ok(savedGoal);
     }
 
+
     /*@GetMapping("/goals")
     public List<Goal> getAllGoals(@ModelAttribute("currentUser") Usuario currentUser){
         return goalService.listAllGoalsOfUser(currentUser.getId());
     }*/
-    @GetMapping
+    @GetMapping("myGoals")
     public ResponseEntity<List<Goal>> getUserGoals(
             @ModelAttribute("currentUser") Usuario currentUser) {
         List<Goal> goals = goalService.listAllGoalsOfUser(currentUser.getId());
@@ -79,7 +94,7 @@ public class GoalController {
         return ResponseEntity.ok(types);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/goals/{id}")
     public ResponseEntity<Void> deleteGoal(
             @PathVariable long id,
             @ModelAttribute("currentUser") Usuario currentUser) {

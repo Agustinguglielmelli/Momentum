@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import ColorSelector from './ColorSelector';
-import 'react-colorful/dist/index.css';
 
 function CustomizableProgressBar({userId, fetchData, initialTarget = 100,
                                      label = "Progress", unit = "",

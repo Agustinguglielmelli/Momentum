@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import 'react-colorful/dist/index.css';
 
 const ColorSelector = ({ color, onChange }) => {
     const [showPicker, setShowPicker] = useState(false);

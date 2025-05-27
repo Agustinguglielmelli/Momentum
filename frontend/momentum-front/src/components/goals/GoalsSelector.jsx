@@ -8,7 +8,7 @@ import EventsProgressSection from './progressbars/eventscompletedbar/EventsCompl
 import FriendsProgressSection from './progressbars/friendsmadedbar/FriendsMadedBar';
 import GoalsProgressSection from './progressbars/goalscompletedbar/GoalsCompletedBar';
 import axios from 'axios';
-
+import { jwtDecode } from 'jwt-decode';
 const ProgressBarManager = ({ userId }) => {
     const [progressBars, setProgressBars] = useState([]);
     const [editingBar, setEditingBar] = useState(null);
@@ -72,7 +72,7 @@ const ProgressBarManager = ({ userId }) => {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await axios.get(`http://localhost:8080/api/goals`, {
+            const response = await axios.get(`http://localhost:8080/myGoals`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
@@ -100,12 +100,16 @@ const ProgressBarManager = ({ userId }) => {
         try {
             const method = goalData.id ? 'put' : 'post';
             const url = goalData.id ?
-                `http://localhost:8080/api/goals/${goalData.id}` :
-                'http://localhost:8080/api/goals';
+                `http://localhost:8080/goals/${goalData.id}` :
+                'http://localhost:8080/goals';
 
             const template = progressBarTemplates[goalData.templateType];
 
+            const token = localStorage.getItem("token");
+            const decoded = jwtDecode(token);
+            const userId = decoded.userId;
             const data = {
+                userId: userId,
                 type: template.type,
                 label: template.defaults.label,
                 unit: template.defaults.unit,
@@ -130,7 +134,7 @@ const ProgressBarManager = ({ userId }) => {
 
     const deleteGoal = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/api/goals/${id}`, {
+            await axios.delete(`http://localhost:8080/goals/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
@@ -158,7 +162,7 @@ const ProgressBarManager = ({ userId }) => {
             };
 
             const savedGoal = await saveGoal(newGoal);
-
+            await fetchGoals();
             setProgressBars([...progressBars, {
                 id: savedGoal.id,
                 ...newGoal,
@@ -268,7 +272,19 @@ const ProgressBarManager = ({ userId }) => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Nav>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginLeft: 'auto', color: '#000', maxHeight: '150px', overflowY: 'auto' }}>
+                            {progressBars.length > 0 ? (
+                                progressBars.map(bar => (
+                                    <div key={bar.id} style={{ color: bar.color }}>
+                                        {bar.label} ({bar.currentValue} / {bar.initialTarget} {bar.unit})
+                                    </div>
+                                ))
+                            ) : (
+                                <div>No goals yet</div>
+                            )}
+                        </div>
                     </Navbar.Collapse>
+
                 </Container>
             </Navbar>
 

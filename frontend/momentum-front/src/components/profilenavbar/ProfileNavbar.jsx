@@ -9,19 +9,13 @@ function ProfileNavbar({ selectedTab, onSelectTab }) {
                 className={selectedTab === "posts" ? "active" : ""}
                 onClick={() => onSelectTab("posts")}
             >
-                Publicaciones
+                Posts
             </button>
             <button
-                className={selectedTab === "highlights" ? "active" : ""}
-                onClick={() => onSelectTab("highlights")}
+                className={selectedTab === "Goals" ? "active" : ""}
+                onClick={() => onSelectTab("Goals")}
             >
-                Historias destacadas
-            </button>
-            <button
-                className={selectedTab === "tagged" ? "active" : ""}
-                onClick={() => onSelectTab("tagged")}
-            >
-                Etiquetado
+                Goals
             </button>
         </div>
     );
