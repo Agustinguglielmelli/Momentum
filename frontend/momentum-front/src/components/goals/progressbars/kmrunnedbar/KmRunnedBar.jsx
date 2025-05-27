@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CustomizableProgressBar from '../CustomizableProgressBar';
-import { getKmRanByUser } from '../../../../api/functions';
+import {getKmRanByUser} from '../../../../api/functions';
 
 function KmProgressSection({ userId, initialTarget, color, onRemove, onEdit }) {
     return (

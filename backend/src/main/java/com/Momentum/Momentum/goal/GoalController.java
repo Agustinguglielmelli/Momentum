@@ -42,6 +42,8 @@ public class GoalController {
     public Goal createGoal(@ModelAttribute("currentUser") Usuario currentUser,
     @RequestBody Goal goal){
        goal.setUsuario(currentUser);
+        Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType());
+        goal.setProgress(progress != null ? progress.intValue() : 0);
        return goalService.createGoal(goal);
     }
     @PutMapping("/goals/{id}")
@@ -67,8 +69,10 @@ public class GoalController {
         if (!(goal.getUsuario().getId() == currentUser.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType());
 
-        goal.setProgress(updatedGoal.getProgress());
+        goal.setProgress(progress != null ? progress.intValue() : 0);
+       // goal.setProgress(updatedGoal.getProgress());
         goal.setColor(updatedGoal.getColor());
         goal.setTarget(updatedGoal.getTarget());
 
