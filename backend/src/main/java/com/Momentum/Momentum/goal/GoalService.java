@@ -9,13 +9,15 @@ import com.Momentum.Momentum.goal.GoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class GoalService {
-
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private GoalRepository goalRepository;
 
@@ -49,6 +51,11 @@ public class GoalService {
 
     // Método para obtener el progreso actual basado en el tipo de meta
     public Double getCurrentProgress(long userId, String goalType) {
+        Optional<Usuario> userOptional = usuarioRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        Usuario user = userOptional.get();
         switch (goalType) {
             case "RUNNING":
                 return  recreationalPostRepository.getTotalDistanceByUserId(userId);
@@ -57,10 +64,20 @@ public class GoalService {
                 return calories != null ? calories.doubleValue() : 0.0;
 
             case "EVENTS":
-                return eventRepository.countCompletedEventsByUser(userId);
+                long eventosCompletados = user.getEventsImIn().stream()
+                        .filter(event -> {
+                            try {
+                                LocalDate fechaEvento = LocalDate.parse(event.getDate());
+                                return fechaEvento.isBefore(LocalDate.now());
+                            } catch (Exception e) {
+                                return false;
+                            }
+                        })
+                        .count();
+                return (double) eventosCompletados;
             // aca se agregaran demas casos de metas
             default:
-                return 0;
+                return 0.0;
         }
     }
 }
