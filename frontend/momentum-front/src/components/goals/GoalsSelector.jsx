@@ -26,7 +26,7 @@ const ProgressBarManager = ({ userId }) => {
             defaults: {
                 label: "Kilometers Runned",
                 unit: "km",
-                color: '#00ff38'
+                color: '#21df64'
             }
         },
         {
@@ -141,7 +141,7 @@ const ProgressBarManager = ({ userId }) => {
         }
     };
 
-    
+
     useEffect(() => {
         fetchGoals();
     }, [userId]);
