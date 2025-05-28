@@ -2,6 +2,7 @@ package com.Momentum.Momentum.goal;
 
 
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
+import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.usuario.UsuarioService;
@@ -28,6 +29,8 @@ public class GoalController {
     @Autowired
     UsuarioRepository repository;
 
+    @Autowired
+    private RecreationalPostRepository recPostRepository;
 
     @Autowired
     private GoalService goalService;
@@ -41,7 +44,7 @@ public class GoalController {
     @PostMapping("goals")
     public Goal createGoal(@ModelAttribute("currentUser") Usuario currentUser,
     @RequestBody Goal goal){
-       goal.setUsuario(currentUser);
+        goal.setUsuario(currentUser);
         Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType());
         goal.setProgress(progress != null ? progress.intValue() : 0);
        return goalService.createGoal(goal);
@@ -90,6 +93,20 @@ public class GoalController {
             @ModelAttribute("currentUser") Usuario currentUser) {
         List<Goal> goals = goalService.listAllGoalsOfUser(currentUser.getId());
         return ResponseEntity.ok(goals);
+    }
+
+    @GetMapping("/users/{userId}/progress/goals/kmran")
+    public ResponseEntity<Double> getKmRanProgress(
+            @PathVariable long userId,
+            @ModelAttribute("currentUser") Usuario currentUser) {
+
+        // Verify permissions if needed
+        if (userId != currentUser.getId()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Double totalKm = recPostRepository.getTotalDistanceByUserId(userId);
+        return ResponseEntity.ok(totalKm != null ? totalKm : 0.0);
     }
 
     @GetMapping("/types")

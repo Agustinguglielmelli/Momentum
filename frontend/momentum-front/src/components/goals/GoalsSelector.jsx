@@ -199,20 +199,39 @@ const ProgressBarManager = ({ userId }) => {
         }
     };
 
-    const getProgressBarComponent = (bar) => (
-        <CustomizableProgressBar
-            key={bar.id}
-            userId={userId}
-            label={bar.label}
-            initialTarget={bar.initialTarget}
-            unit={bar.unit}
-            customColor={bar.color}
-            onRemove={() => removeProgressBar(bar.id)}
-            onEdit={() => openEditModal(bar)}
-            hideControls={true}
-            fetchData={() => Promise.resolve({ data: bar.currentValue })}
-        />
-    );
+    const getProgressBarComponent = (bar) => {
+
+        const getFetchFunction = (type) => {
+            switch(type) {
+                case "RUNNING":
+                    return async () => {
+                        const res = await axios.get(
+                            `http://localhost:8080/users/${userId}/progress/goals/kmran`,
+                            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+                        );
+                        return { data: res.data };
+                    };
+                // agregar casos para cada tipo de barra
+                default:
+                    return async () => ({ data: bar.currentValue });
+            }
+        };
+
+        return (
+            <CustomizableProgressBar
+                key={bar.id}
+                userId={userId}
+                label={bar.label}
+                initialTarget={bar.initialTarget}
+                unit={bar.unit}
+                customColor={bar.color}
+                onRemove={() => removeProgressBar(bar.id)}
+                onEdit={() => openEditModal(bar)}
+                hideControls={true}
+                fetchData={getFetchFunction(bar.type)}  // Use dynamic fetch function
+            />
+        );
+    };
 
     if (isLoading) {
         return (

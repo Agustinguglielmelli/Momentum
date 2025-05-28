@@ -1,35 +1,59 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import ColorSelector from './ColorSelector';
 
-function CustomizableProgressBar({userId, fetchData, initialTarget = 100,
-                                     label = "Progress", unit = "",
-                                     customColor = "#007bff", onRemove, onEdit, hideControls=false}) {
-
+function CustomizableProgressBar({
+                                     userId,
+                                     fetchData,
+                                     initialTarget = 100,
+                                     label = "Progress",
+                                     unit = "",
+                                     customColor = "#007bff",
+                                     onRemove,
+                                     onEdit,
+                                     hideControls = false
+                                 }) {
     const [currentValue, setCurrentValue] = useState(0);
     const [targetValue, setTargetValue] = useState(initialTarget);
     const [color, setColor] = useState(customColor);
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const fetchProgress = async () => {
+    const fetchProgress = useCallback(async () => {
+        setIsLoading(true);
         try {
             const response = await fetchData();
-            console.log("Progress data:", response, response.data);
             setCurrentValue(response.data);
             setError(null);
         } catch (err) {
-            setError("Error al cargar el progreso");
+            setError("Error loading progress");
             console.error(err);
+        } finally {
+            setIsLoading(false);
         }
-    };
+    }, [fetchData]);
 
     useEffect(() => {
-        const loadData = async () => {
-            await fetchProgress();
+        // Initial load
+        fetchProgress();
+
+        // Periodic refresh
+        const interval = setInterval(fetchProgress, 30000);
+
+        // Refresh when tab becomes visible
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                fetchProgress();
+            }
         };
-        loadData();
-    }, [userId]);
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            clearInterval(interval);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [fetchProgress]);
 
     const calculatePercentage = () => {
         if (targetValue <= 0) return 0;
@@ -89,9 +113,15 @@ function CustomizableProgressBar({userId, fetchData, initialTarget = 100,
                 />
             </ProgressBar>
 
-            <div className="mt-2">
-                {currentValue} {unit} de {targetValue} {unit} completados
-            </div>
+            {isLoading ? (
+                <div className="text-center my-2">
+                    <small>Loading progress...</small>
+                </div>
+            ) : (
+                <div className="mt-2">
+                    {currentValue} {unit} de {targetValue} {unit} completados
+                </div>
+            )}
 
             {!hideControls && (
                 <div className="mt-4">
