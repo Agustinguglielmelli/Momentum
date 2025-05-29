@@ -81,6 +81,7 @@ const ProgressBarManager = ({ userId }) => {
                 initialTarget: goal.target,
                 currentValue: goal.progress,
                 color: goal.color,
+                type: goal.type,
                 templateType: progressBarTemplates.findIndex(t => t.type === goal.type)
             })));
         } catch (err) {
