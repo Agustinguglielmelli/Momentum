@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.recreationalpost;
 
+import com.Momentum.Momentum.comment.Comment;
 import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-//import lombok.Setter;
-//import lombok.Getter;
 
 
 import java.time.LocalDate;
@@ -27,6 +26,10 @@ public class RecreationalPost {
     @OneToMany(mappedBy = "recreationalPost", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Image> images;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Comment> comments;
 
     @ManyToOne
     @JsonIgnore

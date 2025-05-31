@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.usuario;
 
+import com.Momentum.Momentum.comment.Comment;
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.goal.Goal;
 import com.Momentum.Momentum.message.Message;
@@ -30,6 +31,11 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Comment> comments = new HashSet<>();
 
     @Column (nullable = false)
     private String username;
