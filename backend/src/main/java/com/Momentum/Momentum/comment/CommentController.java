@@ -2,6 +2,7 @@
 package com.Momentum.Momentum.comment;
 
 import com.Momentum.Momentum.usuario.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
 
+    @Autowired
     private final CommentService commentService;
 
     public CommentController(CommentService commentService) {
@@ -45,5 +47,13 @@ public class CommentController {
     public ResponseEntity<Long> getCommentCountByPostId(@PathVariable Long postId) {
         Long count = commentService.getCommentCountForPost(postId);
         return ResponseEntity.ok(count);
+    }
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Long commentId,
+            @ModelAttribute("currentUser") Usuario currentUser) {
+
+        commentService.deleteComment(commentId, currentUser);
+        return ResponseEntity.noContent().build();
     }
 }
