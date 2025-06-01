@@ -40,4 +40,11 @@ public class Comment {
     }
 
     public Comment() {}
+
+    public void setText(String text) {
+        if (text != null && text.length() > 1000) {
+            throw new IllegalArgumentException("El comentario no puede superar los 1000 caracteres");
+        }
+        this.text = text;
+    }
 }

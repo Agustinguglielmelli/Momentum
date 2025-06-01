@@ -2,9 +2,11 @@ package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,6 +19,7 @@ public class RecreationalPostController {
 
     @Autowired
     RecreationalPostService recreationalPostService;
+
 
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser() {
@@ -34,8 +37,23 @@ public class RecreationalPostController {
        return recreationalPostService.getRecPostById(id);
     }
 
-    @PostMapping("/miperfil/recPost")
+    /*@PostMapping("/miperfil/recPost")
     public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
+        recpost.setUsuario(currentUser);
+
+        if (recpost.getImages() != null) {
+            for (Image img : recpost.getImages()) {
+                img.setRecreationalPost(recpost);
+            }
+        }
+
+        return recreationalPostService.createRecPost(recpost);
+    }*/
+    @PostMapping("/miperfil/recPost")
+    public RecreationalPost createRecPost(
+            @RequestBody RecreationalPost recpost,
+            @AuthenticationPrincipal Usuario currentUser // Spring inyecta el usuario
+    ) {
         recpost.setUsuario(currentUser);
 
         if (recpost.getImages() != null) {

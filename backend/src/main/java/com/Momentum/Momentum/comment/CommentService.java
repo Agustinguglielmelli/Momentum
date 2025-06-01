@@ -73,14 +73,14 @@ public class CommentService {
     }
 
     public List<CommentDto> getCommentsByPostId(Long postId) {
-        return commentRepository.findByPostIdOrderByCreatedAtAsc(postId)
+        return commentRepository.findByPostIdRecPostOrderByCreatedAtAsc(postId)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
     public Long getCommentCountForPost(Long postId) {
-        return commentRepository.countByPostId(postId);
+        return commentRepository.countByPostIdRecPost(postId);
     }
 
     private CommentDto convertToDto(Comment comment) {
