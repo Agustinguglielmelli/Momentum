@@ -1,165 +1,295 @@
+import "./RecreationalPostForm.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { convertToBase64, getUserId } from "../../../api/functions";
+import { Link, useNavigate } from "react-router-dom";
+import { FaRegComment, FaHeart, FaRegHeart, FaTimes } from "react-icons/fa";
 
-import { useState } from 'react';
-import { FaRegComment } from "react-icons/fa";
-import Carousel from "./carousel/Carousel";
-
-function PostNuevo({ post, currentUser }) {
+function RecPostFormWithInteractions({ id }) {
+    const [calories, setCalories] = useState('');
+    const [distance, setDistance] = useState('');
+    const [duration, setDuration] = useState('');
+    const [description, setDescription] = useState('');
+    const [base64, setBase64] = useState([]);
+    const [likes, setLikes] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
+    const [comments, setComments] = useState([]);
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState('');
-    const [comments, setComments] = useState([]);
-    const [commentCount, setCommentCount] = useState(post.commentCount || 0);
 
-    const toggleComments = () => {
-        if (!showComments && comments.length === 0) {
-            // Cargar comentarios solo cuando se abren por primera vez
-            fetchComments();
+    const navigate = useNavigate();
+
+    // Cargar datos iniciales del post si es edición
+    useEffect(() => {
+        if (id) {
+            const fetchPostData = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/miperfil/recPost/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    });
+                    const post = response.data;
+                    setDistance(post.distance);
+                    setDuration(post.duration);
+                    setCalories(post.calories);
+                    setDescription(post.description);
+                    setLikes(post.likes || 0);
+                    setComments(post.comments || []);
+
+                    // Verificar si el usuario actual dio like
+                    const likeCheck = await axios.get(`http://localhost:8080/api/likes/has-liked/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                        }
+                    });
+                    setIsLiked(likeCheck.data);
+                } catch (error) {
+                    console.error("Error al cargar el post:", error);
+                }
+            };
+            fetchPostData();
         }
-        setShowComments(!showComments);
-    };
+    }, [id]);
 
-    const fetchComments = async () => {
+    // para guardar el plan
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = {
+            calories: calories,
+            distance: distance,
+            duration: duration,
+            description: description,
+            images: base64.map(img => ({ base64Data: img })),
+        };
+
         try {
-            const response = await fetch(`/api/comments/post/${post.idRecPost}`);
-            if (!response.ok) throw new Error('Error al cargar comentarios');
-            const data = await response.json();
-            setComments(data);
+            if (id) {
+                // Editar post existente
+                await axios.put(`http://localhost:8080/miperfil/recPost/${id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+            } else {
+                // Crear nuevo post
+                await axios.post("http://localhost:8080/miperfil/recPost", data, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+            }
+            navigate("/home");
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error al guardar el post:", error);
         }
     };
 
-    const handleSubmitComment = async (e) => {
+    const handleMultipleImages = async (event) => {
+        const files = Array.from(event.target.files);
+        const imageFiles = files.filter(file => file.type.startsWith('image/'));
+
+        try {
+            if ((base64.length + imageFiles.length) > 5) {
+                alert("Solo se permiten hasta 5 imágenes.");
+                return;
+            }
+            const base64Images = await Promise.all(
+                imageFiles.map(file => convertToBase64(file))
+            );
+            setBase64(prev => [...prev, ...base64Images]);
+        } catch (error) {
+            console.error("Error al convertir imágenes:", error);
+        }
+    };
+
+    const removeImage = (index) => {
+        setBase64(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleLike = async () => {
+        try {
+            await axios.post(`http://localhost:8080/api/likes/toggle/${id}`, {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            setIsLiked(!isLiked);
+            setLikes(isLiked ? likes - 1 : likes + 1);
+        } catch (error) {
+            console.error("Error al dar like:", error);
+        }
+    };
+
+    const handleAddComment = async (e) => {
         e.preventDefault();
         if (!newComment.trim()) return;
 
         try {
-            // Optimistic UI update
-            const tempId = Date.now(); // ID temporal
-            const optimisticComment = {
-                id: tempId,
-                text: newComment,
-                author: {
-                    id: currentUser.id,
-                    username: currentUser.username,
-                    profilePicture: currentUser.profilePicture,
-                    displayUserName: currentUser.displayUserName
-                },
-                createdAt: new Date().toISOString(),
-                postId: post.idRecPost
-            };
-
-            setComments([...comments, optimisticComment]);
-            setCommentCount(commentCount + 1);
-            setNewComment('');
-
-            // Enviar al backend
-            const response = await fetch('/api/comments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
+            const response = await axios.post(
+                "http://localhost:8080/api/comments",
+                {
                     text: newComment,
-                    postId: post.idRecPost
-                })
-            });
-
-            if (!response.ok) throw new Error('Error al publicar comentario');
-
-            const realComment = await response.json();
-
-            // Reemplazar el comentario temporal con el real
-            setComments(comments.map(comment =>
-                comment.id === tempId ? realComment : comment
-            ));
+                    postId: id
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                }
+            );
+            setComments([...comments, response.data]);
+            setNewComment('');
         } catch (error) {
-            console.error("Error:", error);
-            // Revertir cambios si falla
-            setComments(comments.filter(c => c.id !== tempId));
-            setCommentCount(commentCount - 1);
+            console.error("Error al agregar comentario:", error);
         }
     };
 
     return (
-        <div className="post">
-            {/* Encabezado del post */}
-            {post.usuario && (
-                <div className="post-header">
-                    <img className="post-user-avatar" src={post.usuario.profilePicture} alt="Profile picture"/>
-                    <div className="post-user-info">
-                        <div className="post-username">{post.usuario.displayUserName}</div>
-                        <div className="post-time">{post.creationDate}</div>
-                    </div>
-                </div>
-            )}
-
-            {/* Contenido del post */}
-            <div className="post-content">
-                <div className="post-text">{post.description}</div>
-                <Carousel imageList={post.images || []}/>
-            </div>
-
-            {/* Estadísticas */}
-            <div className="post-stats">
-                <div>{post.likes || 0} Me gusta</div>
-                <div>{commentCount} Comentarios</div>
-            </div>
-
-            {/* Acciones */}
-            <div className="post-actions">
-                <button className="post-action">👍 Me gusta</button>
-                <button
-                    className="post-action comment-action"
-                    onClick={toggleComments}
-                >
-                    <FaRegComment className="comment-icon" /> Comentar
-                </button>
-                <button className="post-action">↗️ Compartir</button>
-            </div>
-
-            {/* Sección de comentarios (aparece al hacer clic) */}
-            {showComments && (
-                <div className="comments-section">
-                    <div className="comments-list">
-                        {comments.map(comment => (
-                            <div key={comment.id} className="comment">
-                                <img
-                                    src={comment.author.profilePicture}
-                                    alt={comment.author.displayUserName}
-                                    className="comment-avatar"
-                                />
-                                <div className="comment-content">
-                                    <span className="comment-username">
-                                        {comment.author.displayUserName}
-                                    </span>
-                                    <span className="comment-text">{comment.text}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Formulario para nuevo comentario */}
-                    <form onSubmit={handleSubmitComment} className="comment-form">
+        <div>
+            <Link to={"/myProfile"} className="btn btn-primary">Back</Link>
+            <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
+                <h1>{id ? "Edit Post" : "Create Post"}</h1>
+                <form onSubmit={handleSubmit}>
+                    {/* Campos del formulario existentes */}
+                    <div className="mb-3">
+                        <label htmlFor="title" className="form-label">Distance (kms): </label>
                         <input
-                            type="text"
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Añade un comentario..."
-                            className="comment-input"
+                            type="number"
+                            maxLength={5}
+                            className="form-control"
+                            value={distance}
+                            onChange={(e) => setDistance(e.target.value)}
+                            required
                         />
-                        <button
-                            type="submit"
-                            className="comment-submit"
-                            disabled={!newComment.trim()}
-                        >
-                            Publicar
-                        </button>
-                    </form>
-                </div>
-            )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="frequency" className="form-label">Duration (minutes): </label>
+                        <input
+                            type="number"
+                            maxLength={10}
+                            className="form-control"
+                            value={duration}
+                            onChange={(e) => setDuration(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="duration" className="form-label">Calories: </label>
+                        <input
+                            type="number"
+                            maxLength={5}
+                            className="form-control"
+                            value={calories}
+                            onChange={(e) => setCalories(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="duration" className="form-label">Images: </label>
+                        <input
+                            type="file"
+                            id="profilePicture"
+                            name="profilePicture"
+                            accept="image/*"
+                            onChange={handleMultipleImages}
+                            multiple
+                        />
+                        {base64.length > 0 && (
+                            <div className="image-preview-container">
+                                {base64.map((img, index) => (
+                                    <div key={index} className="image-preview-wrapper">
+                                        <img
+                                            src={img}
+                                            alt={`preview-${index}`}
+                                            className="image-preview"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="remove-image-btn"
+                                            onClick={() => removeImage(index)}
+                                        >
+                                            <FaTimes />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="description" className="form-label">Description: </label>
+                        <textarea
+                            type="text"
+                            maxLength={150}
+                            style={{ resize: "none" }}
+                            rows="5"
+                            className="form-control"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Sección de interacciones (solo para edición) */}
+                    {id && (
+                        <div className="post-interactions">
+                            <div className="post-stats">
+                                <span>{likes} Likes</span>
+                                <span>{comments.length} Comments</span>
+                            </div>
+
+                            <div className="post-actions">
+                                <button
+                                    type="button"
+                                    className={`post-action ${isLiked ? 'liked' : ''}`}
+                                    onClick={handleLike}
+                                >
+                                    {isLiked ? <FaHeart color="red" /> : <FaRegHeart />} Like
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="post-action"
+                                    onClick={() => setShowComments(!showComments)}
+                                >
+                                    <FaRegComment /> Comment
+                                </button>
+                            </div>
+
+                            {showComments && (
+                                <div className="comments-section">
+                                    <div className="comments-list">
+                                        {comments.map((comment, index) => (
+                                            <div key={index} className="comment">
+                                                <div className="comment-author">{comment.author.username}</div>
+                                                <div className="comment-text">{comment.text}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <form onSubmit={handleAddComment} className="comment-form">
+                                        <input
+                                            type="text"
+                                            value={newComment}
+                                            onChange={(e) => setNewComment(e.target.value)}
+                                            placeholder="Write a comment..."
+                                            className="comment-input"
+                                        />
+                                        <button type="submit" className="comment-submit">
+                                            Post
+                                        </button>
+                                    </form>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <button type="submit" className="btn btn-primary">
+                        {id ? "Update Post" : "Create Post"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
 
-export default PostNuevo;
+export default RecPostFormWithInteractions;

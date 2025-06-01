@@ -101,6 +101,15 @@ public class RecreationalPostController {
 
         return ResponseEntity.ok(nuevoRecpost);
     }
+    @GetMapping("/{id}/with-interactions")
+    public ResponseEntity<RecPostWithInteractionsDto> getPostWithInteractions(
+            @PathVariable Long id,
+            @ModelAttribute("currentUser") Usuario currentUser) {
+
+        RecPostWithInteractionsDto dto = recreationalPostService
+                .getPostByIdWithInteractions(id, currentUser);
+        return ResponseEntity.ok(dto);
+    }
 
 
 }

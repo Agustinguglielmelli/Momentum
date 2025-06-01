@@ -1,6 +1,9 @@
 package com.Momentum.Momentum.recreationalpost;
 
 //import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.comment.CommentRepository;
+import com.Momentum.Momentum.like.LikeRepository;
+import com.Momentum.Momentum.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,11 @@ import java.util.Optional;
 public class RecreationalPostService {
 
     RecreationalPostRepository recreationalPostRepository;
+    @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @Autowired
     public RecreationalPostService(RecreationalPostRepository recreationalPostRepository) {
@@ -37,6 +45,25 @@ public class RecreationalPostService {
 
     public List<RecreationalPost> getPostsByUserId(Long userId) {
         return recreationalPostRepository.findByUsuarioId(userId);
+    }
+
+    public RecPostWithInteractionsDto getPostByIdWithInteractions(Long postId, Usuario currentUser) {
+        RecreationalPost post = recreationalPostRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        RecPostWithInteractionsDto dto = new RecPostWithInteractionsDto();
+
+        dto.setIdRecPost(post.getIdRecPost());
+        dto.setDistance(post.getDistance());
+        dto.setCalories(post.getCalories());
+        // ... otros campos
+
+        // Información de interacciones
+        dto.setLikeCount(likeRepository.countByPost(post));
+        dto.setUserLiked(likeRepository.existsByUsuarioAndPost(currentUser, post));
+        dto.setCommentCount(commentRepository.countByPost_Id(post.getIdRecPost()));
+
+        return dto;
     }
 
 }

@@ -2,6 +2,7 @@ package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.comment.Comment;
 import com.Momentum.Momentum.image.Image;
+import com.Momentum.Momentum.like.Like;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -11,7 +12,9 @@ import lombok.Setter;
 
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,6 +33,10 @@ public class RecreationalPost {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Like> likes = new HashSet<>();
 
     @ManyToOne
     @JsonIgnore
