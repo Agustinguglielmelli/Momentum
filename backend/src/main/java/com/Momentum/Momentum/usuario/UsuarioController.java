@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import com.Momentum.Momentum.image.ImageDto;
 
 
 @RestController
@@ -319,6 +320,7 @@ public class UsuarioController {
         List<RecreationalPost> posts = following.stream()
                 .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
                 .collect(Collectors.toList());
+
 
         // Crear los DTOs para cada post
         List<RecPostDto> postDtos = posts.stream().map(

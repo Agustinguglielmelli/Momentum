@@ -1,4 +1,4 @@
-import "./RecreationalPostForm.css";
+//import "./RecreationalPostForm.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { convertToBase64, getUserId } from "../../../api/functions";

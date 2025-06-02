@@ -1,7 +1,9 @@
 package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.image.Image;
+import com.Momentum.Momentum.image.ImageDto;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioDto;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,18 +41,127 @@ public class RecreationalPostController {
        return recreationalPostService.getRecPostById(id);
     }
 
-    /*@PostMapping("/miperfil/recPost")
-    public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
-        recpost.setUsuario(currentUser);
+    @PostMapping("/miperfil/recPost")
+    public ResponseEntity<RecPostDto> createRecPost(
+            @RequestBody RecPostDto postDto,
+            @AuthenticationPrincipal Usuario currentUser
+    ) {
+        // 1. Crear entidad principal
+        RecreationalPost post = new RecreationalPost();
+        post.setDistance(postDto.getDistance());
+        post.setDescription(postDto.getDescription());
+        post.setDuration(postDto.getDuration());
+        post.setCalories(postDto.getCalories());
+        post.setUsuario(currentUser);
 
-        if (recpost.getImages() != null) {
-            for (Image img : recpost.getImages()) {
-                img.setRecreationalPost(recpost);
-            }
+        // 2. Procesar imágenes Base64 (corregido)
+        if (postDto.getImages() != null) {
+            post.setImages(
+                    postDto.getImages().stream()
+                            .map(base64String -> {
+                                Image img = new Image();
+                                img.setBase64Data(String.valueOf(base64String));
+                                img.setRecreationalPost(post);
+                                return img;
+                            })
+                            .toList()
+            );
         }
+
+        // 3. Guardar en BD
+        RecreationalPost savedPost = recreationalPostService.createRecPost(post);
+
+        // 4. Implementación del método convertToDto
+        RecPostDto responseDto = mapToDto(savedPost);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // Método auxiliar para convertir entidad a DTO
+    private RecPostDto mapToDto(RecreationalPost post) {
+        RecPostDto dto = new RecPostDto();
+        dto.setIdRecPost(post.getIdRecPost());
+        dto.setDistance(post.getDistance());
+        dto.setDescription(post.getDescription());
+        dto.setDuration(post.getDuration());
+        dto.setCalories(post.getCalories());
+        dto.setFechaPublicacion(post.getCreationDate());
+
+        // Convertir Usuario a UsuarioDto
+        if (post.getUsuario() != null) {
+            UsuarioDto usuarioDto = new UsuarioDto();
+            usuarioDto.setId(post.getUsuario().getId());
+            usuarioDto.setUsername(post.getUsuario().getUsername());
+            usuarioDto.setDisplayUserName(post.getUsuario().displayUserName());
+            dto.setUsuario(usuarioDto);
+        }
+
+        // Convertir imágenes
+        if (post.getImages() != null) {
+            dto.setImages(
+                    post.getImages().stream()
+                            .map(image -> new ImageDto(image.getId(), image.getBase64Data()))
+                            .toList()
+            );
+        }
+
+        return dto;
+    }
+    /*@PostMapping("/miperfil/recPost")
+    public ResponseEntity<RecPostDto> createRecPost(
+            @RequestBody RecPostDto recPostDto,
+            @AuthenticationPrincipal Usuario currentUser
+    ) {
+        // 1. Convertir DTO a entidad
+        RecreationalPost newPost = new RecreationalPost();
+        newPost.setDistance(recPostDto.getDistance());
+        newPost.setDescription(recPostDto.getDescription());
+        newPost.setDuration(recPostDto.getDuration());
+        newPost.setCalories(recPostDto.getCalories());
+        newPost.setUsuario(currentUser); // Usuario autenticado
+
+        // 2. Guardar en BD (sin imágenes inicialmente)
+        RecreationalPost savedPost = recreationalPostService.createRecPost(newPost);
+
+        // 3. Convertir la entidad guardada a DTO para la respuesta
+        RecPostDto responseDto = new RecPostDto(
+                savedPost.getIdRecPost(),
+                savedPost.getDistance(),
+                savedPost.getDescription(),
+                savedPost.getDuration(),
+                savedPost.getCalories(),
+                convertToUsuarioDto(currentUser), // Método para convertir Usuario a UsuarioDto
+                Collections.emptyList(), // Imágenes vacías inicialmente
+                savedPost.getCreationDate()
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+
+    // Método auxiliar para convertir Usuario a UsuarioDto
+    private UsuarioDto convertToUsuarioDto(Usuario usuario) {
+        UsuarioDto dto = new UsuarioDto();
+        dto.setId(usuario.getId());
+        dto.setUsername(usuario.getUsername());
+        // ... otros campos necesarios
+        return dto;
+    }*/
+
+    /*@PostMapping("/miperfil/recPost")
+    public RecreationalPost createRecPost(
+            @RequestBody RecreationalPostRequest request,
+            @AuthenticationPrincipal Usuario currentUser
+    ) {
+        RecreationalPost recpost = new RecreationalPost();
+        recpost.setDistance(request.getDistance());
+        recpost.setDescription(request.getDescription());
+        recpost.setDuration(request.getDuration());
+        recpost.setCalories(request.getCalories());
+        recpost.setUsuario(currentUser); // Asigna el usuario desde el contexto
 
         return recreationalPostService.createRecPost(recpost);
     }*/
+    /*
     @PostMapping("/miperfil/recPost")
     public RecreationalPost createRecPost(
             @RequestBody RecreationalPost recpost,
@@ -63,7 +176,20 @@ public class RecreationalPostController {
         }
 
         return recreationalPostService.createRecPost(recpost);
-    }
+    }*/
+    /*
+    @PostMapping("/miperfil/recPost")
+    public RecreationalPost createRecPost(@RequestBody RecreationalPost recpost, @ModelAttribute("currentUser") Usuario currentUser) {
+        recpost.setUsuario(currentUser);
+
+        if (recpost.getImages() != null) {
+            for (Image img : recpost.getImages()) {
+                img.setRecreationalPost(recpost);
+            }
+        }
+
+        return recreationalPostService.createRecPost(recpost);
+    }*/
 
     @DeleteMapping("/miperfil/recPost/{id}")
     public ResponseEntity<Void> deleteRecPost(@PathVariable long id, @ModelAttribute("currentUser") Usuario currentUser) {

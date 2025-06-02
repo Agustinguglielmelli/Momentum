@@ -8,6 +8,7 @@ import {
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
+import {RecPostWithComments} from "../post/postwithcomments/RecPostWithComments"
 import {Link, useNavigate} from "react-router-dom";
 import "./MyProfile.css"
 import ButtonNuestro from "../button/ButtonNuestro";

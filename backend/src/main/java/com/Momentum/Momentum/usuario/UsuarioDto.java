@@ -1,6 +1,10 @@
 package com.Momentum.Momentum.usuario;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class UsuarioDto {
     String username;
     Long id;
@@ -13,6 +17,7 @@ public class UsuarioDto {
         this.profilePicture = profilePicture;
         this.displayUserName = displayUserName;
     }
+    public UsuarioDto(){}
 
     public String getDisplayUserName() {
         return displayUserName;

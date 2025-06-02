@@ -36,9 +36,9 @@ public class LikeController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/count/{postId}")
-    public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
-        Long count = likeService.getLikeCount(postId);
-        return ResponseEntity.ok(count);
-    }
+   // @GetMapping("/count/{postId}")
+   // public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
+    //    Long count = likeService.getLikeCount(postId);
+    //    return ResponseEntity.ok(count);
+    //}
 }

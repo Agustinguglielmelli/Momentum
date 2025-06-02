@@ -4,6 +4,7 @@ import com.Momentum.Momentum.comment.Comment;
 import com.Momentum.Momentum.image.Image;
 import com.Momentum.Momentum.like.Like;
 import com.Momentum.Momentum.usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -39,7 +40,7 @@ public class RecreationalPost {
     private Set<Like> likes = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference("user-recposts")
     @JoinColumn (name = "userId")
     private Usuario usuario;
 

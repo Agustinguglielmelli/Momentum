@@ -54,7 +54,7 @@ public class Usuario implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference("user-recposts")
     private Set<RecreationalPost> recPosts = new HashSet<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

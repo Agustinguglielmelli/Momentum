@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.recreationalpost;
 
 import com.Momentum.Momentum.image.Image;
+import com.Momentum.Momentum.image.ImageDto;
 import com.Momentum.Momentum.usuario.UsuarioDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +18,12 @@ public class RecPostDto {
     private String duration;
     private String calories;
     private UsuarioDto usuario;
-    private List<Image> images;
+    private List<ImageDto> images;
     private LocalDate fechaPublicacion;
 
     public RecPostDto(long idRecPost, Double distance, String description,
                       String duration, String calories, UsuarioDto usuario,
-                      List<Image> images, LocalDate fechaPublicacion) {
+                      List<ImageDto> images, LocalDate fechaPublicacion) {
         this.idRecPost = idRecPost;
         this.distance = distance;
         this.description = description;
@@ -32,4 +33,5 @@ public class RecPostDto {
         this.images = images;
         this.fechaPublicacion = fechaPublicacion;
     }
+    public RecPostDto(){}
 }
