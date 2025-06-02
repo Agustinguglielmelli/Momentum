@@ -301,7 +301,59 @@ public class UsuarioController {
 
         return ResponseEntity.ok(isFollowing);
     }
+    @GetMapping("/usuario/recreationalPostsFollowing")
+    public List<RecPostDto> getRecreationalPostsFollowing() {
+        // Obtener el usuario actual (sin cambios en esta parte)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
 
+        if (currentUserOpt.isEmpty()) {
+            return List.of();
+        }
+        Usuario currentUser = currentUserOpt.get();
+        Set<Usuario> following = currentUser.getFollowing();
+
+        // Obtener posts (sin cambios en esta parte)
+        List<RecreationalPost> posts = following.stream()
+                .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
+                .collect(Collectors.toList());
+
+        // Crear los DTOs (PARTE MODIFICADA)
+        List<RecPostDto> postDtos = posts.stream().map(
+                post -> {
+                    Usuario autor = post.getUsuario();
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            autor.getUsername(),
+                            autor.getId(),
+                            autor.getProfilePicture(),
+                            autor.displayUserName()
+                    );
+
+                    // CAMBIO: Convertir List<Image> a List<ImageDto>
+                    List<ImageDto> imageDtos = post.getImages().stream()
+                            .map(image -> new ImageDto(
+                                    image.getId(),          // CAMBIO: Mapear ID
+                                    image.getBase64Data()   // CAMBIO: Mapear Base64
+                            ))
+                            .collect(Collectors.toList());
+
+                    return new RecPostDto(
+                            post.getIdRecPost(),
+                            post.getDistance(),
+                            post.getDescription(),
+                            post.getDuration(),
+                            post.getCalories(),
+                            usuarioDto,
+                            imageDtos,  // CAMBIO: Usar la lista convertida
+                            post.getCreationDate()
+                    );
+                }
+        ).collect(Collectors.toList());
+
+        return postDtos;
+    }
+    /*
     @GetMapping("/usuario/recreationalPostsFollowing")
     public List<RecPostDto> getRecreationalPostsFollowing() {
         // Obtener el usuario actual
@@ -347,7 +399,7 @@ public class UsuarioController {
         ).collect(Collectors.toList());
 
         return postDtos;
-    }
+    }*/
 
 
 //    @GetMapping("/usuario/trainingPlanPostsFollowing")
