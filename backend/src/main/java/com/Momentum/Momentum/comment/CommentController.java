@@ -28,7 +28,7 @@ public class CommentController {
         return (Usuario) authentication.getPrincipal();
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<CommentDto> createComment(
             @RequestBody CreateCommentDto commentDto,
             @ModelAttribute("currentUser") Usuario currentUser) {

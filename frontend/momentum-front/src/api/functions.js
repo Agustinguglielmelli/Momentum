@@ -347,3 +347,50 @@ export async function getGoalsCompletedByUser(userId){
         });
     return result.data;
 }
+// Obtener un post con todas sus interacciones
+export const getPostWithInteractions = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/miperfil/recPost/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching post with interactions:", error);
+        throw error;
+    }
+};
+
+// Dar/quitar like
+export const toggleLike = async (postId) => {
+    try {
+        const response = await axios.post(`http://localhost:8080/api/likes/toggle/${postId}`, {}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error toggling like:", error);
+        throw error;
+    }
+};
+
+// Añadir comentario
+export const addComment = async (postId, text) => {
+    try {
+        const response = await axios.post(`http://localhost:8080/comments`, {
+            text: text,
+            postId: postId
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error adding comment:", error);
+        throw error;
+    }
+};
