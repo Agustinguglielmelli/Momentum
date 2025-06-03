@@ -3,6 +3,7 @@ package com.Momentum.Momentum.conversation;
 import com.Momentum.Momentum.message.MessageDTO;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
+import com.Momentum.Momentum.usuario.UsuarioMessageDto;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,10 @@ public class ConversationService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioDto toUsuarioDto(Usuario usuario) {
-        return new UsuarioDto(
+    public UsuarioMessageDto toUsuarioDto(Usuario usuario) {
+        return new UsuarioMessageDto(
                 usuario.getUsername(),
-                usuario.getId(),
-                usuario.getProfilePicture(),
-                usuario.displayUserName()
+                usuario.getId()
         );
     }
 

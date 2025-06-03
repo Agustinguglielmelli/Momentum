@@ -2,6 +2,7 @@ package com.Momentum.Momentum.message;
 
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
+import com.Momentum.Momentum.usuario.UsuarioMessageDto;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,12 +19,10 @@ public class MessageController {
     private MessageService messageService;
 
 
-    public UsuarioDto toUsuarioDto(Usuario usuario) {
-        return new UsuarioDto(
+    public UsuarioMessageDto toUsuarioDto(Usuario usuario) {
+        return new UsuarioMessageDto(
                 usuario.getUsername(),
-                usuario.getId(),
-                usuario.getProfilePicture(),
-                usuario.displayUserName()
+                usuario.getId()
         );
     }
     @GetMapping("/history/conversation/{conversationId}")
