@@ -376,6 +376,33 @@ export const toggleLike = async (postId) => {
         throw error;
     }
 };
+export const GetLikesCountInPost = async (postId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/likes/count/${postId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error getting likes count:", error);
+        throw error;
+    }
+};
+export const UserLikedPost = async (postId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/likes/has-liked/${postId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error knowing if user liked post:", error);
+        throw error;
+    }
+};
+
 
 // Añadir comentario
 export const addComment = async (postId, text) => {
@@ -394,6 +421,7 @@ export const addComment = async (postId, text) => {
         throw error;
     }
 };
+
 
 export const getConversationById = async (conversationId) => {
     try {
