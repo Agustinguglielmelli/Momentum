@@ -394,3 +394,31 @@ export const addComment = async (postId, text) => {
         throw error;
     }
 };
+
+export const getConversationById = async (conversationId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/conversations/${conversationId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching conversation:", error);
+        throw error;
+    }
+}
+
+export const fetchMessagesFromConversation = async (conversationId) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/api/conversations/${conversationId}/messages`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching messages:", error);
+        throw error;
+    }
+}

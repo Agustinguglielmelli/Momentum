@@ -3,6 +3,7 @@ package com.Momentum.Momentum.conversation.rest;
 import com.Momentum.Momentum.conversation.ConversationDto;
 import com.Momentum.Momentum.conversation.ConversationRepository;
 import com.Momentum.Momentum.conversation.ConversationService;
+import com.Momentum.Momentum.message.MessageDTO;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,15 @@ public class ConversationControllerRest {
     @GetMapping("/allMyConversations")
     public List<ConversationDto> getAllConversations(@ModelAttribute("currentUser") Usuario currentUser) {
         return conversationService.findAllMyConversations(currentUser);
+    }
+    @GetMapping("/conversation/{id}")
+    public ResponseEntity<ConversationDto> getConversationById(@PathVariable Long id) {
+        return conversationService.getConversationById(id);
+    }
+
+    @GetMapping("/{id}/messages")
+    public ResponseEntity<List<MessageDTO>> getMessagesByConversationId(@PathVariable Long id) {
+        return conversationService.getMessagesByConversationId(id);
     }
 
     /*@GetMapping("/{id}")

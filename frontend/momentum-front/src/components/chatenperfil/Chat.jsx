@@ -70,6 +70,7 @@ const ChatApp = () => {
         if (data.length > 0) {
           setActiveChatId(data[0].id);
         }
+        console.log(data)
       } catch (error) {
         console.error("Error al cargar conversaciones:", error);
       }
@@ -185,10 +186,12 @@ const ChatApp = () => {
                   className={`chat-contact ${conv.id === activeChatId ? "active" : ""}`}
                   onClick={() => setActiveChatId(conv.id)}
               >
-                <Avatar src={conv.avatar} alt={conv.name} />
+                <Avatar src={conv.user2.profilePicture} alt={conv.user2.profilePicture} />
                 <div className="contact-info">
-                  <div className="contact-name">{conv.name}</div>
-                  <div className="contact-last">{conv.lastMessage}</div>
+                  <div className="contact-name">{conv.user2.displayUserName}</div>
+                  {conv.user2.messages != null && (
+                      <div className="contact-last">{conv.user2.messages[0]}</div>
+                  )}
                 </div>
               </div>
           ))}

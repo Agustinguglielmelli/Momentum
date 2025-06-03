@@ -18,7 +18,7 @@ import HomePage from "../beforehome/HomePage";
 import MyMapComponent from '../mapforevents/MyMapComponent';
 import LeaderboardKms from "../leaderboardkms/LeaderboardKms";
 import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
-import ChatApp from "../chatsegversion/Chat";
+import ChatApp from "../chatenperfil/Chat";
 import FeedNuevo from "../FeedNuevo";
 
 

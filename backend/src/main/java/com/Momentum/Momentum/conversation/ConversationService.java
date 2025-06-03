@@ -120,6 +120,26 @@ public class ConversationService {
                 .toList();
     }
 
+    public ResponseEntity<ConversationDto> getConversationById(Long id) {
+        Optional<Conversation> optionalConversation = conversationRepository.findById(id);
+        if (optionalConversation.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Conversation conversation = optionalConversation.get();
+        return ResponseEntity.ok(toConversationDto(conversation));
+    }
+
+    public ResponseEntity<List<MessageDTO>> getMessagesByConversationId(Long id) {
+        ResponseEntity<ConversationDto> conversationDtoResponseEntity = getConversationById(id);
+
+        if (!conversationDtoResponseEntity.getStatusCode().is2xxSuccessful() || conversationDtoResponseEntity.getBody() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        ConversationDto conversationDto = conversationDtoResponseEntity.getBody();
+        List<MessageDTO> messageDTOs = conversationDto.getMessages();
+        return ResponseEntity.ok(messageDTOs);
+    }
 }
 
 
