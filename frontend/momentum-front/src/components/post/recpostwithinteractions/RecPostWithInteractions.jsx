@@ -6,7 +6,6 @@ import Carousel from "../../carousel/Carousel";
 import "./PostWithInteractions.css";
 
 function RecPostWithInteractions({ postId, initialData, onDelete }) {
-    // Estados mejorados con valores iniciales más seguros
     const [post, setPost] = useState(initialData || {
         usuario: {},
         images: [],
@@ -19,37 +18,27 @@ function RecPostWithInteractions({ postId, initialData, onDelete }) {
     const [newComment, setNewComment] = useState('');
     const [isLoading, setIsLoading] = useState(!initialData && !!postId);
     const [error, setError] = useState(null);
+    const [showOptions, setShowOptions] = useState(false);
 
-    // Carga de datos mejorada
+    // Cargar datos del post si no se proporcionan datos iniciales
     useEffect(() => {
-        const loadPostData = async () => {
-            if (!postId && !initialData) {
-                setError("No post data provided");
-                return;
-            }
-
-            if (initialData) {
-                // Datos ya proporcionados, no necesitamos cargar
-                return;
-            }
-
-            try {
-                setIsLoading(true);
-                setError(null);
-                const postData = await getPostWithInteractions(postId);
-                setPost(postData);
-                setIsLiked(postData.userLiked || false);
-                setLikeCount(postData.likeCount || 0);
-                setComments(postData.comments || []);
-            } catch (err) {
-                console.error("Error loading post:", err);
-                setError("Failed to load post data");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadPostData();
+        if (!initialData && postId) {
+            const fetchPost = async () => {
+                try {
+                    const postData = await getPostWithInteractions(postId);
+                    setPost(postData);
+                    setIsLiked(postData.userLiked || false);
+                    setLikeCount(postData.likeCount || 0);
+                    setComments(postData.comments || []);
+                    setIsLoading(false);
+                } catch (err) {
+                    console.error("Error fetching post:", err);
+                    setError("Failed to load post");
+                    setIsLoading(false);
+                }
+            };
+            fetchPost();
+        }
     }, [postId, initialData]);
 
     const handleLike = async () => {
@@ -79,127 +68,176 @@ function RecPostWithInteractions({ postId, initialData, onDelete }) {
     };
 
     if (isLoading) {
-        return <div className="loading-spinner">Loading...</div>;
+        return <div className="loading-container">Loading...</div>;
     }
 
     if (error) {
-        return <div className="error-message">{error}</div>;
+        return <div className="error-container">{error}</div>;
     }
 
-    if (!post?.idRecPost) {
-        return <div className="error-message">Post not available</div>;
+    if (!post?.idRecPost && !initialData) {
+        return <div className="not-available-container">Post not available</div>;
     }
 
     return (
         <div className="post-container">
-            {/* Encabezado del post */}
+            {/* Post Header */}
             <div className="post-header">
                 <img
-                    src={post.usuario?.profilePicture || '/default-profile.png'}
+                    src={post.usuario?.profilePicture || 'https://via.placeholder.com/32x32/cccccc/ffffff?text=U'}
                     alt="Profile"
-                    className="post-avatar"
+                    className="profile-picture"
                     onError={(e) => {
-                        e.target.src = '/default-profile.png';
+                        e.target.src = 'https://via.placeholder.com/32x32/cccccc/ffffff?text=U';
                     }}
                 />
-                <div className="post-user-info">
-                    <span className="post-username">{post.usuario?.displayUserName || 'Unknown user'}</span>
+                <div style={{ flex: 1 }}>
+                    <div className="username">
+                        {post.usuario?.displayUserName || 'Unknown user'}
+                    </div>
                     {post.creationDate && (
-                        <span className="post-date">
+                        <div className="post-date">
                             {new Date(post.creationDate).toLocaleDateString()}
-                        </span>
+                        </div>
                     )}
                 </div>
-                {onDelete && (
-                    <button onClick={onDelete} className="delete-post-btn">
-                        Delete
+                <div style={{ position: 'relative' }}>
+                    <button
+                        onClick={() => setShowOptions(!showOptions)}
+                        className="options-button"
+                    >
+                        &#8942;
                     </button>
-                )}
+                    {showOptions && onDelete && (
+                        <div className="options-menu">
+                            <button
+                                onClick={() => {
+                                    onDelete();
+                                    setShowOptions(false);
+                                }}
+                                className="delete-button"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
-            {/* Contenido del post */}
-            <div className="post-content">
+            {/* Post Content */}
+            <div>
                 <Carousel imageList={post.images || []} />
-
-                <div className="post-stats">
-                    {post.distance && <span>{post.distance} km</span>}
-                    {post.duration && <span>{post.duration} min</span>}
-                    {post.calories && <span>{post.calories} cal</span>}
-                </div>
-
-                {post.description && <p className="post-description">{post.description}</p>}
             </div>
 
-            {/* Interacciones */}
-            <div className="post-interactions">
-                <div className="interaction-stats">
-                    <span>{likeCount} Likes</span>
-                    <span>{comments.length} Comments</span>
+            {/* Post Stats */}
+            {(post.distance || post.duration || post.calories) && (
+                <div className="post-stats">
+                    {post.distance && <span>🏃‍♂️ {post.distance} km</span>}
+                    {post.duration && <span>⏱️ {post.duration} min</span>}
+                    {post.calories && <span>🔥 {post.calories} cal</span>}
                 </div>
+            )}
 
-                <div className="interaction-buttons">
-                    <button
-                        className={`interaction-btn ${isLiked ? 'liked' : ''}`}
-                        onClick={handleLike}
-                        aria-label={isLiked ? 'Unlike post' : 'Like post'}
-                    >
-                        {isLiked ? <FaHeart color="red"/> : <FaRegHeart/>} Like
-                    </button>
+            {/* Interaction Buttons */}
+            <div className="interaction-buttons">
+                <button
+                    onClick={handleLike}
+                    className="interaction-button"
+                    style={{ color: isLiked ? '#ed4956' : '#262626' }}
+                >
+                    {isLiked ? <FaHeart /> : <FaRegHeart />}
+                </button>
+                <button
+                    onClick={() => setShowComments(!showComments)}
+                    className="interaction-button"
+                >
+                    <FaRegComment />
+                </button>
+            </div>
 
-                    <button
-                        className="interaction-btn"
-                        onClick={() => setShowComments(!showComments)}
-                        aria-label="Toggle comments"
-                    >
-                        <FaRegComment/> Comment
-                    </button>
+            {/* Like Count */}
+            <div className="like-count">
+                {likeCount} {likeCount === 1 ? 'like' : 'likes'}
+            </div>
+
+            {/* Description */}
+            {post.description && (
+                <div className="post-description">
+                    <span className="comment-author">
+                        {post.usuario?.displayUserName || 'User'}
+                    </span>
+                    {post.description}
                 </div>
+            )}
 
-                {showComments && (
-                    <div className="comments-section">
-                        <div className="comments-list">
-                            {comments.length > 0 ? (
-                                comments.map((comment, index) => (
-                                    <div key={`${comment.id || index}`} className="comment">
-                                        <img
-                                            src={comment.author?.profilePicture || '/default-profile.png'}
-                                            alt="Commenter"
-                                            className="comment-avatar"
-                                            onError={(e) => {
-                                                e.target.src = '/default-profile.png';
-                                            }}
-                                        />
-                                        <div className="comment-content">
+            {/* Comments Count */}
+            {comments.length > 0 && (
+                <button
+                    onClick={() => setShowComments(!showComments)}
+                    className="comments-button"
+                >
+                    View all {comments.length} comments
+                </button>
+            )}
+
+            {/* Comments Section */}
+            {showComments && (
+                <div className="comments-section">
+                    {/* Comments List */}
+                    <div className="comments-list">
+                        {comments.length > 0 ? (
+                            comments.map((comment, index) => (
+                                <div key={comment.id || index} className="comment-item">
+                                    <img
+                                        src={comment.author?.profilePicture || 'https://via.placeholder.com/24x24/cccccc/ffffff?text=U'}
+                                        alt="Commenter"
+                                        className="commenter-picture"
+                                        onError={(e) => {
+                                            e.target.src = 'https://via.placeholder.com/24x24/cccccc/ffffff?text=U';
+                                        }}
+                                    />
+                                    <div style={{ flex: 1 }}>
+                                        <div className="comment-text">
                                             <span className="comment-author">
                                                 {comment.author?.displayUserName || 'Unknown user'}
                                             </span>
-                                            <p className="comment-text">{comment.text}</p>
+                                            {comment.text}
                                         </div>
                                     </div>
-                                ))
-                            ) : (
-                                <p className="no-comments">No comments yet</p>
-                            )}
-                        </div>
-
-                        <form onSubmit={handleAddComment} className="comment-form">
-                            <input
-                                type="text"
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                                placeholder="Write a comment..."
-                                className="comment-input"
-                                required
-                                aria-label="Comment input"
-                            />
-                            <button type="submit" className="comment-submit" disabled={!newComment.trim()}>
-                                Post
-                            </button>
-                        </form>
-                        {error && <p className="comment-error">{error}</p>}
+                                </div>
+                            ))
+                        ) : (
+                            <div className="no-comments">
+                                No comments yet
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+
+                    {/* Add Comment Form */}
+                    <form onSubmit={handleAddComment} className="comment-form">
+                        <input
+                            type="text"
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder="Add a comment..."
+                            className="comment-input"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            disabled={!newComment.trim()}
+                            className={`comment-submit-button ${newComment.trim() ? 'active' : ''}`}
+                        >
+                            Post
+                        </button>
+                    </form>
+                    {error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
