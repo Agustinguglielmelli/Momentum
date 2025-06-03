@@ -436,17 +436,3 @@ export const getConversationById = async (conversationId) => {
         throw error;
     }
 }
-
-export const fetchMessagesFromConversation = async (conversationId) => {
-    try {
-        const response = await axios.get(`http://localhost:8080/api/conversations/${conversationId}/messages`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching messages:", error);
-        throw error;
-    }
-}

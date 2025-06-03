@@ -32,7 +32,7 @@ const formatDateLabel = (dateStr) => {
 const groupMessagesByDate = (messages) => {
   const groups = {};
   messages.forEach((msg) => {
-    const date = new Date(msg.timestampDate || Date.now());
+    const date = new Date(msg.timestamp || msg.timestampDate || Date.now());
     const dateStr = date.toISOString().split("T")[0];
     if (!groups[dateStr]) groups[dateStr] = [];
     groups[dateStr].push(msg);
@@ -44,12 +44,31 @@ const ChatApp = () => {
   const [input, setInput] = useState("");
   const [conversations, setConversations] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const stompClient = useRef(null);
 
   const [usersFollowing, setUsersFollowing] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   const [loadingUsers, setLoadingUsers] = useState(false);
+
+  // Función helper para obtener el otro usuario
+  const getOtherUser = (conversation, currentUserId) => {
+    return conversation.user1.id === currentUserId ? conversation.user2 : conversation.user1;
+  };
+
+  // Obtener el ID del usuario actual desde el token
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setCurrentUserId(decoded.userId);
+      } catch (error) {
+        console.error("Error decodificando token:", error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -87,47 +106,66 @@ const ChatApp = () => {
 
       stompClient.current.connect({}, () => {
         stompClient.current.subscribe("/user/queue/messages", (msg) => {
-          const body = JSON.parse(msg.body);
-          const updatedConvs = conversations.map((conv) => {
-            if (conv.id === body.conversationId) {
-              return { ...conv, messages: [...conv.messages, body] };
-            }
-            return conv;
+          const messageData = JSON.parse(msg.body);
+          console.log("Mensaje recibido:", messageData);
+
+          // Actualizar las conversaciones con el nuevo mensaje
+          setConversations(prevConversations => {
+            return prevConversations.map(conv => {
+              // Verificar si el mensaje pertenece a esta conversación
+              const isMessageForThisConv =
+                  (conv.user1.id === messageData.sender.id && conv.user2.id === messageData.receiver.id) ||
+                  (conv.user1.id === messageData.receiver.id && conv.user2.id === messageData.sender.id);
+
+              if (isMessageForThisConv) {
+                // Crear el mensaje con el formato esperado
+                const newMessage = {
+                  ...messageData,
+                  fromMe: messageData.sender.id === currentUserId,
+                  text: messageData.content,
+                  timestampDate: messageData.timestamp
+                };
+
+                return {
+                  ...conv,
+                  messages: [...(conv.messages || []), newMessage]
+                };
+              }
+              return conv;
+            });
           });
-          setConversations(updatedConvs);
         });
       });
     };
 
-    connectWebSocket();
+    if (currentUserId) {
+      connectWebSocket();
+    }
 
     return () => {
       if (stompClient.current) {
         stompClient.current.disconnect();
       }
     };
-  }, [conversations]);
+  }, [currentUserId]);
 
   const handleSend = () => {
-    if (input.trim() && stompClient.current && stompClient.current.connected && activeChat) {
-      const now = new Date();
-      const token = localStorage.getItem("token")
-      const decoded = jwtDecode(token)
-      const senderId = decoded.userId
-      const activeChatUserId = activeChat ? activeChat.user2.id : null;
+    if (input.trim() && stompClient.current && stompClient.current.connected && activeChat && currentUserId) {
+      // Usar la función helper para obtener el destinatario
+      const recipientUser = getOtherUser(activeChat, currentUserId);
+
       const messageDTO = {
         content: input.trim(),
         timestamp: new Date().toISOString(),
-        sender: { id: senderId, username: "" },
-        receiver: { id: activeChatUserId, username: "" }
+        sender: { id: currentUserId, username: "" },
+        receiver: { id: recipientUser.id, username: "" }
       };
 
-      console.log(messageDTO)
+      console.log("Enviando mensaje:", messageDTO);
       stompClient.current.send("/app/send-message", {}, JSON.stringify(messageDTO));
       setInput("");
     }
   };
-
 
   const activeChat = conversations.find((c) => c.id === activeChatId);
   const messages = activeChat?.messages || [];
@@ -148,14 +186,32 @@ const ChatApp = () => {
     }
     setShowUsers(!showUsers);
   };
+
   const startConversation = async (userId) => {
     try {
-      const result = await createConversation(userId)
+      const result = await createConversation(userId);
       console.log("Conversation created:", result);
+
+      // Recargar conversaciones después de crear una nueva
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8080/api/conversations/allMyConversations", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setConversations(data);
+        // Activar la nueva conversación si existe
+        if (result && result.id) {
+          setActiveChatId(result.id);
+        }
+      }
     } catch (error) {
-        console.error("Error creating conversation:", error);
+      console.error("Error creating conversation:", error);
     }
-  }
+  };
 
   return (
       <Container maxWidth="lg" className="chat-layout">
@@ -190,26 +246,36 @@ const ChatApp = () => {
             )}
           </div>
 
-          {conversations.map((conv) => (
-              <div
-                  key={conv.id}
-                  className={`chat-contact ${conv.id === activeChatId ? "active" : ""}`}
-                  onClick={() => setActiveChatId(conv.id)}
-              >
-                <Avatar src={conv.user2.profilePicture} alt={conv.user2.profilePicture} />
-                <div className="contact-info">
-                  <div className="contact-name">{conv.user2.displayUserName}</div>
-                  {conv.user2.messages != null && (
-                      <div className="contact-last">{conv.user2.messages[0]}</div>
-                  )}
+          {conversations.map((conv) => {
+            const otherUser = getOtherUser(conv, currentUserId);
+            return (
+                <div
+                    key={conv.id}
+                    className={`chat-contact ${conv.id === activeChatId ? "active" : ""}`}
+                    onClick={() => setActiveChatId(conv.id)}
+                >
+                  <Avatar src={otherUser.profilePicture} alt={otherUser.displayUserName} />
+                  <div className="contact-info">
+                    <div className="contact-name">{otherUser.displayUserName}</div>
+                    {conv.messages && conv.messages.length > 0 && (
+                        <div className="contact-last">
+                          {conv.messages[conv.messages.length - 1].content || conv.messages[conv.messages.length - 1].text}
+                        </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Main Chat */}
         <div className="chat-main">
-          <h2>{activeChat?.name || "Selecciona una conversación"}</h2>
+          <h2>
+            {activeChat
+                ? `Chat con ${getOtherUser(activeChat, currentUserId).displayUserName}`
+                : "Selecciona una conversación"
+            }
+          </h2>
           <div className="chat-messages">
             {Object.entries(grouped).map(([date, msgs], i) => (
                 <div key={i}>
@@ -223,15 +289,15 @@ const ChatApp = () => {
                       >
                         {!msg.fromMe && (
                             <Avatar
-                                src={activeChat.avatar}
-                                alt={activeChat.name}
+                                src={getOtherUser(activeChat, currentUserId).profilePicture}
+                                alt={getOtherUser(activeChat, currentUserId).displayUserName}
                                 className="chat-avatar"
                             />
                         )}
                         <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
                           <div className="chat-text">{msg.text || msg.content}</div>
                           <div className="chat-time">
-                            {new Date(msg.timestampDate).toLocaleTimeString([], {
+                            {new Date(msg.timestamp || msg.timestampDate).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
                             })}
@@ -248,9 +314,9 @@ const ChatApp = () => {
                 placeholder="Escribe tu mensaje..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             />
             <ButtonNuestro variant="contained" text="Enviar" className="btn-primary" onClick={handleSend}>
-
             </ButtonNuestro>
           </div>
         </div>
