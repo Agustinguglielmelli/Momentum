@@ -40,7 +40,6 @@ function RecPostWithInteractions({ postId, initialData, onDelete }) {
             fetchPost();
         }
     }, [postId, initialData]);
-
     const handleLike = async () => {
         try {
             await toggleLike(post.idRecPost);
