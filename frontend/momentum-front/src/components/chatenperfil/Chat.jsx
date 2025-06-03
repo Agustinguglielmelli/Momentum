@@ -15,6 +15,7 @@ import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import {createConversation, listUsersFollowing} from "../../api/functions";
 import ButtonNuestro from "../button/ButtonNuestro";
+import {jwtDecode} from "jwt-decode";
 
 // Utilidades para mostrar fechas
 const formatDateLabel = (dateStr) => {
@@ -85,7 +86,7 @@ const ChatApp = () => {
       stompClient.current = Stomp.over(socket);
 
       stompClient.current.connect({}, () => {
-        stompClient.current.subscribe("/user/private", (msg) => {
+        stompClient.current.subscribe("/user/queue/messages", (msg) => {
           const body = JSON.parse(msg.body);
           const updatedConvs = conversations.map((conv) => {
             if (conv.id === body.conversationId) {
@@ -108,17 +109,25 @@ const ChatApp = () => {
   }, [conversations]);
 
   const handleSend = () => {
-    if (input.trim() && stompClient.current && stompClient.current.connected) {
+    if (input.trim() && stompClient.current && stompClient.current.connected && activeChat) {
       const now = new Date();
-      const message = {
+      const token = localStorage.getItem("token")
+      const decoded = jwtDecode(token)
+      const senderId = decoded.userId
+      const activeChatUserId = activeChat ? activeChat.user2.id : null;
+      const messageDTO = {
         content: input.trim(),
-        timestampDate: now.toISOString(),
+        timestamp: new Date().toISOString(),
+        sender: { id: senderId, username: "" },
+        receiver: { id: activeChatUserId, username: "" }
       };
 
-      stompClient.current.send("/app/send-message", {}, JSON.stringify(message));
+      console.log(messageDTO)
+      stompClient.current.send("/app/send-message", {}, JSON.stringify(messageDTO));
       setInput("");
     }
   };
+
 
   const activeChat = conversations.find((c) => c.id === activeChatId);
   const messages = activeChat?.messages || [];
@@ -147,6 +156,7 @@ const ChatApp = () => {
         console.error("Error creating conversation:", error);
     }
   }
+
   return (
       <Container maxWidth="lg" className="chat-layout">
         {/* Sidebar */}
@@ -239,8 +249,8 @@ const ChatApp = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
             />
-            <ButtonNuestro variant="contained" color="primary" onClick={handleSend}>
-              Enviar
+            <ButtonNuestro variant="contained" text="Enviar" className="btn-primary" onClick={handleSend}>
+
             </ButtonNuestro>
           </div>
         </div>
