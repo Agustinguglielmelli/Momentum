@@ -402,7 +402,7 @@ public class UsuarioController {
     }*/
 
 
-//    @GetMapping("/usuario/trainingPlanPostsFollowing")
+    @GetMapping("/usuario/trainingPlanPostsFollowing")
     public List<TrainingPlanPostDto> getTrainingPlanPostsFollowing() {
         // Obtener el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

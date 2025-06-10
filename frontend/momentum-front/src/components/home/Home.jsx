@@ -124,7 +124,6 @@ function Home(){
             <div className="top-bar">
                 <div>
                     <Navbar searchBar={<SearchUserBar handleSearch={handleSearch} />}/>
-                    <LogoutButton/>
                 </div>
                 <div>
                     {/*Muestro una ventana con los usuarios si escribo en la searchbar*/}

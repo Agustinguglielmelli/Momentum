@@ -8,6 +8,9 @@ import {
     listUsersByNameSearch, unFollow
 } from "../api/functions";
 import {Link} from "react-router-dom";
+import Navbar from "./navbar/Navbar";
+import SearchUserBar from "./searchbar/SearchUserBar";
+import ButtonNuestro from "./button/ButtonNuestro";
 
 
 
@@ -130,10 +133,39 @@ function FeedNuevo(){
     }, []);
 
     return(
-        <div className="main-container">
-            <div className="sidebar-left">
-                {userProfile && (
-                    <div className="profile-card">
+        <div>
+            <div>
+                <Navbar searchBar={<SearchUserBar handleSearch={handleSearch}/>}/>
+            </div>
+            <div>
+                {/*Muestro una ventana con los usuarios si escribo en la searchbar*/}
+                {users.length > 0 && (
+                    <div className="search-results-container">
+                        {users.map(user => (
+                            <div className="search-result-item" key={user.id}>
+                                <img src={user.profilePicture} alt="profilePicture" className="profile-picture-search"/>
+                                <h2>{user.displayUserName}</h2>
+                                <ButtonNuestro
+                                    onClick={() => {
+                                        if (followedUsers.includes(user.id)) {
+                                            handleUnfollow(user.id);
+                                        } else {
+                                            handleFollow(user.id);
+                                        }
+                                    }}
+                                    type="submit"
+                                    className="btn-primary"
+                                    text={followedUsers.includes(user.id) ? "Unfollow" : "Follow"}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+    <div className="main-container">
+        <div className="sidebar-left">
+            {userProfile && (
+                <div className="profile-card">
                     <div>
                         <img className="profile-pic" src={userProfile.profilePicture} alt=""/>
                     </div>
@@ -154,87 +186,88 @@ function FeedNuevo(){
                         </div>
                     </div>
                 </div>
-                )}
+            )}
 
-                <ul className="menu-list">
-                    <li><a href="#"><span>🏠</span> Inicio</a></li>
-                    <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
-                    <li><Link to="/events">📅 Events</Link></li>
-                    <li><Link to="/events">👤 My Profile</Link></li>
-                    <li><a href="#"><span>👥</span> Comunidad</a></li>
-                    <li><a href="#"><span>⚙️</span> Ajustes</a></li>
-                </ul>
-            </div>
-
-            <div className="feed">
-                <div className="create-post">
-                    <div className="post-input">
-                        <div className="post-avatar">👤</div>
-                        <textarea className="post-textarea" placeholder="¿Cómo fue tu carrera hoy?"></textarea>
-                    </div>
-                    <div className="post-actions">
-                        <div className="post-attachments">
-                            <button className="attach-btn"><span>📷</span> Foto</button>
-                            <button className="attach-btn"><span>📍</span> Ubicación</button>
-                            <button className="attach-btn"><span>📊</span> Estadísticas</button>
-                        </div>
-                        <button className="submit-post">Publicar</button>
-                    </div>
+            <ul className="menu-list">
+            <li><a href="#"><span>🏠</span> Inicio</a></li>
+                        <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
+                        <li><Link to="/events">📅 Events</Link></li>
+                        <li><Link to="/events">👤 My Profile</Link></li>
+                        <li><a href="#"><span>👥</span> Comunidad</a></li>
+                        <li><a href="#"><span>⚙️</span> Ajustes</a></li>
+                    </ul>
                 </div>
-                {followingRecreationalPosts.length > 0 && (
-                    followingRecreationalPosts.map((post) => (
-                        <div className="post-container2">
-                            <div className="post-content">
-                                <PostNuevo key={post.idRecPost} post={post}/>
+
+                <div className="feed">
+                    <div className="create-post">
+                        <div className="post-input">
+                            <div className="post-avatar">👤</div>
+                            <textarea className="post-textarea" placeholder="¿Cómo fue tu carrera hoy?"></textarea>
+                        </div>
+                        <div className="post-actions">
+                            <div className="post-attachments">
+                                <button className="attach-btn"><span>📷</span> Foto</button>
+                                <button className="attach-btn"><span>📍</span> Ubicación</button>
+                                <button className="attach-btn"><span>📊</span> Estadísticas</button>
                             </div>
+                            <button className="submit-post">Publicar</button>
                         </div>
-                    ))
-                )}
+                    </div>
+                    {followingRecreationalPosts.length > 0 && (
+                        followingRecreationalPosts.map((post) => (
+                            <div className="post-container2">
+                                <div className="post-content">
+                                    <PostNuevo key={post.idRecPost} post={post}/>
+                                </div>
+                            </div>
+                        ))
+                    )}
 
-            </div>
-
-            <div className="sidebar-right">
-                <div className="trending-section">
-                    <h3 className="section-title">Tendencias</h3>
-                    <div className="trending-item">
-                        <div className="trending-tag">#MaratonCiudad2025</div>
-                        <div className="trending-stats">1.2K publicaciones esta semana</div>
-                    </div>
-                    <div className="trending-item">
-                        <div className="trending-tag">#TécnicaDeCarrera</div>
-                        <div className="trending-stats">845 publicaciones esta semana</div>
-                    </div>
-                    <div className="trending-item">
-                        <div className="trending-tag">#CorrerEnInvierno</div>
-                        <div className="trending-stats">621 publicaciones esta semana</div>
-                    </div>
                 </div>
 
-                <div className="suggested-section">
-                    <h3 className="section-title">Sugerencias para ti</h3>
-                    <div className="suggested-user">
-                        <div className="suggested-avatar">👤</div>
-                        <div className="suggested-info">
-                            <div className="suggested-name">Marta Ruiz</div>
-                            <div className="suggested-stats">125 carreras registradas</div>
+                <div className="sidebar-right">
+                    <div className="trending-section">
+                        <h3 className="section-title">Tendencias</h3>
+                        <div className="trending-item">
+                            <div className="trending-tag">#MaratonCiudad2025</div>
+                            <div className="trending-stats">1.2K publicaciones esta semana</div>
                         </div>
-                        <button className="follow-btn">Seguir</button>
+                        <div className="trending-item">
+                            <div className="trending-tag">#TécnicaDeCarrera</div>
+                            <div className="trending-stats">845 publicaciones esta semana</div>
+                        </div>
+                        <div className="trending-item">
+                            <div className="trending-tag">#CorrerEnInvierno</div>
+                            <div className="trending-stats">621 publicaciones esta semana</div>
+                        </div>
                     </div>
-                    <div className="suggested-user">
-                        <div className="suggested-avatar">👤</div>
-                        <div className="suggested-info">
-                            <div className="suggested-name">Club Trail Montaña</div>
-                            <div className="suggested-stats">1.8K miembros</div>
+
+                    <div className="suggested-section">
+                        <h3 className="section-title">Sugerencias para ti</h3>
+                        <div className="suggested-user">
+                            <div className="suggested-avatar">👤</div>
+                            <div className="suggested-info">
+                                <div className="suggested-name">Marta Ruiz</div>
+                                <div className="suggested-stats">125 carreras registradas</div>
+                            </div>
+                            <button className="follow-btn">Seguir</button>
                         </div>
-                        <button className="follow-btn">Seguir</button>
-                    </div>
-                    <div className="suggested-user">
-                        <div className="suggested-avatar">👤</div>
-                        <div className="suggested-info">
-                            <div className="suggested-name">Daniel Vega</div>
-                            <div className="suggested-stats">89 carreras registradas</div>
+                        <div className="suggested-user">
+                            <div className="suggested-avatar">👤</div>
+                            <div className="suggested-info">
+                                <div className="suggested-name">Club Trail Montaña</div>
+                                <div className="suggested-stats">1.8K miembros</div>
+                            </div>
+                            <button className="follow-btn">Seguir</button>
                         </div>
-                        <button className="follow-btn">Seguir</button>
+                        <div className="suggested-user">
+                            <div className="suggested-avatar">👤</div>
+                            <div className="suggested-info">
+                                <div className="suggested-name">Daniel Vega</div>
+                                <div className="suggested-stats">89 carreras registradas</div>
+                            </div>
+                            <button className="follow-btn">Seguir</button>
+                        </div>
                     </div>
                 </div>
             </div>

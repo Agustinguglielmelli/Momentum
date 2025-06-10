@@ -46,7 +46,7 @@ function AppRouter() {
 
             <Route path='/home' element={
                 <PrivateRoute>
-                    <Home/>
+                    <FeedNuevo/>
                 </PrivateRoute>
             } />
             <Route path='/leaderboard-kms' element={
@@ -114,11 +114,7 @@ function AppRouter() {
                     <MyMapComponent/>
                 </PrivateRoute>
             } />
-            <Route path='/feednuevo' element={
-                <PrivateRoute>
-                    <FeedNuevo/>
-                </PrivateRoute>
-            } />
+            
             <Route path='/myprofile/updateRecreationalPost/:postId' element={
                 <PrivateRoute>
                     <RecPostFormWithInteractions2/>

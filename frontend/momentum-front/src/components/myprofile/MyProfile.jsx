@@ -17,6 +17,7 @@ import ButtonNuestro from "../button/ButtonNuestro";
 import Navbar from "../navbar/Navbar";
 import ProfileNavbar from "../profilenavbar/ProfileNavbar"
 import GoalsSelector from "../goals/GoalsSelector";
+import LogoutButton from "../logoutbutton/LogoutButton";
 
 function MyProfile(){
     const navigate = useNavigate();
@@ -124,6 +125,7 @@ function MyProfile(){
                             <h2>{userProfile.displayUserName}</h2>
                             <Link to="/myprofile/modifyUser" className="btn btn-warning">Modify profile</Link>
                             <Link to="/myprofile/chats" className="btn btn-primary">Chats</Link>
+                            <LogoutButton/>
                             <ButtonNuestro className="btn-danger" text="Delete account" onClick={() => deleteMyUser(userProfile.id)}></ButtonNuestro>
                         </div>
                     </div>
