@@ -13,18 +13,13 @@ export async function listUsers() {
 }
 
 export async function listRecreationalPosts() {
-    try {
-        const result = await axios.get("http://localhost:8080/miperfil/recPost", {
+    const result =  await axios.get("http://localhost:8080/miperfil/recPost",
+        {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
-        // Asegurarnos que siempre devolvemos un array
-        return Array.isArray(result.data) ? result.data : [];
-    } catch (error) {
-        console.error("Error fetching recreational posts:", error);
-        return []; // Devuelve array vacío en caso de error
-    }
+    return result.data;
 }
 
 export async function listTrainingPlanPosts() {

@@ -18,6 +18,7 @@ import Navbar from "../navbar/Navbar";
 import ProfileNavbar from "../profilenavbar/ProfileNavbar"
 import GoalsSelector from "../goals/GoalsSelector";
 import LogoutButton from "../logoutbutton/LogoutButton";
+import PostNuevo from "../PostNuevo";
 
 function MyProfile(){
     const navigate = useNavigate();
@@ -137,28 +138,16 @@ function MyProfile(){
                         <Link className="btn btn-primary" to={"/myprofile/createRecreationalPost"}>
                             New Post
                         </Link>
-                        {recreationalPosts.map((post) => (
-                            <div className="post-item" key={post.idRecPost}>
-                                <div className="post-actions">
-                                <ButtonNuestro
-                                    className="btn-danger"
-                                    text="Delete post"
-                                    onClick={() => deleteRecreationalPost(post.idRecPost)}
-                                />
-                                <Link
-                                    className="btn btn-warning"
-                                    to={`/myprofile/updateRecreationalPost/${post.idRecPost}`}
-                                >
-                                    Update Post
-                                </Link>
-                                </div>
-                                <RecPostWithInteractions
-                                    id={post.idRecPost}
-                                    post={post}
-                                    onDelete={() => deleteRecreationalPost(post.idRecPost)}
-                                />
+                        {recreationalPosts.length > 0 && (
+                            <div className="profile-content">
+                                {recreationalPosts.map((post) => (
+                                    <div className="post-item">
+                                        <ButtonNuestro className="btn-danger" text="Delete post" onClick={()=>deleteRecreationalPost(post.idRecPost)}></ButtonNuestro>
+                                        <PostNuevo key={post.idRecPost} post={post}/>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        )}
                     </div>
                 )}
                 {selectedTab === "posts" && userRole === "COACH" && (
