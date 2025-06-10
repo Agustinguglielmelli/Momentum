@@ -114,7 +114,7 @@ function AppRouter() {
                     <MyMapComponent/>
                 </PrivateRoute>
             } />
-            
+
             <Route path='/myprofile/updateRecreationalPost/:postId' element={
                 <PrivateRoute>
                     <RecPostFormWithInteractions2/>
