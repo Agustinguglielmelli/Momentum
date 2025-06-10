@@ -13,10 +13,13 @@ function PostNuevo({ post }){
                 </div>
             )}
             <div className="post-content">
+                <Carousel imageList={post.images}/>
+                <div className="post-text">Calories burnt: {post.calories}</div>
+                <div className="post-text">Distance run: {post.distance} kms</div>
+                <div className="post-text">Duration: {post.duration} minutes</div>
                 <div className="post-text">
                     {post.description}
                 </div>
-                <Carousel imageList={post.images}/>
             </div>
             <div className="post-stats">
                 <div>18 Me gusta</div>

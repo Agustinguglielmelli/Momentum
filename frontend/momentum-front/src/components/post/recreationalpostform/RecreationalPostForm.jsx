@@ -38,7 +38,6 @@ function RecreationalPostForm({ id }) {
       console.log(result.data);
       console.log(data)
       console.log("¡Post creado con éxito!");
-      navigate("/home")
     } catch (error) {
       console.error("Error al guardar el post:", error);
     }

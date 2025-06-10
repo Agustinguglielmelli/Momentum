@@ -58,9 +58,9 @@ public class RecreationalPostController {
         if (postDto.getImages() != null) {
             post.setImages(
                     postDto.getImages().stream()
-                            .map(base64String -> {
+                            .map(imageDto -> {
                                 Image img = new Image();
-                                img.setBase64Data(String.valueOf(base64String));
+                                img.setBase64Data(imageDto.getBase64Data());
                                 img.setRecreationalPost(post);
                                 return img;
                             })
