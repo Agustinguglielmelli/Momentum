@@ -180,7 +180,6 @@ function MyProfile(){
                 {selectedTab === "Goals" && (
                     <div className="container-general">
                         <h2 className="section-title">My Goals</h2>
-                        <p>Aún no tenés metas</p>
                         <GoalsSelector
                             userId={userProfile ? userProfile.id : null}
                         />

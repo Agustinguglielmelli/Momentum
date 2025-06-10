@@ -250,14 +250,20 @@ const ProgressBarManager = ({ userId }) => {
 
     return (
         <div>
-            <Navbar bg="light" expand="lg" className="mb-4">
-                <Container>
-                    <Navbar.Brand>Progress Manager</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar
+                bg="light"
+                expand="lg"
+                style={{ minHeight: '36px', padding: '0 0', marginBottom: '0.25rem', borderBottom: '1px solid #eee' }}
+            >
+                <Container style={{ padding: '0 8px', minHeight: '32px' }}>
+                    <Navbar.Brand style={{ fontSize: '1rem', margin: '0', padding: '0 4px' }}>
+                        Progress Manager
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ padding: '2px 6px', fontSize: '0.9rem' }} />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
                                     Add Progress Bar
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
@@ -272,19 +278,8 @@ const ProgressBarManager = ({ userId }) => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Nav>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginLeft: 'auto', color: '#000', maxHeight: '150px', overflowY: 'auto' }}>
-                            {progressBars.length > 0 ? (
-                                progressBars.map(bar => (
-                                    <div key={bar.id} style={{ color: bar.color }}>
-                                        {bar.label} ({bar.currentValue} / {bar.initialTarget} {bar.unit})
-                                    </div>
-                                ))
-                            ) : (
-                                <div>No goals yet</div>
-                            )}
-                        </div>
-                    </Navbar.Collapse>
 
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
 
