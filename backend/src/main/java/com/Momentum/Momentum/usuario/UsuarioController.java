@@ -303,7 +303,7 @@ public class UsuarioController {
     }
     @GetMapping("/usuario/recreationalPostsFollowing")
     public List<RecPostDto> getRecreationalPostsFollowing() {
-        // Obtener el usuario actual (sin cambios en esta parte)
+        // Obtener el usuario actual
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
@@ -314,12 +314,12 @@ public class UsuarioController {
         Usuario currentUser = currentUserOpt.get();
         Set<Usuario> following = currentUser.getFollowing();
 
-        // Obtener posts (sin cambios en esta parte)
+        // Obtener posts
         List<RecreationalPost> posts = following.stream()
                 .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
                 .collect(Collectors.toList());
 
-        // Crear los DTOs (PARTE MODIFICADA)
+        // Crear los DTOs
         List<RecPostDto> postDtos = posts.stream().map(
                 post -> {
                     Usuario autor = post.getUsuario();

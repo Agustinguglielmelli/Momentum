@@ -8,6 +8,7 @@ import com.Momentum.Momentum.usuario.UsuarioDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,10 +27,14 @@ public class RecreationalPostService {
         this.recreationalPostRepository = recreationalPostRepository;
     }
 
-    public List<RecreationalPost> listAllRecPostsOfUser(Long userId) {
-            return recreationalPostRepository.findByUsuarioId(userId);
+    public List<RecPostDto> listAllRecPostsOfUser(Long userId) {
+        List<RecreationalPost> RecPosts = recreationalPostRepository.findByUsuarioId(userId);
+        List<RecPostDto> dtos = new ArrayList<>();
+        for (RecreationalPost post : RecPosts) {
+            dtos.add(mapToDto(post));
+        }
+        return dtos;
     }
-
     public Optional<RecreationalPost> getRecPostById(Long id){
         return recreationalPostRepository.findById(id);
     }
@@ -83,5 +88,16 @@ public class RecreationalPostService {
 
         return dto;
     }
+        private RecPostDto mapToDto(RecreationalPost post) {
+            RecPostDto dto = new RecPostDto();
+            dto.setIdRecPost(post.getIdRecPost());
+            dto.setDistance(post.getDistance());
+            dto.setDescription(post.getDescription());
+            dto.setDuration(post.getDuration());
+            dto.setCalories(post.getCalories());
+            dto.setFechaPublicacion(post.getCreationDate());
+
+            return dto;
+        }
 
 }

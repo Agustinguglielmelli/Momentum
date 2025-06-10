@@ -3,7 +3,7 @@ import axios from "axios";
 import { convertToBase64 } from "../../../api/functions";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegComment, FaHeart, FaRegHeart, FaTimes } from "react-icons/fa";
-import "./RecPostFormWithInteractions2.css";
+import "./RecPostWithInteractions2.css";
 
 // Funciones para interactuar con el backend
 const getPostWithInteractions = async (id) => {

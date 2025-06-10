@@ -32,7 +32,7 @@ public class RecreationalPostController {
     }
 
     @GetMapping("/miperfil/recPost")
-    public List<RecreationalPost> getAllRecPosts(@ModelAttribute("currentUser") Usuario currentUser){
+    public List<RecPostDto> getAllRecPosts(@ModelAttribute("currentUser") Usuario currentUser){
         return recreationalPostService.listAllRecPostsOfUser(currentUser.getId());
     }
 
@@ -54,7 +54,7 @@ public class RecreationalPostController {
         post.setCalories(postDto.getCalories());
         post.setUsuario(currentUser);
 
-        // 2. Procesar imágenes Base64 (corregido)
+        // 2. Procesar imágenes Base64
         if (postDto.getImages() != null) {
             post.setImages(
                     postDto.getImages().stream()

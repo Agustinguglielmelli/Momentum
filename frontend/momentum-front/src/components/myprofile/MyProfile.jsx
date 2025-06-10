@@ -137,11 +137,19 @@ function MyProfile(){
                         </Link>
                         {recreationalPosts.map((post) => (
                             <div className="post-item" key={post.idRecPost}>
+                                <div className="post-actions">
                                 <ButtonNuestro
                                     className="btn-danger"
                                     text="Delete post"
                                     onClick={() => deleteRecreationalPost(post.idRecPost)}
                                 />
+                                <Link
+                                    className="btn btn-warning"
+                                    to={`/myprofile/updateRecreationalPost/${post.idRecPost}`}
+                                >
+                                    Update Post
+                                </Link>
+                                </div>
                                 <RecPostWithInteractions
                                     id={post.idRecPost}
                                     post={post}

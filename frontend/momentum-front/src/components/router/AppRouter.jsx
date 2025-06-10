@@ -20,6 +20,7 @@ import LeaderboardKms from "../leaderboardkms/LeaderboardKms";
 import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
 import ChatApp from "../chatenperfil/Chat";
 import FeedNuevo from "../FeedNuevo";
+import RecPostFormWithInteractions2 from "../post/recpostformwithinteractions/RecPostFormWithInteractions2";
 
 
 function AppRouter() {
@@ -116,6 +117,11 @@ function AppRouter() {
             <Route path='/feednuevo' element={
                 <PrivateRoute>
                     <FeedNuevo/>
+                </PrivateRoute>
+            } />
+            <Route path='/myprofile/updateRecreationalPost/:postId' element={
+                <PrivateRoute>
+                    <RecPostFormWithInteractions2/>
                 </PrivateRoute>
             } />
             
