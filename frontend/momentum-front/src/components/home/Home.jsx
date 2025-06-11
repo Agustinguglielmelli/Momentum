@@ -12,7 +12,7 @@ import {
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
 import ButtonNuestro from "../button/ButtonNuestro";
-    import {Link} from "react-router-dom";
+import PostNuevo from "../PostNuevo";
 
 
 function Home(){
@@ -158,7 +158,7 @@ function Home(){
                         followingRecreationalPosts.map((post) => (
                             <div className="post-container2">
                                 <div className="post-content">
-                                    <RecreationalPost key={post.idRecPost} post={post}/>
+                                    <PostNuevo key={post.idRecPost} post={post}/>
                                 </div>
                             </div>
                         ))

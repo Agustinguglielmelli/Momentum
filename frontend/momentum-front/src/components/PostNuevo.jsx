@@ -7,27 +7,37 @@ function PostNuevo({ post }) {
     const [hasLiked, setHasLiked] = useState(false);
     const [commentCount, setCommentCount] = useState(0);
 
-    const postId = post.id;
+    const postId = post.idRecPost;
+
+    // Token de autenticación desde localStorage
+    const token = localStorage.getItem("token");
+
+    // Configuración con headers de autorización
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
 
     useEffect(() => {
         // Traer cantidad de likes
-        axios.get(`/api/likes/count/${postId}`)
+        axios.get(`http://localhost:8080/api/likes/count/${postId}`, config)
             .then(res => setLikeCount(res.data))
             .catch(err => console.error("Error fetching like count:", err));
 
         // Traer si el usuario actual ha dado like
-        axios.get(`/api/likes/has-liked/${postId}`)
+        axios.get(`http://localhost:8080/api/likes/has-liked/${postId}`, config)
             .then(res => setHasLiked(res.data))
             .catch(err => console.error("Error fetching like status:", err));
 
         // (Opcional) Traer cantidad de comentarios
-        axios.get(`/api/comments/count/${postId}`)
+        axios.get(`http://localhost:8080/api/comments/count/${postId}`, config)
             .then(res => setCommentCount(res.data))
             .catch(err => console.error("Error fetching comment count:", err));
     }, [postId]);
 
     const toggleLike = () => {
-        axios.post(`/api/likes/toggle/${postId}`)
+        axios.post(`http://localhost:8080/api/likes/toggle/${postId}`, null, config)
             .then(() => {
                 setHasLiked(!hasLiked);
                 setLikeCount(prev => hasLiked ? prev - 1 : prev + 1);

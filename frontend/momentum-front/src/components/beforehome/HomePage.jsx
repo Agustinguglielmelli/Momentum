@@ -11,7 +11,6 @@ function HomePage() {
                     <Link className="nav-buttons nav-btn" to="/signup">Signup</Link>
                 </div>
             </nav>
-            <ChatComponent/>
             <main className="hero">
                 <div className="hero-content">
                     <h1>Impulsa tu entrenamiento con Momentum</h1>
