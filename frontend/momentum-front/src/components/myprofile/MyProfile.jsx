@@ -1,16 +1,15 @@
 import {useEffect, useState} from "react";
 import {
-    listRecreationalPosts,
-    listTrainingPlanPosts,
+    deleteAccount,
+    deleteRecPost,
+    deleteTrainPost,
+    getPostWithInteractions,
     getUserRole,
     listProfileInfo,
-    deleteRecPost, deleteTrainPost,
-    deleteAccount,
-    getPostWithInteractions
+    listRecreationalPosts,
+    listTrainingPlanPosts
 } from "../../api/functions";
-import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
-import RecPostWithInteractions from "../post/recpostformwithinteractions/RecPostFormWithInteractions";
 import {Link, useNavigate} from "react-router-dom";
 import "./MyProfile.css"
 import ButtonNuestro from "../button/ButtonNuestro";
@@ -65,12 +64,13 @@ function MyProfile(){
         const fetchRecreationalPosts = async () => {
             try {
                 const recPosts = await listRecreationalPosts();
+                console.log("Recreational Posts Response:", recPosts);
                 // Carga datos completos con interacciones
                 const postsWithInteractions = await Promise.all(
                     recPosts.map(async post => {
                         try {
-                            const fullPost = await getPostWithInteractions(post.idRecPost);
-                            return fullPost;
+                            console.log(post.idRecPost);
+                            return await getPostWithInteractions(post.idRecPost);
                         } catch (error) {
                             console.error(`Error loading interactions for post ${post.idRecPost}:`, error);
                             return post; // Fallback a datos básicos

@@ -6,13 +6,13 @@ function PostNuevo({ post }) {
     const [likeCount, setLikeCount] = useState(0);
     const [hasLiked, setHasLiked] = useState(false);
     const [commentCount, setCommentCount] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+    const [showComments, setShowComments] = useState(false);
 
     const postId = post.idRecPost;
-
-    // Token de autenticación desde localStorage
     const token = localStorage.getItem("token");
 
-    // Configuración con headers de autorización
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -20,18 +20,15 @@ function PostNuevo({ post }) {
     };
 
     useEffect(() => {
-        // Traer cantidad de likes
         axios.get(`http://localhost:8080/api/likes/count/${postId}`, config)
             .then(res => setLikeCount(res.data))
             .catch(err => console.error("Error fetching like count:", err));
 
-        // Traer si el usuario actual ha dado like
         axios.get(`http://localhost:8080/api/likes/has-liked/${postId}`, config)
             .then(res => setHasLiked(res.data))
             .catch(err => console.error("Error fetching like status:", err));
 
-        // (Opcional) Traer cantidad de comentarios
-        axios.get(`http://localhost:8080/api/comments/count/${postId}`, config)
+        axios.get(`http://localhost:8080/api/comments/post/${postId}/count`, config)
             .then(res => setCommentCount(res.data))
             .catch(err => console.error("Error fetching comment count:", err));
     }, [postId]);
@@ -43,6 +40,27 @@ function PostNuevo({ post }) {
                 setLikeCount(prev => hasLiked ? prev - 1 : prev + 1);
             })
             .catch(err => console.error("Error toggling like:", err));
+    };
+
+    const fetchComments = () => {
+        axios.get(`http://localhost:8080/api/comments/post/${postId}`, config)
+            .then(res => setComments(res.data))
+            .catch(err => console.error("Error fetching comments:", err));
+    };
+
+    const handleCommentSubmit = () => {
+        if (newComment.trim() === "") return;
+
+        axios.post("http://localhost:8080/api/comments/", {
+            postId,
+            text: newComment   // <-- aquí cambiar a 'text'
+        }, config)
+            .then(() => {
+                setNewComment("");
+                fetchComments();
+                setCommentCount(prev => prev + 1);
+            })
+            .catch(err => console.error("Error posting comment:", err));
     };
 
     return (
@@ -79,9 +97,46 @@ function PostNuevo({ post }) {
                 >
                     {hasLiked ? "👍 Ya te gusta" : "👍 Me gusta"}
                 </div>
-                <div className="post-action">💬 Comentar</div>
+                <div
+                    className="post-action"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                        setShowComments(!showComments);
+                        if (!showComments) fetchComments();
+                    }}
+                >
+                    💬 {showComments ? "Ocultar comentarios" : "Ver comentarios"}
+                </div>
                 <div className="post-action">↗️ Compartir</div>
             </div>
+
+            {showComments && (
+                <div className="post-comments" style={{ marginTop: "10px" }}>
+                    <div className="post-comments-list">
+                        {comments.length === 0 ? (
+                            <div style={{ fontStyle: "italic", color: "gray" }}>
+                                No hay comentarios aún.
+                            </div>
+                        ) : (
+                            comments.map((comment) => (
+                                <div key={comment.id} className="comment-item" style={{ padding: "4px 0", borderBottom: "1px solid #eee" }}>
+                                    <strong>{comment.author.displayUserName}</strong>: {comment.text}
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <div className="post-comments-form" style={{ marginTop: "10px" }}>
+                        <input
+                            type="text"
+                            placeholder="Escribe un comentario..."
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            style={{ width: "80%", marginRight: "5px" }}
+                        />
+                        <button onClick={handleCommentSubmit}>Enviar</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

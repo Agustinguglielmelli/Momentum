@@ -350,7 +350,7 @@ export async function getGoalsCompletedByUser(userId){
 // Obtener un post con todas sus interacciones
 export const getPostWithInteractions = async (id) => {
     try {
-        const response = await axios.get(`http://localhost:8080/miperfil/recPost/${id}`, {
+        const response = await axios.get(`http://localhost:8080/miperfil/${id}/with-interactions`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }

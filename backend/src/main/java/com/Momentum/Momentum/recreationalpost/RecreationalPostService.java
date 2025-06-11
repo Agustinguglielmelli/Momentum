@@ -2,6 +2,7 @@ package com.Momentum.Momentum.recreationalpost;
 
 //import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.comment.CommentRepository;
+import com.Momentum.Momentum.image.ImageDto;
 import com.Momentum.Momentum.like.LikeRepository;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
@@ -88,16 +89,21 @@ public class RecreationalPostService {
 
         return dto;
     }
-        private RecPostDto mapToDto(RecreationalPost post) {
-            RecPostDto dto = new RecPostDto();
-            dto.setIdRecPost(post.getIdRecPost());
-            dto.setDistance(post.getDistance());
-            dto.setDescription(post.getDescription());
-            dto.setDuration(post.getDuration());
-            dto.setCalories(post.getCalories());
-            dto.setFechaPublicacion(post.getCreationDate());
+    private RecPostDto mapToDto(RecreationalPost post) {
+        RecPostDto dto = new RecPostDto();
+        dto.setIdRecPost(post.getIdRecPost());
+        dto.setDistance(post.getDistance());
+        dto.setDescription(post.getDescription());
+        dto.setDuration(post.getDuration());
+        dto.setCalories(post.getCalories());
+        dto.setFechaPublicacion(post.getCreationDate());
+        dto.setImages(post.getImages().stream().map(
+                image -> new ImageDto(image.getId(), image.getBase64Data())
+        ).toList());
 
-            return dto;
-        }
+        return dto;
+    }
+
+
 
 }
