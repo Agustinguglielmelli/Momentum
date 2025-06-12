@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {listFollowingOrderedByEventsCompleted} from "../../api/functions";
-import {jwtDecode} from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { listFollowingOrderedByEventsCompleted } from "../../api/functions";
+import { jwtDecode } from "jwt-decode";
+import "../leaderboardkms/LeaderboardCss.css"; // Asegurate de importar el CSS compartido
 
-function LeaderboardEvents () {
-
-    const [users, setUsers] = useState([])
+function LeaderboardEvents() {
+    const [users, setUsers] = useState([]);
     const token = localStorage.getItem("token");
-
-    const loggedUserId = Number((jwtDecode(token)).userId);
+    const loggedUserId = Number(jwtDecode(token).userId);
 
     const fetchUsers = async () => {
         try {
@@ -17,7 +16,7 @@ function LeaderboardEvents () {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     useEffect(() => {
         fetchUsers();
@@ -25,78 +24,92 @@ function LeaderboardEvents () {
 
     return (
         <div className="leaderboard-body">
-            <Link to={"/home"} className="btn btn-primary">Back</Link>
-            <Link to={"/leaderboard-kms"} className="btn btn-primary">Leaderboard Kms</Link>
+            <div className="header-section">
+                <Link to="/home" className="btn btn-primary">← Volver</Link>
+                <Link to="/leaderboard-kms" className="btn btn-primary">🏃‍♂️ Kilómetros</Link>
+            </div>
+
             {users.length > 0 ? (
                 <div className="leaderboard">
-                    <h1 className="h1-leaderboard">Top events completed</h1>
+                    <h1 className="h1-leaderboard">🏆 Top Eventos</h1>
+                    <p className="leaderboard-subtitle">Usuarios que completaron más eventos</p>
+
                     <div className="podium">
                         {users[1] && (
                             <div className="runner second">
-                                <div className="trophy silver">🥈</div>
+                                <div className="podium-rank">2</div>
+                                <div className="trophy">🥈</div>
                                 <p className="name">{users[1].usuario.displayUserName}</p>
-                                <p className="score">{users[1].eventosCompletados} events completed</p>
+                                <p className="score">{users[1].eventosCompletados} eventos</p>
                             </div>
                         )}
                         {users[0] && (
                             <div className="runner first">
-                                <div className="trophy gold">🥇</div>
+                                <div className="podium-rank">1</div>
+                                <div className="trophy">🥇</div>
                                 <p className="name">{users[0].usuario.displayUserName}</p>
-                                <p className="score">{users[0].eventosCompletados} events completed</p>
+                                <p className="score">{users[0].eventosCompletados} eventos</p>
                             </div>
                         )}
                         {users[2] && (
                             <div className="runner third">
-                                <div className="trophy bronze">🥉</div>
+                                <div className="podium-rank">3</div>
+                                <div className="trophy">🥉</div>
                                 <p className="name">{users[2].usuario.displayUserName}</p>
-                                <p className="score">{users[2].eventosCompletados} events completed</p>
+                                <p className="score">{users[2].eventosCompletados} eventos</p>
                             </div>
                         )}
                     </div>
 
-                    <table className="leaderboard-table">
-                        <thead className="leaderboard-thead">
-                        <tr className="leaderboard-tr">
-                            <th className="leaderboard-th">Rank</th>
-                            <th className="leaderboard-th">Name</th>
-                            <th className="leaderboard-th">Events completed</th>
-                        </tr>
-                        </thead>
+                    <div className="table-section">
+                        <div className="table-header">
+                            <h2 className="table-title">Clasificación Completa</h2>
+                            <p>Todos los corredores ordenados por eventos completados</p>
+                        </div>
 
-                        <tbody className="leaderboard-tbody">
-                        {users.map((userWithEventsCompleted, index) => (
-
-                            <tr key={userWithEventsCompleted.usuario.id}
-                                className={Number(userWithEventsCompleted.usuario.id) === loggedUserId ? "highlighted-user" : ""}
-                            >
-                                <td className="leaderboard-td">{index + 1}</td>
-                                <td className="leaderboard-td">
-                                    <img
-                                        className="leaderboard-img"
-                                        src={userWithEventsCompleted.usuario.profilePicture}
-                                        alt="avatar"
-                                        width="30"
-                                    />
-                                    {userWithEventsCompleted.usuario.displayUserName}
-                                </td>
-                                <td className="leaderboard-td">
-                                    {userWithEventsCompleted.eventosCompletados}
-                                </td>
+                        <table className="leaderboard-table">
+                            <thead className="leaderboard-thead">
+                            <tr className="leaderboard-tr">
+                                <th className="leaderboard-th">Pos</th>
+                                <th className="leaderboard-th">Corredor</th>
+                                <th className="leaderboard-th" style={{ textAlign: 'right' }}>Eventos</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="leaderboard-tbody">
+                            {users.map((user, index) => (
+                                <tr
+                                    key={user.usuario.id}
+                                    className={Number(user.usuario.id) === loggedUserId ? "highlighted-user" : ""}
+                                >
+                                    <td className="leaderboard-td">{index + 1}</td>
+                                    <td className="leaderboard-td">
+                                        <img
+                                            className="leaderboard-img"
+                                            src={user.usuario.profilePicture}
+                                            alt="avatar"
+                                        />
+                                        <span>{user.usuario.displayUserName}</span>
+                                    </td>
+                                    <td className="leaderboard-td">
+                                        {user.eventosCompletados}
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <div className="empty-leaderboard">
-                    <h1 className="message-title">🏃‍♂️ Leaderboard vacío</h1>
+                    <div className="empty-icon">🏃‍♂️</div>
+                    <h1 className="message-title">Leaderboard vacío</h1>
                     <p className="message-text">
                         Para ver el leaderboard, primero tenés que seguir a otros usuarios.
                     </p>
                 </div>
             )}
         </div>
-    )
+    );
 }
 
-export default LeaderboardEvents
+export default LeaderboardEvents;

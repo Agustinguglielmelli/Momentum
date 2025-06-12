@@ -1,25 +1,22 @@
-import "./LeaderboardCss.css"
-import React, {useEffect, useState} from "react";
-import {listFollowingOrderedByKms} from "../../api/functions";
-import {Link} from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import "./LeaderboardCss.css";
+import React, { useEffect, useState } from "react";
+import { listFollowingOrderedByKms } from "../../api/functions";
+import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
-function LeaderboardKms () {
-
-    const [users, setUsers] = useState([])
+function LeaderboardKms() {
+    const [users, setUsers] = useState([]);
     const token = localStorage.getItem("token");
-
-    const loggedUserId = Number((jwtDecode(token)).userId);
+    const loggedUserId = Number(jwtDecode(token).userId);
 
     const fetchUsers = async () => {
         try {
             const result = await listFollowingOrderedByKms();
             setUsers(result);
-            console.log(users)
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     useEffect(() => {
         fetchUsers();
@@ -28,8 +25,8 @@ function LeaderboardKms () {
     return (
         <div className="leaderboard-body">
             <div className="header-section">
-                <Link to={"/home"} className="btn btn-primary">← Volver</Link>
-                <Link to={"/leaderboard-events"} className="btn btn-primary">🏆 Eventos</Link>
+                <Link to="/home" className="btn btn-primary">← Volver</Link>
+                <Link to="/leaderboard-events" className="btn btn-primary">🏆 Eventos</Link>
             </div>
 
             {users.length > 0 ? (
@@ -42,6 +39,15 @@ function LeaderboardKms () {
                             <div className="runner second">
                                 <div className="podium-rank">2</div>
                                 <div className="trophy">🥈</div>
+                                <p className="name">{users[1].usuario.displayUserName}</p>
+                                <p className="score">{users[1].totalKms?.toFixed(1)} km</p>
+                            </div>
+                        )}
+                        {users[0] && (
+                            <div className="runner first">
+                                <div className="podium-rank">1</div>
+                                <div className="trophy">🥇</div>
+                                <p className="name">{users[0].usuario.displayUserName}</p>
                                 <p className="score">{users[0].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
@@ -61,36 +67,41 @@ function LeaderboardKms () {
                             <p>Todos los corredores ordenados por kilómetros recorridos</p>
                         </div>
 
-                        <table className="leaderboard-table">
-                            <thead className="leaderboard-thead">
-                            <tr className="leaderboard-tr">
-                                <th className="leaderboard-th">Pos</th>
-                                <th className="leaderboard-th">Corredor</th>
-                                <th className="leaderboard-th" style={{textAlign: 'right'}}>Distancia</th>
-                            </tr>
-                            </thead>
-
-                            <tbody className="leaderboard-tbody">
-                            {users.map((userWithKms, index) => (
-                                <tr key={userWithKms.usuario.id}
-                                    className={Number(userWithKms.usuario.id) === loggedUserId ? "highlighted-user" : ""}
-                                >
-                                    <td className="leaderboard-td">{index + 1}</td>
-                                    <td className="leaderboard-td">
-                                        <img
-                                            className="leaderboard-img"
-                                            src={userWithKms.usuario.profilePicture}
-                                            alt="avatar"
-                                        />
-                                        <span>{userWithKms.usuario.displayUserName}</span>
-                                    </td>
-                                    <td className="leaderboard-td">
-                                        {userWithKms.totalKms?.toFixed(2)} <span style={{fontSize: '0.9rem', color: '#888', fontWeight: 400}}>km</span>
-                                    </td>
+                        <div style={{
+                            maxHeight: "270px", // Altura para mostrar aprox. 3 filas
+                            overflowY: "auto"
+                        }}>
+                            <table className="leaderboard-table">
+                                <thead className="leaderboard-thead">
+                                <tr className="leaderboard-tr">
+                                    <th className="leaderboard-th">Pos</th>
+                                    <th className="leaderboard-th">Corredor</th>
+                                    <th className="leaderboard-th" style={{ textAlign: 'right' }}>Distancia</th>
                                 </tr>
-                            ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="leaderboard-tbody">
+                                {users.map((userWithKms, index) => (
+                                    <tr
+                                        key={userWithKms.usuario.id}
+                                        className={Number(userWithKms.usuario.id) === loggedUserId ? "highlighted-user" : ""}
+                                    >
+                                        <td className="leaderboard-td">{index + 1}</td>
+                                        <td className="leaderboard-td">
+                                            <img
+                                                className="leaderboard-img"
+                                                src={userWithKms.usuario.profilePicture}
+                                                alt="avatar"
+                                            />
+                                            <span>{userWithKms.usuario.displayUserName}</span>
+                                        </td>
+                                        <td className="leaderboard-td" style={{ textAlign: 'right' }}>
+                                            {userWithKms.totalKms?.toFixed(2)} <span style={{ fontSize: '0.9rem', color: '#888', fontWeight: 400 }}>km</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -103,7 +114,7 @@ function LeaderboardKms () {
                 </div>
             )}
         </div>
-    )
+    );
 }
 
-export default LeaderboardKmsname
+export default LeaderboardKms;

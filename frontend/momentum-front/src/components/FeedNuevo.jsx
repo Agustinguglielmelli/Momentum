@@ -193,8 +193,6 @@ function FeedNuevo(){
                         <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
                         <li><Link to="/events">📅 Events</Link></li>
                         <li><Link to="/events">👤 My Profile</Link></li>
-                        <li><a href="#"><span>👥</span> Comunidad</a></li>
-                        <li><a href="#"><span>⚙️</span> Ajustes</a></li>
                     </ul>
                 </div>
 
