@@ -1,6 +1,7 @@
 
 package com.Momentum.Momentum.like;
 
+import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,9 +25,14 @@ public class Like {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     @JsonIgnore
     private RecreationalPost post;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    @JsonIgnore
+    private Event event;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

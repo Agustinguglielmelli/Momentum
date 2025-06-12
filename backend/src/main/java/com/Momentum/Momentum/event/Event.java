@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.event;
 
+import com.Momentum.Momentum.like.Like;
 import lombok.Setter;
 import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -53,6 +54,10 @@ public class Event {
     )
     @JsonIgnore
     private Set<Usuario> participantes = new HashSet<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Like> likes = new HashSet<>();
 
     public Event(){
     }

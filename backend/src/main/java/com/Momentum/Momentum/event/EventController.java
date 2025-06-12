@@ -32,6 +32,8 @@ public class EventController {
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication principal: " + authentication.getPrincipal().getClass());
+
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
     @PostMapping("/events")
