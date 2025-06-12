@@ -53,7 +53,7 @@ function PostNuevo({ post }) {
 
         axios.post("http://localhost:8080/api/comments/", {
             postId,
-            text: newComment   // <-- aquí cambiar a 'text'
+            text: newComment
         }, config)
             .then(() => {
                 setNewComment("");
@@ -61,6 +61,13 @@ function PostNuevo({ post }) {
                 setCommentCount(prev => prev + 1);
             })
             .catch(err => console.error("Error posting comment:", err));
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleCommentSubmit();
+        }
     };
 
     return (
@@ -91,15 +98,13 @@ function PostNuevo({ post }) {
             </div>
             <div className="post-footer">
                 <div
-                    className="post-action"
-                    style={{ cursor: "pointer", color: hasLiked ? "blue" : "black" }}
+                    className={`post-action ${hasLiked ? 'liked' : ''}`}
                     onClick={toggleLike}
                 >
                     {hasLiked ? "👍 Ya te gusta" : "👍 Me gusta"}
                 </div>
                 <div
                     className="post-action"
-                    style={{ cursor: "pointer" }}
                     onClick={() => {
                         setShowComments(!showComments);
                         if (!showComments) fetchComments();
@@ -111,29 +116,98 @@ function PostNuevo({ post }) {
             </div>
 
             {showComments && (
-                <div className="post-comments" style={{ marginTop: "10px" }}>
-                    <div className="post-comments-list">
-                        {comments.length === 0 ? (
-                            <div style={{ fontStyle: "italic", color: "gray" }}>
-                                No hay comentarios aún.
-                            </div>
-                        ) : (
-                            comments.map((comment) => (
-                                <div key={comment.id} className="comment-item" style={{ padding: "4px 0", borderBottom: "1px solid #eee" }}>
-                                    <strong>{comment.author.displayUserName}</strong>: {comment.text}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                    <div className="post-comments-form" style={{ marginTop: "10px" }}>
-                        <input
-                            type="text"
+                <div className="comments-section">
+                    <div className="comment-form">
+                        <textarea
+                            className="comment-input"
                             placeholder="Escribe un comentario..."
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            style={{ width: "80%", marginRight: "5px" }}
+                            onKeyPress={handleKeyPress}
+                            maxLength={300}
+                            rows="3"
                         />
-                        <button onClick={handleCommentSubmit}>Enviar</button>
+                        <div className="comment-form-footer">
+                            <div className="character-count">
+                                {newComment.length}/300
+                            </div>
+                            <button
+                                className="comment-submit"
+                                onClick={handleCommentSubmit}
+                                disabled={newComment.trim() === "" || newComment.length > 500}
+                            >
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="comments-list" style={{
+                        maxHeight: "270px",  // aprox. 3 comentarios
+                        overflowY: "auto",
+                        paddingRight: "4px"
+                    }}>
+                        {comments.length === 0 ? (
+                            <div className="no-comments">
+                                No hay comentarios aún. ¡Sé el primero en comentar!
+                            </div>
+                        ) : (
+                            comments.map((comment) => (
+                                <div key={comment.id} className="comment" style={{
+                                    display: "flex",
+                                    alignItems: "flex-start",
+                                    marginBottom: "16px",
+                                    padding: "12px",
+                                    backgroundColor: "#f8f9fa",
+                                    borderRadius: "12px",
+                                    border: "1px solid #e9ecef",
+                                    gap: "12px"
+                                }}>
+                                    <img
+                                        className="comment-avatar"
+                                        src={comment.author.profilePicture || '/default-avatar.png'}
+                                        alt={`${comment.author.displayUserName} avatar`}
+                                        style={{
+                                            width: '40px',
+                                            height: '40px',
+                                            borderRadius: '50%',
+                                            objectFit: 'cover',
+                                            objectPosition: 'center',
+                                            flexShrink: 0,
+                                            border: '2px solid #dee2e6'
+                                        }}
+                                    />
+                                    <div className="comment-content" style={{
+                                        flex: 1,
+                                        minWidth: 0
+                                    }}>
+                                        <div className="comment-header" style={{
+                                            marginBottom: "6px"
+                                        }}>
+                                            <span className="comment-author" style={{
+                                                fontWeight: "600",
+                                                fontSize: "14px",
+                                                color: "#495057"
+                                            }}>
+                                                {comment.author.displayUserName}
+                                            </span>
+                                        </div>
+                                        <div className="comment-message" style={{
+                                            backgroundColor: "#ffffff",
+                                            padding: "10px 14px",
+                                            borderRadius: "18px",
+                                            border: "1px solid #e9ecef",
+                                            fontSize: "14px",
+                                            lineHeight: "1.4",
+                                            color: "#212529",
+                                            wordWrap: "break-word",
+                                            boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
+                                        }}>
+                                            {comment.text}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             )}
