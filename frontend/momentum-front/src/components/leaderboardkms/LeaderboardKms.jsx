@@ -25,8 +25,8 @@ function LeaderboardKms() {
     return (
         <div className="leaderboard-body">
             <div className="header-section">
-                <Link to="/home" className="btn btn-primary">← Volver</Link>
-                <Link to="/leaderboard-events" className="btn btn-primary">🏆 Eventos</Link>
+                <Link to="/home" className="btn btn-leaderboard btn-primary">← Volver</Link>
+                <Link to="/leaderboard-events" className="btn btn-leaderboard  btn-primary">🏆 Eventos</Link>
             </div>
 
             {users.length > 0 ? (

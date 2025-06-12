@@ -27,7 +27,7 @@
     gap: 1rem;
 }
 
-.btn {
+.btn-leaderboard {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -42,7 +42,7 @@
     gap: 8px;
 }
 
-.btn:hover {
+.btn-leaderboard:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);

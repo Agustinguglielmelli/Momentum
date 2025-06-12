@@ -1,5 +1,10 @@
 package com.Momentum.Momentum.event;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class EventDto {
     String title;
     String date;
@@ -11,27 +16,4 @@ public class EventDto {
         this.idEvent = idEvent;
     }
 
-    public Long getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(Long idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 }

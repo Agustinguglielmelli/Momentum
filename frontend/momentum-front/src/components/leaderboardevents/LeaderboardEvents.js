@@ -25,8 +25,8 @@ function LeaderboardEvents() {
     return (
         <div className="leaderboard-body">
             <div className="header-section">
-                <Link to="/home" className="btn btn-primary">← Volver</Link>
-                <Link to="/leaderboard-kms" className="btn btn-primary">🏃‍♂️ Kilómetros</Link>
+                <Link to="/home" className="btn btn-leaderboard  btn-primary">← Volver</Link>
+                <Link to="/leaderboard-kms" className="btn btn-leaderboard btn-primary">🏃‍♂️ Kilómetros</Link>
             </div>
 
             {users.length > 0 ? (
