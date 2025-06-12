@@ -27,70 +27,76 @@ function LeaderboardKms () {
 
     return (
         <div className="leaderboard-body">
-            <Link to={"/home"} className="btn btn-primary">Back</Link>
-            <Link to={"/leaderboard-events"} className="btn btn-primary">Leaderboard Events</Link>
+            <div className="header-section">
+                <Link to={"/home"} className="btn btn-primary">← Volver</Link>
+                <Link to={"/leaderboard-events"} className="btn btn-primary">🏆 Eventos</Link>
+            </div>
+
             {users.length > 0 ? (
                 <div className="leaderboard">
-                    <h1 className="h1-leaderboard">Top Runners</h1>
+                    <h1 className="h1-leaderboard">🏃‍♂️ Top Runners</h1>
+                    <p className="leaderboard-subtitle">Los corredores que más kilómetros han recorrido</p>
+
                     <div className="podium">
                         {users[1] && (
                             <div className="runner second">
-                                <div className="trophy silver">🥈</div>
-                                <p className="name">{users[1].usuario.displayUserName}</p>
-                                <p className="score">{users[1].totalKms} km</p>
-                            </div>
-                        )}
-                        {users[0] && (
-                            <div className="runner first">
-                                <div className="trophy gold">🥇</div>
-                                <p className="name">{users[0].usuario.displayUserName}</p>
-                                <p className="score">{users[0].totalKms} km</p>
+                                <div className="podium-rank">2</div>
+                                <div className="trophy">🥈</div>
+                                <p className="score">{users[0].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
                         {users[2] && (
                             <div className="runner third">
-                                <div className="trophy bronze">🥉</div>
+                                <div className="podium-rank">3</div>
+                                <div className="trophy">🥉</div>
                                 <p className="name">{users[2].usuario.displayUserName}</p>
-                                <p className="score">{users[2].totalKms} km</p>
+                                <p className="score">{users[2].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
                     </div>
 
-                    <table className="leaderboard-table">
-                        <thead className="leaderboard-thead">
-                        <tr className="leaderboard-tr">
-                            <th className="leaderboard-th">Rank</th>
-                            <th className="leaderboard-th">Name</th>
-                            <th className="leaderboard-th">Kilometers ran</th>
-                        </tr>
-                        </thead>
+                    <div className="table-section">
+                        <div className="table-header">
+                            <h2 className="table-title">Clasificación Completa</h2>
+                            <p>Todos los corredores ordenados por kilómetros recorridos</p>
+                        </div>
 
-                        <tbody className="leaderboard-tbody">
-                        {users.map((userWithKms, index) => (
-                            <tr key={userWithKms.usuario.id}
-                            className={Number(userWithKms.usuario.id) === loggedUserId ? "highlighted-user" : ""}
-                            >
-                                <td className="leaderboard-td">{index + 1}</td>
-                                <td className="leaderboard-td">
-                                    <img
-                                        className="leaderboard-img"
-                                        src={userWithKms.usuario.profilePicture}
-                                        alt="avatar"
-                                        width="30"
-                                    />
-                                    {userWithKms.usuario.displayUserName}
-                                </td>
-                                <td className="leaderboard-td">
-                                    {userWithKms.totalKms?.toFixed(2)}
-                                </td>
+                        <table className="leaderboard-table">
+                            <thead className="leaderboard-thead">
+                            <tr className="leaderboard-tr">
+                                <th className="leaderboard-th">Pos</th>
+                                <th className="leaderboard-th">Corredor</th>
+                                <th className="leaderboard-th" style={{textAlign: 'right'}}>Distancia</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody className="leaderboard-tbody">
+                            {users.map((userWithKms, index) => (
+                                <tr key={userWithKms.usuario.id}
+                                    className={Number(userWithKms.usuario.id) === loggedUserId ? "highlighted-user" : ""}
+                                >
+                                    <td className="leaderboard-td">{index + 1}</td>
+                                    <td className="leaderboard-td">
+                                        <img
+                                            className="leaderboard-img"
+                                            src={userWithKms.usuario.profilePicture}
+                                            alt="avatar"
+                                        />
+                                        <span>{userWithKms.usuario.displayUserName}</span>
+                                    </td>
+                                    <td className="leaderboard-td">
+                                        {userWithKms.totalKms?.toFixed(2)} <span style={{fontSize: '0.9rem', color: '#888', fontWeight: 400}}>km</span>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <div className="empty-leaderboard">
-                    <h1 className="message-title">🏃‍♂️ Leaderboard vacío</h1>
+                    <div className="empty-icon">🏃‍♂️</div>
+                    <h1 className="message-title">Leaderboard vacío</h1>
                     <p className="message-text">
                         Para ver el leaderboard, primero tenés que seguir a otros usuarios.
                     </p>
@@ -100,4 +106,4 @@ function LeaderboardKms () {
     )
 }
 
-export default LeaderboardKms
+export default LeaderboardKmsname
