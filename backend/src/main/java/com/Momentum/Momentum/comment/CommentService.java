@@ -1,6 +1,8 @@
 
 package com.Momentum.Momentum.comment;
 
+import com.Momentum.Momentum.event.Event;
+import com.Momentum.Momentum.event.EventRepository;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.recreationalpost.RecreationalPostRepository;
 import com.Momentum.Momentum.usuario.Usuario;
@@ -19,15 +21,17 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final RecreationalPostRepository recreationalPostRepository;
     private final UsuarioRepository usuarioRepository;
+    private final EventRepository eventRepository;
 
     @Autowired
     public CommentService(CommentRepository commentRepository,
                           RecreationalPostRepository recreationalPostRepository,
-                          UsuarioRepository usuarioRepository) {
+                          UsuarioRepository usuarioRepository, EventRepository eventRepository) {
         this.commentRepository = commentRepository;
         this.recreationalPostRepository = recreationalPostRepository;
         this.usuarioRepository = usuarioRepository;
 
+        this.eventRepository = eventRepository;
     }
 
     @Transactional
@@ -95,6 +99,51 @@ public class CommentService {
                 ),
                 comment.getCreatedAt(),
                 comment.getPost().getIdRecPost()
+        );
+    }
+    // src/main/java/com/Momentum/Momentum/comment/CommentService.java
+    @Transactional
+    public CommentDto createCommentForEvent(CreateCommentDto commentDto, Usuario author) {
+        Usuario persistentAuthor = usuarioRepository.findById(author.getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Event event = eventRepository.findById(commentDto.getEventId())
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado"));
+
+        Comment comment = new Comment();
+        comment.setText(commentDto.getText());
+        comment.setEvent(event);
+
+        persistentAuthor.addComment(comment);
+
+        Comment savedComment = commentRepository.save(comment);
+        usuarioRepository.save(persistentAuthor);
+
+        return convertToDtoForEvent(savedComment);
+    }
+
+    public List<CommentDto> getCommentsByEventId(Long eventId) {
+        return commentRepository.findByEvent_IdEventOrderByCreatedAtAsc(eventId)
+                .stream()
+                .map(this::convertToDtoForEvent)
+                .collect(Collectors.toList());
+    }
+    public Long getCommentCountForEvent(Long eventId) {
+        return commentRepository.countByEvent_IdEvent(eventId);
+    }
+
+    private CommentDto convertToDtoForEvent(Comment comment) {
+        return new CommentDto(
+                comment.getId(),
+                comment.getText(),
+                new UsuarioDto(
+                        comment.getAuthor().getUsername(),
+                        comment.getAuthor().getId(),
+                        comment.getAuthor().getProfilePicture(),
+                        comment.getAuthor().displayUserName()
+                ),
+                comment.getCreatedAt(),
+                comment.getEvent() != null ? comment.getEvent().getIdEvent() : null
         );
     }
 }

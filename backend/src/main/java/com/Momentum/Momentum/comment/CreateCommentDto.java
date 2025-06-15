@@ -13,4 +13,5 @@ import lombok.Setter;
 public class CreateCommentDto {
     private String text;
     private Long postId;
+    private Long eventId;
 }

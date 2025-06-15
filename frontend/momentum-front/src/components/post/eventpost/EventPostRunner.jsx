@@ -29,13 +29,10 @@ export function EventPostRunner({ post, actionType, handleAction }) {
             .then(res => setHasLiked(res.data))
             .catch(err => console.error("Error fetching event like status:", err));
 
-        // TODO: Implementar endpoints de comentarios para eventos
-        // axios.get(`http://localhost:8080/api/comments/event/${eventId}/count`, config)
-        //     .then(res => setCommentCount(res.data))
-        //     .catch(err => console.error("Error fetching comment count:", err));
+        axios.get(`http://localhost:8080/api/comments/event/${eventId}/count`, config)
+             .then(res => setCommentCount(res.data))
+             .catch(err => console.error("Error fetching comment count:", err));
 
-        // Por ahora simulamos algunos comentarios
-        setCommentCount(3);
     }, [eventId]);
 
     const toggleExpanded = () => {
@@ -62,44 +59,26 @@ export function EventPostRunner({ post, actionType, handleAction }) {
     };
 
     const fetchComments = () => {
-        // TODO: Implementar fetch de comentarios reales
-        // axios.get(`http://localhost:8080/api/comments/event/${eventId}`, config)
-        //     .then(res => setComments(res.data))
-        //     .catch(err => console.error("Error fetching comments:", err));
+        axios.get(`http://localhost:8080/api/comments/event/${eventId}`, config)
+            .then(res => setComments(res.data))
+            .catch(err => console.error("Error fetching comments:", err));
 
-        // Por ahora simulamos comentarios
-        setComments([
-            {
-                id: 1,
-                text: "¡Me apunto a este evento! Se ve genial 🏃‍♂️",
-                author: { displayUserName: "Runner123", profilePicture: "/default-avatar.png" }
-            },
-            {
-                id: 2,
-                text: "¿Cuál es el ritmo promedio que van a llevar?",
-                author: { displayUserName: "MaratonFan", profilePicture: "/default-avatar.png" }
-            }
-        ]);
     };
 
     const handleCommentSubmit = () => {
         if (newComment.trim() === "") return;
 
-        // TODO: Implementar submit de comentario real
-        // axios.post("http://localhost:8080/api/comments/event/", {
-        //     eventId,
-        //     text: newComment
-        // }, config)
-        //     .then(() => {
-        //         setNewComment("");
-        //         fetchComments();
-        //         setCommentCount(prev => prev + 1);
-        //     })
-        //     .catch(err => console.error("Error posting comment:", err));
+         axios.post("http://localhost:8080/api/comments/event", {
+             eventId,
+             text: newComment
+         }, config)
+             .then(() => {
+                 setNewComment("");
+                 fetchComments();
+                 setCommentCount(prev => prev + 1);
+             })
+             .catch(err => console.error("Error posting comment:", err));
 
-        // Simulación temporal
-        console.log("Comentario enviado:", newComment);
-        setNewComment("");
     };
 
     const handleKeyPress = (e) => {

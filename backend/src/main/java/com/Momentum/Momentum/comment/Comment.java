@@ -1,8 +1,10 @@
 package com.Momentum.Momentum.comment;
 
+import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,11 +29,16 @@ public class Comment {
     private Usuario author;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     @JsonBackReference
     private RecreationalPost post;
 
-    @Column(nullable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    @JsonIgnore
+    private Event event;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
