@@ -45,6 +45,7 @@ const ChatApp = () => {
   const [conversations, setConversations] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const stompClient = useRef(null);
 
@@ -64,6 +65,7 @@ const ChatApp = () => {
       try {
         const decoded = jwtDecode(token);
         setCurrentUserId(decoded.userId);
+        console.log("Current user ID:", decoded.userId); // Debug
       } catch (error) {
         console.error("Error decodificando token:", error);
       }
@@ -86,18 +88,36 @@ const ChatApp = () => {
         }
 
         const data = await response.json();
-        setConversations(data);
-        if (data.length > 0) {
-          setActiveChatId(data[0].id);
+
+        // Asegurarse de que todos los mensajes tengan la propiedad fromMe correcta
+        const conversationsWithFromMe = data.map(conv => ({
+          ...conv,
+          messages: (conv.messages || []).map(msg => ({
+            ...msg,
+            fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId
+          }))
+        }));
+
+        setConversations(conversationsWithFromMe);
+
+        // Obtener información del usuario actual desde la primera conversación
+        if (conversationsWithFromMe.length > 0) {
+          setActiveChatId(conversationsWithFromMe[0].id);
+          const firstConv = conversationsWithFromMe[0];
+          const currentUserInfo = firstConv.user1.id === currentUserId ? firstConv.user1 : firstConv.user2;
+          setCurrentUser(currentUserInfo);
         }
-        console.log(data)
+
+        console.log("Conversations loaded:", conversationsWithFromMe);
       } catch (error) {
         console.error("Error al cargar conversaciones:", error);
       }
     };
 
-    fetchConversations();
-  }, []);
+    if (currentUserId) {
+      fetchConversations();
+    }
+  }, [currentUserId]);
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -105,9 +125,11 @@ const ChatApp = () => {
       stompClient.current = Stomp.over(socket);
 
       stompClient.current.connect({}, () => {
+        console.log("WebSocket connected");
         stompClient.current.subscribe("/user/queue/messages", (msg) => {
           const messageData = JSON.parse(msg.body);
           console.log("Mensaje recibido:", messageData);
+          console.log("Current user ID:", currentUserId);
 
           // Actualizar las conversaciones con el nuevo mensaje
           setConversations(prevConversations => {
@@ -125,6 +147,11 @@ const ChatApp = () => {
                   text: messageData.content,
                   timestampDate: messageData.timestamp
                 };
+
+                console.log("New message added:", newMessage);
+                console.log("Message fromMe:", newMessage.fromMe);
+                console.log("Sender ID:", messageData.sender.id);
+                console.log("Current User ID:", currentUserId);
 
                 return {
                   ...conv,
@@ -162,6 +189,29 @@ const ChatApp = () => {
       };
 
       console.log("Enviando mensaje:", messageDTO);
+
+      // Agregar el mensaje inmediatamente a la UI (optimistic update)
+      const currentTimestamp = new Date().toISOString();
+      const optimisticMessage = {
+        ...messageDTO,
+        fromMe: true,
+        text: messageDTO.content,
+        timestamp: currentTimestamp,
+        timestampDate: currentTimestamp
+      };
+
+      setConversations(prevConversations => {
+        return prevConversations.map(conv => {
+          if (conv.id === activeChatId) {
+            return {
+              ...conv,
+              messages: [...(conv.messages || []), optimisticMessage]
+            };
+          }
+          return conv;
+        });
+      });
+
       stompClient.current.send("/app/send-message", {}, JSON.stringify(messageDTO));
       setInput("");
     }
@@ -202,7 +252,17 @@ const ChatApp = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setConversations(data);
+
+        // Asegurarse de que todos los mensajes tengan la propiedad fromMe correcta
+        const conversationsWithFromMe = data.map(conv => ({
+          ...conv,
+          messages: (conv.messages || []).map(msg => ({
+            ...msg,
+            fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId
+          }))
+        }));
+
+        setConversations(conversationsWithFromMe);
         // Activar la nueva conversación si existe
         if (result && result.id) {
           setActiveChatId(result.id);
@@ -280,31 +340,45 @@ const ChatApp = () => {
             {Object.entries(grouped).map(([date, msgs], i) => (
                 <div key={i}>
                   <div className="date-label">{formatDateLabel(date)}</div>
-                  {msgs.map((msg, idx) => (
-                      <Box
-                          key={idx}
-                          className={`chat-message-wrapper ${
-                              msg.fromMe ? "chat-right-wrapper" : "chat-left-wrapper"
-                          }`}
-                      >
-                        {!msg.fromMe && (
-                            <Avatar
-                                src={getOtherUser(activeChat, currentUserId).profilePicture}
-                                alt={getOtherUser(activeChat, currentUserId).displayUserName}
-                                className="chat-avatar"
-                            />
-                        )}
-                        <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
-                          <div className="chat-text">{msg.text || msg.content}</div>
-                          <div className="chat-time">
-                            {new Date(msg.timestamp || msg.timestampDate).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </div>
-                        </Paper>
-                      </Box>
-                  ))}
+                  {msgs.map((msg, idx) => {
+                    console.log("Rendering message:", msg, "fromMe:", msg.fromMe); // Debug
+                    return (
+                        <Box
+                            key={idx}
+                            className={`chat-message-wrapper ${
+                                msg.fromMe ? "chat-right-wrapper" : "chat-left-wrapper"
+                            }`}
+                        >
+                          {/* Avatar para mensajes del otro usuario (izquierda) */}
+                          {!msg.fromMe && (
+                              <Avatar
+                                  src={getOtherUser(activeChat, currentUserId).profilePicture}
+                                  alt={getOtherUser(activeChat, currentUserId).displayUserName}
+                                  className="chat-avatar"
+                              />
+                          )}
+
+                          <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
+                            <div className="chat-text">{msg.text || msg.content}</div>
+                            <div className="chat-time">
+                              {new Date(msg.timestamp || msg.timestampDate || Date.now()).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </div>
+                          </Paper>
+
+                          {/* Avatar para mensajes míos (derecha) */}
+                          {msg.fromMe && (
+                              <Avatar
+                                  src={currentUser?.profilePicture}
+                                  alt={currentUser?.displayUserName}
+                                  className="chat-avatar"
+                              />
+                          )}
+                        </Box>
+                    );
+                  })}
                 </div>
             ))}
           </div>
