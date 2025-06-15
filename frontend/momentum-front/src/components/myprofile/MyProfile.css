@@ -1,8 +1,8 @@
 .profile-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    background-color: #f7f7f7;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background-color: #f8f9fa;
     min-height: 100vh;
 }
 
@@ -26,61 +26,358 @@
     margin-bottom: 20px;
 }
 
-.recreational-posts,
-.training-plan-posts {
+/* Nuevo diseño para la información del usuario */
+.user-info-modern {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-info-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.user-header-content {
+    position: relative;
+    z-index: 2;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
     align-items: center;
+    gap: 25px;
+    margin-bottom: 25px;
 }
 
-.profile-content {
-    display: flex;
-    flex-wrap: wrap;           /* Permitir que los hijos salten de línea */
-    gap: 20px;                 /* Espacio entre los posts */
-    justify-content: flex-start;  /* Centrar los posts horizontalmente */
-}
-  
-
-.user-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f7f7f7;
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    max-width: 600px;
-}
-
-.profile-picture {
-    width: 100px;
-    height: 100px;
+.profile-picture-modern {
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 20px;
+    border: 4px solid rgba(255,255,255,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-.user-details {
-    border: solid 1px #ccc;
-    margin: 0 20px;
+.user-info-content {
+    flex-grow: 1;
+}
+
+.user-name-modern {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-role-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.user-actions-modern {
+    position: relative;
+    z-index: 2;
     display: flex;
-    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-modern {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
     align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-edit {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.btn-chat {
+    background: rgba(0,0,0,0.2);
+    color: white;
+}
+
+.btn-logout {
+    background: rgba(255,0,0,0.2);
+    color: white;
+}
+
+.btn-delete {
+    background: rgba(220,53,69,0.8);
+    color: white;
+}
+
+/* Navegación del perfil mejorada */
+.profile-nav-modern {
+    background: white;
+    border-radius: 15px;
+    padding: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 8px;
+}
+
+.nav-tab-modern {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #666;
+}
+
+.nav-tab-modern.active {
+    background: linear-gradient(135deg, #ff5a5f, #ff8a80);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255,90,95,0.3);
+}
+
+.nav-tab-modern:hover:not(.active) {
+    background: #f8f9fa;
+    color: #ff5a5f;
+}
+
+/* Contenedor de contenido mejorado - MÁS ESPECÍFICO */
+.profile-container .content-section-modern {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.profile-container .section-header-modern {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f8f9fa;
 }
 
-.user-details h2 {
-    margin-left: 20px;
+.profile-container .section-title-modern {
     font-size: 1.8rem;
+    font-weight: 700;
     color: #333;
-    flex-grow: 2;
-}
-.post-item {
-    flex: 1 1 calc(33.333% - 20px); /* 3 por fila con gap */
-    max-width: calc(33.333% - 20px);
-    box-sizing: border-box;
+    margin: 0;
 }
 
+.new-post-btn {
+    background: linear-gradient(135deg, #ff5a5f, #ff8a80);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(255,90,95,0.3);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
 
+.new-post-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,90,95,0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Grid de posts mejorado */
+.posts-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.post-card-wrapper {
+    position: relative;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.post-card-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.post-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background: rgba(220,53,69,0.9);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.post-card-wrapper:hover .post-delete-btn {
+    opacity: 1;
+}
+
+.post-delete-btn:hover {
+    background: #dc3545;
+    transform: scale(1.05);
+}
+
+/* Estilo para la sección de objetivos - MÁS ESPECÍFICO */
+.profile-container .goals-section-modern {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Título de goals que no interfiera con componentes internos */
+.profile-container .goals-section-modern > .section-title-modern {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+/* Asegurar que los componentes internos mantengan sus estilos */
+.goals-section-modern .navbar,
+.goals-section-modern .container,
+.goals-section-modern .dropdown,
+.goals-section-modern .btn,
+.goals-section-modern .modal,
+.goals-section-modern .form-control,
+.goals-section-modern .form-label,
+.goals-section-modern .progress,
+.goals-section-modern .card {
+    /* Resetear herencias que puedan causar problemas */
+    color: initial;
+    font-size: initial;
+    font-weight: initial;
+    text-shadow: none;
+    background: initial;
+}
+
+/* Específicamente para textos dentro de GoalsSelector */
+.goals-section-modern .navbar-brand,
+.goals-section-modern .dropdown-toggle,
+.goals-section-modern .dropdown-item,
+.goals-section-modern .modal-title,
+.goals-section-modern .modal-body,
+.goals-section-modern .form-label,
+.goals-section-modern .btn,
+.goals-section-modern p {
+    color: initial !important;
+    text-shadow: none !important;
+}
+
+/* Estados vacíos */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.empty-state-text {
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 0 15px;
+    }
+
+    .user-header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .user-actions-modern {
+        justify-content: center;
+    }
+
+    .profile-nav-modern {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .posts-grid-modern {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .profile-container .section-header-modern {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-name-modern {
+        font-size: 1.8rem;
+    }
+
+    .btn-modern {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .profile-container .section-title-modern {
+        font-size: 1.5rem;
+    }
+}
