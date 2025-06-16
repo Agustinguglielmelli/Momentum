@@ -1,3 +1,4 @@
+/*
 package com.Momentum.Momentum.email;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -20,3 +21,4 @@ public class DotenvInitializer {
 
 }
 
+*/

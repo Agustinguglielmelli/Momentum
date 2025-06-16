@@ -1,3 +1,4 @@
+/*
 package com.Momentum.Momentum.email;
 
 import lombok.Getter;
@@ -20,3 +21,4 @@ public class EmailRequestDto {
         this.text = text;
     }
 }
+*/

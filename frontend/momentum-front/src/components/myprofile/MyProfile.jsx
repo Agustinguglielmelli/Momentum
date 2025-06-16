@@ -152,6 +152,7 @@ function MyProfile(){
                                 text="🗑️ Delete Account"
                                 onClick={() => deleteMyUser(userProfile.id)}
                             />
+
                         </div>
                     </div>
                 )}
@@ -186,6 +187,12 @@ function MyProfile(){
                             <div className="posts-grid-modern">
                                 {recreationalPosts.map((post) => (
                                     <div key={post.idRecPost} className="post-card-wrapper">
+                                        <Link
+                                            className="post-modify-btn"
+                                            to={`/myprofile/updateRecreationalPost/${post.idRecPost}`}
+                                        >
+                                             Edit
+                                        </Link>
                                         <button
                                             className="post-delete-btn"
                                             onClick={() => deleteRecreationalPost(post.idRecPost)}
