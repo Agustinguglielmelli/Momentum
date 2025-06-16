@@ -16,10 +16,6 @@ public class DotenvInitializer {
 
         System.setProperty("MAIL_USERNAME", username);
         System.setProperty("MAIL_PASSWORD", password);
-        System.out.println("MAIL_USERNAME: " + System.getProperty("MAIL_USERNAME"));
-        System.out.println("MAIL_PASSWORD: " + System.getProperty("MAIL_PASSWORD"));
-
-        System.out.println("✅ Variables cargadas: " + username + " / " + (password != null ? "*****" : "null"));
     }
 
 }

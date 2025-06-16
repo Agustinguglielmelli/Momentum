@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 
+import com.Momentum.Momentum.email.EmailService;
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.event.EventRepository;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
@@ -29,13 +30,37 @@ public class UsuarioService {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+
 
     public List<Usuario> listarUsuarios() {
         return personRepository.findAll();
     }
 
-    public Usuario createUser(Usuario Usuario) {
-        return personRepository.save(Usuario);
+    //public Usuario createUser(Usuario Usuario) {
+        //return personRepository.save(Usuario);
+    //}
+    public Usuario createUser(Usuario usuario) {
+
+        Usuario savedUser = personRepository.save(usuario);
+
+        notifyUserCreated(savedUser);
+
+        return savedUser;
+    }
+
+    private void notifyUserCreated(Usuario user) {
+        String subject = "Bienvenido a Momentum";
+        String text = "Hola " + user.getUsername() + ",\n\n" +
+                "Gracias por registrarte en Momentum. ¡Disfruta la app!\n\n" +
+                "Saludos,\nEquipo Momentum";
+        try {
+            emailService.sendSimpleEmail(user.getEmail(), subject, text);
+        } catch (Exception e) {
+            System.err.println("Error enviando mail de bienvenida: " + e.getMessage());
+        }
     }
 
     @Transactional // se realiza completa la operacion o no se realiza en absoluto

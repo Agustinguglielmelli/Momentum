@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -20,6 +21,7 @@ public class EmailService {
     private String fromEmail;
 
     // Método para enviar email simple
+    @Async
     public void sendSimpleEmail(String to, String subject, String text) {
         try {
             System.out.println("Usando cuenta de envío: " + fromEmail);
@@ -28,7 +30,7 @@ public class EmailService {
             message.setTo(to);
             message.setSubject(subject);
             message.setText(text);
-
+            System.out.println("Antes de enviar el mail...");
             mailSender.send(message);
             System.out.println("Email enviado exitosamente a: " + to);
         } catch (Exception e) {
