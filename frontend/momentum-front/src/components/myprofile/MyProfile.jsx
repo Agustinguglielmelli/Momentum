@@ -187,12 +187,12 @@ function MyProfile(){
                             <div className="posts-grid-modern">
                                 {recreationalPosts.map((post) => (
                                     <div key={post.idRecPost} className="post-card-wrapper">
-                                        <Link
+                                        {/*<Link
                                             className="post-modify-btn"
                                             to={`/myprofile/updateRecreationalPost/${post.idRecPost}`}
                                         >
                                              Edit
-                                        </Link>
+                                        </Link>*/}
                                         <button
                                             className="post-delete-btn"
                                             onClick={() => deleteRecreationalPost(post.idRecPost)}

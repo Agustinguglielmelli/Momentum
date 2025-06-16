@@ -21,6 +21,7 @@ import LeaderboardEvents from "../leaderboardevents/LeaderboardEvents";
 import ChatApp from "../chatenperfil/Chat";
 import FeedNuevo from "../FeedNuevo";
 import RecPostFormWithInteractions2 from "../post/recpostformwithinteractions/RecPostFormWithInteractions2";
+import RecPostFormWithInteractions from "../post/recpostformwithinteractions/RecPostFormWithInteractions";
 
 
 function AppRouter() {
@@ -115,11 +116,14 @@ function AppRouter() {
                 </PrivateRoute>
             } />
 
-            <Route path='/myprofile/updateRecreationalPost/:postId' element={
-                <PrivateRoute>
-                    <RecPostFormWithInteractions2/>
-                </PrivateRoute>
-            } />
+            <Route
+                path='/myprofile/updateRecreationalPost/:postId'
+                element={
+                    <PrivateRoute>
+                        <RecPostFormWithInteractions />
+                    </PrivateRoute>
+                }
+            />
             
             <Route path='/*' element={<Navigate to='/'/>}/>
 

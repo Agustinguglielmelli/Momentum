@@ -25,6 +25,7 @@ public class Comment {
     private String text;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "author_id", nullable = false)
     private Usuario author;
 

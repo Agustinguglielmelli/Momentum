@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { convertToBase64, getUserId } from "../../../api/functions";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaRegComment, FaHeart, FaRegHeart, FaTimes } from "react-icons/fa";
 
-function RecPostFormWithInteractions({ id }) {
+function RecPostFormWithInteractions() {
+    const { postId } = useParams(); // extrae el ID de la URL
+
     const [calories, setCalories] = useState('');
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
@@ -21,10 +23,10 @@ function RecPostFormWithInteractions({ id }) {
 
     // Cargar datos iniciales del post si es edición
     useEffect(() => {
-        if (id) {
+        if (postId) {
             const fetchPostData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/miperfil/recPost/${id}`, {
+                    const response = await axios.get(`http://localhost:8080/miperfil/recPost/${postId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`
                         }
@@ -38,7 +40,7 @@ function RecPostFormWithInteractions({ id }) {
                     setComments(post.comments || []);
 
                     // Verificar si el usuario actual dio like
-                    const likeCheck = await axios.get(`http://localhost:8080/api/likes/has-liked/${id}`, {
+                    const likeCheck = await axios.get(`http://localhost:8080/api/likes/has-liked/${postId}`, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem("token")}`
                         }
@@ -50,7 +52,7 @@ function RecPostFormWithInteractions({ id }) {
             };
             fetchPostData();
         }
-    }, [id]);
+    }, [postId]);
 
     // para guardar el plan
     const handleSubmit = async (e) => {
@@ -65,9 +67,9 @@ function RecPostFormWithInteractions({ id }) {
         };
 
         try {
-            if (id) {
+            if (postId) {
                 // Editar post existente
-                await axios.put(`http://localhost:8080/miperfil/recPost/${id}`, data, {
+                await axios.put(`http://localhost:8080/miperfil/recPost/${postId}`, data, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
@@ -110,7 +112,7 @@ function RecPostFormWithInteractions({ id }) {
 
     const handleLike = async () => {
         try {
-            await axios.post(`http://localhost:8080/api/likes/toggle/${id}`, {}, {
+            await axios.post(`http://localhost:8080/api/likes/toggle/${postId}`, {}, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -131,7 +133,7 @@ function RecPostFormWithInteractions({ id }) {
                 "http://localhost:8080/api/comments",
                 {
                     text: newComment,
-                    postId: id
+                    postId: postId
                 },
                 {
                     headers: {
@@ -150,7 +152,7 @@ function RecPostFormWithInteractions({ id }) {
         <div>
             <Link to={"/myProfile"} className="btn btn-primary">Back</Link>
             <div className="w-50 mx-auto border p-5 shadow bg-body-secondary border-light-secondary rounded-lg">
-                <h1>{id ? "Edit Post" : "Create Post"}</h1>
+                <h1>{postId ? "Edit Post" : "Create Post"}</h1>
                 <form onSubmit={handleSubmit}>
                     {/* Campos del formulario existentes */}
                     <div className="mb-3">
@@ -229,62 +231,10 @@ function RecPostFormWithInteractions({ id }) {
                         />
                     </div>
 
-                    {/* Sección de interacciones (solo para edición) */}
-                    {id && (
-                        <div className="post-interactions">
-                            <div className="post-stats">
-                                <span>{likes} Likes</span>
-                                <span>{comments.length} Comments</span>
-                            </div>
 
-                            <div className="post-actions">
-                                <button
-                                    type="button"
-                                    className={`post-action ${isLiked ? 'liked' : ''}`}
-                                    onClick={handleLike}
-                                >
-                                    {isLiked ? <FaHeart color="red" /> : <FaRegHeart />} Like
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="post-action"
-                                    onClick={() => setShowComments(!showComments)}
-                                >
-                                    <FaRegComment /> Comment
-                                </button>
-                            </div>
-
-                            {showComments && (
-                                <div className="comments-section">
-                                    <div className="comments-list">
-                                        {comments.map((comment, index) => (
-                                            <div key={index} className="comment">
-                                                <div className="comment-author">{comment.author.username}</div>
-                                                <div className="comment-text">{comment.text}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <form onSubmit={handleAddComment} className="comment-form">
-                                        <input
-                                            type="text"
-                                            value={newComment}
-                                            onChange={(e) => setNewComment(e.target.value)}
-                                            placeholder="Write a comment..."
-                                            className="comment-input"
-                                        />
-                                        <button type="submit" className="comment-submit">
-                                            Post
-                                        </button>
-                                    </form>
-                                </div>
-                            )}
-                        </div>
-                    )}
 
                     <button type="submit" className="btn btn-primary">
-                        {id ? "Update Post" : "Create Post"}
+                        {postId ? "Update Post" : "Create Post"}
                     </button>
                 </form>
             </div>
