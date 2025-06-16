@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.mail;
+package com.Momentum.Momentum.email;
 
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ public class EmailService {
     // Método para enviar email simple
     public void sendSimpleEmail(String to, String subject, String text) {
         try {
+            System.out.println("Usando cuenta de envío: " + fromEmail);
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
             message.setTo(to);

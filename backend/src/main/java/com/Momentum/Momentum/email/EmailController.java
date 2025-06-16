@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.mail;
+package com.Momentum.Momentum.email;
 
 import com.Momentum.Momentum.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;

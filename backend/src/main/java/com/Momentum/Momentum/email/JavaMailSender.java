@@ -1,4 +1,4 @@
-/*package com.Momentum.Momentum.mail;
+/*package com.Momentum.Momentum.email;
 
 import org.springframework.context.annotation.Bean;
 
@@ -14,10 +14,10 @@ public JavaMailSender getJavaMailSender() {
     mailSender.setPassword("password");
 
     Properties props = mailSender.getJavaMailProperties();
-    props.put("mail.transport.protocol", "smtp");
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.debug", "true");
+    props.put("email.transport.protocol", "smtp");
+    props.put("email.smtp.auth", "true");
+    props.put("email.smtp.starttls.enable", "true");
+    props.put("email.debug", "true");
 
     return mailSender;
 }*/

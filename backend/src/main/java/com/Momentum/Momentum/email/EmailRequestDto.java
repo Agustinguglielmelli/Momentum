@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.mail;
+package com.Momentum.Momentum.email;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.Momentum.Momentum.mail;
+package com.Momentum.Momentum.email;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
