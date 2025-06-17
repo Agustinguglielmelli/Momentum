@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.event;
 
+import com.Momentum.Momentum.email.EmailService;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioDto;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +31,9 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+    
+    @Autowired
+    private EmailService emailService;
 
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser() {
@@ -50,6 +56,33 @@ public class EventController {
         }
     }
 
+    @PostMapping("/events/mail")
+    public ResponseEntity<String> verifyDateAndSendMail(@ModelAttribute("currentUser") Usuario currentUser) {
+        List<Event> joinedEvents = eventService.findJoinedEvents(currentUser.getId());
+        List<Event> eventsToNotify = joinedEvents.stream()
+                .filter(event -> {
+                    try {
+                        LocalDate eventDate = LocalDate.parse(event.getDate());
+                        return eventDate.equals(LocalDate.now().plusDays(1));
+                    } catch (Exception e) {
+                        return false;
+                    }
+                })
+                .toList();
+        String subject = "Recordatorio de eventos próximos";
+        String text = "Hola " + currentUser.getUsername() + ",\n\n" +
+                "Recuerda que quedan menos de 24hs para los siguientes eventos!:\n\n" +
+                eventsToNotify.stream()
+                    .map(e -> "- " + e.getTitle() + " el " + e.getDate())
+                    .collect(Collectors.joining("\n"));
+
+        try {
+            emailService.sendSimpleEmail(currentUser.getUsername(), subject, text);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al enviar el correo: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Mail enviado");
+    }
 
     @GetMapping("/event/search")
     public List<EventDto> getEventsByName(@RequestParam String nameSearch){

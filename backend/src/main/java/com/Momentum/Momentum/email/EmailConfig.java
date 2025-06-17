@@ -1,4 +1,3 @@
-/*
 package com.Momentum.Momentum.email;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -42,4 +41,3 @@ public class EmailConfig {
         return mailSender;
     }
 }
-*/

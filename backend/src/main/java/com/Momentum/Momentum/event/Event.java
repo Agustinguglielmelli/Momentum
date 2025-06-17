@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.Momentum.Momentum.usuario.Usuario;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,4 +72,5 @@ public class Event {
         this.date = date;
         this.kmToRun = kmToRun;
     }
+
 }

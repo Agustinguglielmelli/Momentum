@@ -16,7 +16,9 @@ public interface RecreationalPostRepository extends JpaRepository<RecreationalPo
     Double getTotalDistanceByUserId(@Param("userId") Long userId);
 
     // Busca publicaciones que contengan un hashtag exacto
+/*
     List<RecreationalPost> findByHashtagsContaining(String hashtag);
+*/
     /*@Query("SELECT COALESCE(SUM(r.calories), 0) FROM RecreationalPost r WHERE r.usuario.id = :userId")
     Integer getTotalCaloriesByUserId(@Param("userId") Long userId);*/
 }

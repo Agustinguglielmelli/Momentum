@@ -236,21 +236,21 @@ public class RecreationalPostController {
                 .getPostByIdWithInteractions(id, currentUser);
         return ResponseEntity.ok(dto);
     }
-    @GetMapping("/hashtag/{hashtag}")
+    /*@GetMapping("/hashtag/{hashtag}")
     public List<RecreationalPost> getPublicacionesPorHashtag(@PathVariable String hashtag) {
         return recreationalPostService.buscarPorHashtag(hashtag);
-    }
+    }*/
     /*@GetMapping("/posts/search")
     public ResponseEntity<List<RecreationalPost>> searchPostsByHashtags(
             @RequestParam List<String> hashtags) {
         List<RecreationalPost> posts = recreationalPostService.buscarPorMultiplesHashtags(hashtags);
         return ResponseEntity.ok(posts);
     }*/
-    @GetMapping("/api/hashtags/trending")
+    /*@GetMapping("/api/hashtags/trending")
     public ResponseEntity<List<String>> getTrendingHashtags() {
         List<String> trending = recreationalPostService.getHashtagsPopulares();
         return ResponseEntity.ok(trending);
-    }
+    }*/
 
 
 

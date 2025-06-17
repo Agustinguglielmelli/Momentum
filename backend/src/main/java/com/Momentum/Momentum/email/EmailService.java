@@ -1,4 +1,3 @@
-/*
 package com.Momentum.Momentum.email;
 
 import jakarta.mail.internet.MimeMessage;
@@ -102,4 +101,3 @@ public class EmailService {
 }
 
 
-*/

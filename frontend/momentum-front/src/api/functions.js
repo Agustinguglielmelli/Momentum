@@ -436,3 +436,16 @@ export const getConversationById = async (conversationId) => {
         throw error;
     }
 }
+
+export const verifyEventDateAndSendMailBackend = async () => {
+    try {
+        const response = await axios.post(`http://localhost:8080/events/mail`, {},{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

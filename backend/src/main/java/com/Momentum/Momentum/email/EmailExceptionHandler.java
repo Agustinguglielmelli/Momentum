@@ -1,4 +1,3 @@
-/*
 package com.Momentum.Momentum.email;
 
 import org.springframework.http.HttpStatus;
@@ -24,4 +23,3 @@ public class EmailExceptionHandler {
                 .body("Error de mensajería: " + e.getMessage());
     }
 }
-*/

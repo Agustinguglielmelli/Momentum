@@ -106,7 +106,7 @@ public class RecreationalPostService {
         return dto;
     }
 
-    public List<RecreationalPost> buscarPorHashtag(String hashtag) {
+  /*  public List<RecreationalPost> buscarPorHashtag(String hashtag) {
         return recreationalPostRepository.findByHashtagsContaining(hashtag);
     }
     public List<String> getHashtagsPopulares() {
@@ -120,7 +120,7 @@ public class RecreationalPostService {
                 .limit(10) // Top 10
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-    }
+    }*/
 
 
 

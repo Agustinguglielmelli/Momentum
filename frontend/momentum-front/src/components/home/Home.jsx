@@ -7,7 +7,7 @@ import {
     follow, listFollowedUsers,
     listFollowingRecreationalPosts,
     listFollowingTrainingPlansPosts,
-    listUsersByNameSearch, unFollow
+    listUsersByNameSearch, unFollow, verifyEventDateAndSendMailBackend
 } from "../../api/functions";
 import {RecreationalPost} from "../post/recreationalpost/RecreationalPost";
 import {TrainingPlanPost} from "../post/trainingplanpost/TrainingPlanPost";
@@ -46,6 +46,17 @@ function Home(){
         }
     };
 
+    useEffect(() => {
+
+        const verifyEventDateAndSendMail = async () => {
+            try {
+                await verifyEventDateAndSendMailBackend();
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        verifyEventDateAndSendMail();
+    }, [followedUsers]);
 
     useEffect(() => {
 

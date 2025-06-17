@@ -1,11 +1,13 @@
-/*package com.Momentum.Momentum.email;
+/*
+package com.Momentum.Momentum.email;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
 @Bean
-public JavaMailSender getJavaMailSender() {
+public org.springframework.mail.javamail.JavaMailSender getJavaMailSender() {
     JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
     mailSender.setHost("smtp.gmail.com");
     mailSender.setPort(587);
@@ -20,4 +22,5 @@ public JavaMailSender getJavaMailSender() {
     props.put("email.debug", "true");
 
     return mailSender;
-}*/
+}
+*/

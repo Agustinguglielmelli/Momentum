@@ -22,6 +22,8 @@ import ChatApp from "../chatenperfil/Chat";
 import FeedNuevo from "../FeedNuevo";
 import RecPostFormWithInteractions2 from "../post/recpostformwithinteractions/RecPostFormWithInteractions2";
 import RecPostFormWithInteractions from "../post/recpostformwithinteractions/RecPostFormWithInteractions";
+import HashtagsPage from "../hashtags/HashtagsPage";
+import HashtagDetailPage from "../hashtags/HashtagDetailPage";
 
 
 function AppRouter() {
