@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class EventController {
@@ -70,15 +71,14 @@ public class EventController {
                 })
                 .toList();
         String subject = "Recordatorio de eventos próximos";
-        String text = STR."""
-                Hola \{currentUser.getUsername()},
 
-                Recuerda que quedan menos de 24hs para los siguientes eventos!:
-
-                \{eventsToNotify.stream()
+        String eventsList = eventsToNotify.stream()
                 .map(e -> "- " + e.getTitle() + " el " + e.getDate())
-                .collect(Collectors.joining("\n"))}""";
+                .collect(Collectors.joining("\n"));
 
+        String text = "Hola " + currentUser.getUsername() + ",\n\n" +
+                "Recuerda que quedan menos de 24hs para los siguientes eventos!:\n\n" +
+                eventsList;
         try {
             emailService.sendSimpleEmail(currentUser.getUsername(), subject, text);
         } catch (Exception e) {
