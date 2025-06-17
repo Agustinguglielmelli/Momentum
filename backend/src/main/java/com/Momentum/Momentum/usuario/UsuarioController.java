@@ -434,53 +434,7 @@ public class UsuarioController {
 
         return postDtos;
     }
-    /*
-    @GetMapping("/usuario/recreationalPostsFollowing")
-    public List<RecPostDto> getRecreationalPostsFollowing() {
-        // Obtener el usuario actual
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
 
-        if (currentUserOpt.isEmpty()) {
-            return List.of();
-        }
-        Usuario currentUser = currentUserOpt.get();
-        Set<Usuario> following = currentUser.getFollowing(); // busco los usuarios que sigo
-
-
-        // Obtener todos los posts de los usuarios que sigue
-        List<RecreationalPost> posts = following.stream()
-                .flatMap(user -> recreationalPostService.getPostsByUserId(user.getId()).stream())
-                .collect(Collectors.toList());
-
-
-        // Crear los DTOs para cada post
-        List<RecPostDto> postDtos = posts.stream().map(
-                post -> {
-                    Usuario autor = post.getUsuario(); // Usuario del post
-                    UsuarioDto usuarioDto = new UsuarioDto(
-                            autor.getUsername(),
-                            autor.getId(),
-                            autor.getProfilePicture(),
-                            autor.displayUserName()
-                    );
-
-                    return new RecPostDto(
-                            post.getIdRecPost(),
-                            post.getDistance(),
-                            post.getDescription(),
-                            post.getDuration(),
-                            post.getCalories(),
-                            usuarioDto,
-                            post.getImages(),
-                            post.getCreationDate()
-                    );
-                }
-        ).collect(Collectors.toList());
-
-        return postDtos;
-    }*/
 
 
     @GetMapping("/usuario/trainingPlanPostsFollowing")
