@@ -1,4 +1,3 @@
-
 import {Routes, Route, Navigate} from 'react-router-dom';
 import ModifyUser from '../modifyuser/ModifyUser';
 import LoginUser from '../loginuser/LoginUser';
@@ -29,128 +28,137 @@ import HashtagDetailPage from "../hashtags/HashtagDetailPage";
 function AppRouter() {
     return (
         <>
-        <Routes>
-            <Route path='/' element={
-                <PublicOnlyRoute>
-                    <HomePage />
-                </PublicOnlyRoute>
-            } />
-            <Route path='/signup' element={
-                <PublicOnlyRoute>
-                    <SignupUser />
-                </PublicOnlyRoute>
-            } />
+            <Routes>
+                <Route path='/' element={
+                    <PublicOnlyRoute>
+                        <HomePage />
+                    </PublicOnlyRoute>
+                } />
+                <Route path='/signup' element={
+                    <PublicOnlyRoute>
+                        <SignupUser />
+                    </PublicOnlyRoute>
+                } />
 
-            <Route path='/login' element={
-                <PublicOnlyRoute>
-                    <LoginUser />
-                </PublicOnlyRoute>
-            } />
+                <Route path='/login' element={
+                    <PublicOnlyRoute>
+                        <LoginUser />
+                    </PublicOnlyRoute>
+                } />
 
-            <Route path='/home' element={
-                <PrivateRoute>
-                    <FeedNuevo/>
-                </PrivateRoute>
-            } />
-            <Route path='/leaderboard-kms' element={
-                <PrivateRoute>
-                    <LeaderboardKms/>
-                </PrivateRoute>
-            } />
-            <Route path='/leaderboard-events' element={
-                <PrivateRoute>
-                    <LeaderboardEvents/>
-                </PrivateRoute>
-            } />
-            <Route path='/myprofile/createTrainingPlan' element={
-                <PrivateRoute>
-                    <TrainingPlanPostForm />
-                </PrivateRoute>
-            } />
-            <Route path='/myprofile/recreationalPost' element={
-                <PrivateRoute>
-                    <RecreationalPost/>
-                </PrivateRoute>
-            } />
-            <Route path='/myprofile/createRecreationalPost' element={
-                <PrivateRoute>
-                    <RecreationalPostForm />
-                </PrivateRoute>
-            } />
-            <Route path="/myProfile/:userId" element={
-                <PrivateRoute>
-                    <MyProfile />
-                </PrivateRoute>
-            } />
-
-            <Route path='/myprofile/modifyUser' element={
-                <PrivateRoute>
-                    <ModifyUser/>
-                </PrivateRoute>
-            } />
-            <Route path='/myprofile/chats' element={
-                <PrivateRoute>
-                    <ChatApp/>
-                </PrivateRoute>
-            } />
-            <Route path='/events' element={
-                <PrivateRoute>
-                    <MyEvents/>
-                </PrivateRoute>
-            } />
-              <Route path='/events/event' element={
-                <PrivateRoute>
-                    <EventPostRunner/>
-                </PrivateRoute>
-            } />
-            <Route path='/events/createEvent' element={
-                <PrivateRoute>
-                    <EventPostForm/>
-                </PrivateRoute>
-            } />
-            <Route path="/update-event/:event_id" element={
-                <PrivateRoute>
-                <UpdateEventPostForm />
-                </PrivateRoute>
-            } />
-            <Route path='/events/searchEvent' element={
-                <PrivateRoute>
-                    <MyMapComponent/>
-                </PrivateRoute>
-            } />
-
-            <Route
-                path='/myprofile/updateRecreationalPost/:postId'
-                element={
+                <Route path='/home' element={
                     <PrivateRoute>
-                        <RecPostFormWithInteractions />
+                        <FeedNuevo/>
                     </PrivateRoute>
-                }
-            />
-            <Route path='/explore' element={
-                <PrivateRoute>
-                    <HashtagsPage/>
-                </PrivateRoute>
-            } />
-            <Route path='/hashtag/:hashtag' element={
-                <PrivateRoute>
-                    <HashtagDetailPage/>
-                </PrivateRoute>
-            } />
-            
-            <Route path='/*' element={<Navigate to='/'/>}/>
+                } />
+                <Route path='/leaderboard-kms' element={
+                    <PrivateRoute>
+                        <LeaderboardKms/>
+                    </PrivateRoute>
+                } />
+                <Route path='/leaderboard-events' element={
+                    <PrivateRoute>
+                        <LeaderboardEvents/>
+                    </PrivateRoute>
+                } />
+                <Route path='/myprofile/createTrainingPlan' element={
+                    <PrivateRoute>
+                        <TrainingPlanPostForm />
+                    </PrivateRoute>
+                } />
+                <Route path='/myprofile/recreationalPost' element={
+                    <PrivateRoute>
+                        <RecreationalPost/>
+                    </PrivateRoute>
+                } />
+                <Route path='/myprofile/createRecreationalPost' element={
+                    <PrivateRoute>
+                        <RecreationalPostForm />
+                    </PrivateRoute>
+                } />
 
-{/*
+                {/* Ruta para el propio perfil */}
+                <Route path="/myprofile" element={
+                    <PrivateRoute>
+                        <MyProfile />
+                    </PrivateRoute>
+                } />
+
+                {/* Ruta para ver el perfil de otros usuarios */}
+                <Route path="/myProfile/:userId" element={
+                    <PrivateRoute>
+                        <MyProfile />
+                    </PrivateRoute>
+                } />
+
+                <Route path='/myprofile/modifyUser' element={
+                    <PrivateRoute>
+                        <ModifyUser/>
+                    </PrivateRoute>
+                } />
+                <Route path='/myprofile/chats' element={
+                    <PrivateRoute>
+                        <ChatApp/>
+                    </PrivateRoute>
+                } />
+                <Route path='/events' element={
+                    <PrivateRoute>
+                        <MyEvents/>
+                    </PrivateRoute>
+                } />
+                <Route path='/events/event' element={
+                    <PrivateRoute>
+                        <EventPostRunner/>
+                    </PrivateRoute>
+                } />
+                <Route path='/events/createEvent' element={
+                    <PrivateRoute>
+                        <EventPostForm/>
+                    </PrivateRoute>
+                } />
+                <Route path="/update-event/:event_id" element={
+                    <PrivateRoute>
+                        <UpdateEventPostForm />
+                    </PrivateRoute>
+                } />
+                <Route path='/events/searchEvent' element={
+                    <PrivateRoute>
+                        <MyMapComponent/>
+                    </PrivateRoute>
+                } />
+
+                <Route
+                    path='/myprofile/updateRecreationalPost/:postId'
+                    element={
+                        <PrivateRoute>
+                            <RecPostFormWithInteractions />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path='/explore' element={
+                    <PrivateRoute>
+                        <HashtagsPage/>
+                    </PrivateRoute>
+                } />
+                <Route path='/hashtag/:hashtag' element={
+                    <PrivateRoute>
+                        <HashtagDetailPage/>
+                    </PrivateRoute>
+                } />
+
+                <Route path='/*' element={<Navigate to='/'/>}/>
+
+                {/*
             Navigate se usa para que cuando escribas una ruta cualquiera no definida, directamente te mande a '/'
 */}
-            <Route path='/home' element={
-                <PrivateRoute>
-                    <Home/>
-                </PrivateRoute>
-            }>
-            </Route>
+                <Route path='/home' element={
+                    <PrivateRoute>
+                        <Home/>
+                    </PrivateRoute>
+                }>
+                </Route>
 
-        </Routes>
+            </Routes>
         </>
     );
 }
