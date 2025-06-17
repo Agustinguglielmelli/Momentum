@@ -103,6 +103,15 @@ public class UsuarioController {
                 myUser.displayUserName());
     }
 
+    @GetMapping("/usuario/listMyInfo/{userId}")
+    public UsuarioDto getUserDto(@ModelAttribute("currentUser") Usuario currentUser, @PathVariable long userId) {
+        Usuario user = personUsuarioService.getUserById(userId).orElseThrow();
+        return new UsuarioDto(user.getUsername(),
+                user.getId(),
+                user.getProfilePicture(),
+                user.displayUserName());
+    }
+
     @GetMapping("/usuario/listUserDto") // listar usuarios en la barra de buscar
     public List<UsuarioDto> listUserDto(@ModelAttribute("currentUser") Usuario currentUser) {
         List<Usuario> users = personUsuarioService.listarUsuarios();
@@ -113,6 +122,78 @@ public class UsuarioController {
                         p.getProfilePicture(),
                         p.displayUserName()
                 )
+        ).collect(Collectors.toList());
+    }
+    // Agregar estos métodos a tu UsuarioController.java
+
+    @GetMapping("/usuario/{userId}/recreationalPosts")
+    public List<RecPostDto> getRecreationalPostsByUserId(@PathVariable Long userId) {
+        List<RecreationalPost> posts = recreationalPostService.getPostsByUserId(userId);
+
+        List<RecPostDto> postDtos = posts.stream().map(
+                post -> {
+                    Usuario autor = post.getUsuario();
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            autor.getUsername(),
+                            autor.getId(),
+                            autor.getProfilePicture(),
+                            autor.displayUserName()
+                    );
+
+                    List<ImageDto> imageDtos = post.getImages().stream()
+                            .map(image -> new ImageDto(
+                                    image.getId(),
+                                    image.getBase64Data()
+                            ))
+                            .collect(Collectors.toList());
+
+                    return new RecPostDto(
+                            post.getIdRecPost(),
+                            post.getDistance(),
+                            post.getDescription(),
+                            post.getDuration(),
+                            post.getCalories(),
+                            usuarioDto,
+                            imageDtos,
+                            post.getCreationDate()
+                    );
+                }
+        ).collect(Collectors.toList());
+
+        return postDtos;
+    }
+
+    @GetMapping("/usuario/{userId}/trainingPlanPosts")
+    public List<TrainingPlanPostDto> getTrainingPlanPostsByUserId(@PathVariable Long userId) {
+        List<TrainingPlanPost> posts = trainingPlanPostService.getPostsByUserId(userId);
+
+        return posts.stream().map(
+                post -> {
+                    Usuario autor = post.getUsuario();
+                    UsuarioDto usuarioDto = new UsuarioDto(
+                            autor.getUsername(),
+                            autor.getId(),
+                            autor.getProfilePicture(),
+                            autor.displayUserName()
+                    );
+
+                    return new TrainingPlanPostDto(
+                            post.getIdTrainPost(),
+                            usuarioDto,
+                            post.getDescription(),
+                            post.getFrequency(),
+                            post.getTitle(),
+                            post.getDuration(),
+                            post.getDia1(),
+                            post.getDia2(),
+                            post.getDia3(),
+                            post.getDia4(),
+                            post.getDia5(),
+                            post.getDia6(),
+                            post.getDia7(),
+                            post.getFechaPublicacion()
+                    );
+                }
         ).collect(Collectors.toList());
     }
 

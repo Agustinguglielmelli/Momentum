@@ -448,13 +448,4 @@ export const verifyEventDateAndSendMailBackend = async () => {
         throw error;
     }
 
-    export async function getProfileById(id) {
-        const response = await fetch(`${BASE_URL}/users/${id}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        if (!response.ok) throw new Error("Error fetching profile by ID");
-        return await response.json();
-    }
 }
