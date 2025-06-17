@@ -308,15 +308,7 @@ const ProgressBarManager = ({ userId }) => {
                                 min="1"
                             />
                         </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Color</Form.Label>
-                            <div style={{ height: '40px'}}>
-                                <ColorSelector
-                                    color={editForm.color}
-                                    onChange={(newColor) => setEditForm({...editForm, color: newColor})}
-                                />
-                            </div>
-                        </Form.Group>
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
