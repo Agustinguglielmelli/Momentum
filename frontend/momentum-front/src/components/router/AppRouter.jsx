@@ -124,6 +124,16 @@ function AppRouter() {
                     </PrivateRoute>
                 }
             />
+            <Route path='/explore' element={
+                <PrivateRoute>
+                    <HashtagsPage/>
+                </PrivateRoute>
+            } />
+            <Route path='/hashtag/:hashtag' element={
+                <PrivateRoute>
+                    <HashtagDetailPage/>
+                </PrivateRoute>
+            } />
             
             <Route path='/*' element={<Navigate to='/'/>}/>
 
