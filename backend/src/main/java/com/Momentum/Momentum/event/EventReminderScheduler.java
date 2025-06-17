@@ -23,7 +23,7 @@ public class EventReminderScheduler {
     @Autowired
     private EmailService emailService;
 
-
+    //esta anotacion funciona todos los dias a las 8am @Scheduled(cron = "0 0 8 * * *")
     @Scheduled(cron = "*/20 * * * * *") // formato: segundo, minuto, hora, día, mes, díaSemana
     public void sendReminderEmails() {
         System.out.println("Ejecutando envío de recordatorios de eventos...");
