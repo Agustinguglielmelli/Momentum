@@ -439,12 +439,22 @@ export const getConversationById = async (conversationId) => {
 
 export const verifyEventDateAndSendMailBackend = async () => {
     try {
-        const response = await axios.post(`http://localhost:8080/events/mail`, {},{
+        await axios.post(`http://localhost:8080/events/mail`, {},{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
     } catch (error) {
         throw error;
+    }
+
+    export async function getProfileById(id) {
+        const response = await fetch(`${BASE_URL}/users/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
+        if (!response.ok) throw new Error("Error fetching profile by ID");
+        return await response.json();
     }
 }

@@ -70,11 +70,14 @@ public class EventController {
                 })
                 .toList();
         String subject = "Recordatorio de eventos próximos";
-        String text = "Hola " + currentUser.getUsername() + ",\n\n" +
-                "Recuerda que quedan menos de 24hs para los siguientes eventos!:\n\n" +
-                eventsToNotify.stream()
-                    .map(e -> "- " + e.getTitle() + " el " + e.getDate())
-                    .collect(Collectors.joining("\n"));
+        String text = STR."""
+                Hola \{currentUser.getUsername()},
+
+                Recuerda que quedan menos de 24hs para los siguientes eventos!:
+
+                \{eventsToNotify.stream()
+                .map(e -> "- " + e.getTitle() + " el " + e.getDate())
+                .collect(Collectors.joining("\n"))}""";
 
         try {
             emailService.sendSimpleEmail(currentUser.getUsername(), subject, text);

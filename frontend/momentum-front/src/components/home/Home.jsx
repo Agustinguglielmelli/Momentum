@@ -22,32 +22,7 @@ function Home(){
     const [users, setUsers] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
 
-
-    // fucnion para buscar Eventos
-    const handleSearch = async (event) => {
-        setUserSearch(event.target.value);
-        if (event.target.value.trim() === "") {
-            setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
-        } else {
-            try {
-                const response = await listUsersByNameSearch(event.target.value);
-                console.log("Full response:", response);
-                console.log("Response data:", response.data);  // Verifica la respuesta completa
-
-                if (Array.isArray(response.data)) {
-                    setUsers(response.data); // Solo actualizar si la respuesta es un array
-                } else {
-                    console.error('Error: La respuesta no es un array:', response.data);
-                    setUsers([]); // Limpiar si no es un array
-                }
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        }
-    };
-
     useEffect(() => {
-
         const verifyEventDateAndSendMail = async () => {
             try {
                 await verifyEventDateAndSendMailBackend();
@@ -56,7 +31,24 @@ function Home(){
                 console.error(error);
             }
         };
-        verifyEventDateAndSendMail();
+        verifyEventDateAndSendMail()
+            .then(() => console.log("Verificación de eventos completada y correos enviados si es necesario."));
+    }, []);
+
+    useEffect(() => {
+        const fetchFollowedUsers = async () => {
+            try {
+                const response = await listFollowedUsers();
+                if (Array.isArray(response.data)) {
+                    const followedIds = response.data.map(user => user.id); // guardamos solo los ids
+                    setFollowedUsers(followedIds);
+                }
+            } catch (error) {
+                console.error("Error fetching followed users:", error);
+            }
+        };
+
+        fetchFollowedUsers();
     }, []);
 
     useEffect(() => {
@@ -85,6 +77,31 @@ function Home(){
         };
         fetchFollowingTrainingPlanPosts();
     }, [followedUsers]);
+
+
+    // fucnion para buscar Eventos
+    const handleSearch = async (event) => {
+        setUserSearch(event.target.value);
+        if (event.target.value.trim() === "") {
+            setUsers([]); // Si el campo de búsqueda está vacío, limpia los resultados
+        } else {
+            try {
+                const response = await listUsersByNameSearch(event.target.value);
+                console.log("Full response:", response);
+                console.log("Response data:", response.data);  // Verifica la respuesta completa
+
+                if (Array.isArray(response.data)) {
+                    setUsers(response.data); // Solo actualizar si la respuesta es un array
+                } else {
+                    console.error('Error: La respuesta no es un array:', response.data);
+                    setUsers([]); // Limpiar si no es un array
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        }
+    };
+
 
     const handleFollow = async (userId) => {
         try {
@@ -115,21 +132,6 @@ function Home(){
         }
     };
 
-    useEffect(() => {
-        const fetchFollowedUsers = async () => {
-            try {
-                const response = await listFollowedUsers();
-                if (Array.isArray(response.data)) {
-                    const followedIds = response.data.map(user => user.id); // guardamos solo los ids
-                    setFollowedUsers(followedIds);
-                }
-            } catch (error) {
-                console.error("Error fetching followed users:", error);
-            }
-        };
-
-        fetchFollowedUsers();
-    }, []);
 
     return (
         <div className="home-container">

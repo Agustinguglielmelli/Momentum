@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,6 +15,8 @@ public interface RecreationalPostRepository extends JpaRepository<RecreationalPo
 
     @Query("SELECT SUM(r.distance) FROM RecreationalPost r WHERE r.usuario.id = :userId")
     Double getTotalDistanceByUserId(@Param("userId") Long userId);
+
+
 
     // Busca publicaciones que contengan un hashtag exacto
 /*

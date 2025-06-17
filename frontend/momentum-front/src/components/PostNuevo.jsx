@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, } from "react";
+import {Link} from "react-router-dom";
+
 import axios from "axios";
 import Carousel from "./carousel/Carousel";
 
@@ -188,7 +190,9 @@ function PostNuevo({ post }) {
                                                 fontSize: "14px",
                                                 color: "#495057"
                                             }}>
-                                                {comment.author.displayUserName}
+                                            <Link to={`/myProfile/${comment.author.id}`}>
+                                              {comment.author.displayUserName}
+                                            </Link>
                                             </span>
                                         </div>
                                         <div className="comment-message" style={{

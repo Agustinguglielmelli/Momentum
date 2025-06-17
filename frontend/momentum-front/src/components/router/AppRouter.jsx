@@ -77,11 +77,12 @@ function AppRouter() {
                     <RecreationalPostForm />
                 </PrivateRoute>
             } />
-            <Route path='/myprofile' element={
+            <Route path="/myProfile/:userId" element={
                 <PrivateRoute>
-                    <MyProfile/>
+                    <MyProfile />
                 </PrivateRoute>
             } />
+
             <Route path='/myprofile/modifyUser' element={
                 <PrivateRoute>
                     <ModifyUser/>
