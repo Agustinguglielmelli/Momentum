@@ -58,6 +58,8 @@ public class RecreationalPost {
 
     @Column(updatable = false)
     private LocalDate creationDate;
+    @Column
+    private List<String> hashtags;
 
     @PrePersist
     protected void onCreate() {

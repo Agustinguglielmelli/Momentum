@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecreationalPostService {
@@ -102,6 +104,22 @@ public class RecreationalPostService {
         ).toList());
 
         return dto;
+    }
+
+    public List<RecreationalPost> buscarPorHashtag(String hashtag) {
+        return recreationalPostRepository.findByHashtagsContaining(hashtag);
+    }
+    public List<String> getHashtagsPopulares() {
+        List<RecreationalPost> todas = recreationalPostRepository.findAll();
+        Map<String, Long> conteo = todas.stream()
+                .flatMap(p -> p.getHashtags().stream())
+                .collect(Collectors.groupingBy(hashtag -> hashtag, Collectors.counting()));
+
+        return conteo.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(10) // Top 10
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
 

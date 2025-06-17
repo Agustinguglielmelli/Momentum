@@ -236,6 +236,10 @@ public class RecreationalPostController {
                 .getPostByIdWithInteractions(id, currentUser);
         return ResponseEntity.ok(dto);
     }
+    @GetMapping("/hashtag/{hashtag}")
+    public List<RecreationalPost> getPublicacionesPorHashtag(@PathVariable String hashtag) {
+        return recreationalPostService.buscarPorHashtag(hashtag);
+    }
 
 
 
