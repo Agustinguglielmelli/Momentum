@@ -24,7 +24,7 @@ const ProgressBarManager = ({ userId }) => {
                 unit: "km",
                 color: '#21df64'
             }
-        },
+        },/*
         {
             name: "Calories",
             type: "CALORIES",
@@ -60,7 +60,7 @@ const ProgressBarManager = ({ userId }) => {
                 unit: "",
                 color: '#00ffb4'
             }
-        }
+        }*/
     ];
 
 

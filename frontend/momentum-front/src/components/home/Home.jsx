@@ -51,12 +51,13 @@ function Home(){
         const verifyEventDateAndSendMail = async () => {
             try {
                 await verifyEventDateAndSendMailBackend();
+                console.log("llama a la funcion")
             } catch (error) {
                 console.error(error);
             }
         };
         verifyEventDateAndSendMail();
-    }, [followedUsers]);
+    }, []);
 
     useEffect(() => {
 

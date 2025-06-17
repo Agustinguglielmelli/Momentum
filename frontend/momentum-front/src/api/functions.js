@@ -444,7 +444,6 @@ export const verifyEventDateAndSendMailBackend = async () => {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         });
-        return response.data;
     } catch (error) {
         throw error;
     }
