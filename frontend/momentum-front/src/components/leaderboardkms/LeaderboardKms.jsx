@@ -67,10 +67,7 @@ function LeaderboardKms() {
                             <p>Todos los corredores ordenados por kilómetros recorridos</p>
                         </div>
 
-                        <div style={{
-                            maxHeight: "270px", // Altura para mostrar aprox. 3 filas
-                            overflowY: "auto"
-                        }}>
+
                             <table className="leaderboard-table">
                                 <thead className="leaderboard-thead">
                                 <tr className="leaderboard-tr">
@@ -103,7 +100,6 @@ function LeaderboardKms() {
                             </table>
                         </div>
                     </div>
-                </div>
             ) : (
                 <div className="empty-leaderboard">
                     <div className="empty-icon">🏃‍♂️</div>

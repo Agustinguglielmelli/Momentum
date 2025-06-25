@@ -131,34 +131,34 @@ public class UsuarioService {
        return total != null ? total : 0.0;
     }
 
-    public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
-        List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
+public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
+    List<Object[]> rawResults = personRepository.findFollowedUsersAndKms(usuario);
 
-        Double kmsUserLogged = recreationalPostRepository.getTotalDistanceByUserId(usuario.getId());
-        if (kmsUserLogged == null) {
-            kmsUserLogged = 0.0;
-        }
-
-        Object[] selfEntry = new Object[]{usuario, kmsUserLogged};
-        rawResults.add(selfEntry);
-
-        return rawResults.stream()
-                .map(obj -> {
-                    Usuario seguido = (Usuario) obj[0];
-                    Double kms = (Double) obj[1];
-
-                    UsuarioDto dto = new UsuarioDto(
-                            seguido.getUsername(),
-                            seguido.getId(),
-                            seguido.getProfilePicture(),
-                            seguido.displayUserName()
-                    );
-
-                    return new UsuarioConKmsDto(dto, kms);
-                })
-                .toList();
+    Double kmsUserLogged = recreationalPostRepository.getTotalDistanceByUserId(usuario.getId());
+    if (kmsUserLogged == null) {
+        kmsUserLogged = 0.0;
     }
 
+    Object[] selfEntry = new Object[]{usuario, kmsUserLogged};
+    rawResults.add(selfEntry);
+
+    return rawResults.stream()
+            .map(obj -> {
+                Usuario seguido = (Usuario) obj[0];
+                Double kms = (Double) obj[1];
+
+                UsuarioDto dto = new UsuarioDto(
+                        seguido.getUsername(),
+                        seguido.getId(),
+                        seguido.getProfilePicture(),
+                        seguido.displayUserName()
+                );
+
+                return new UsuarioConKmsDto(dto, kms);
+            })
+            .sorted((a, b) -> Double.compare(b.totalKms(), a.totalKms()))
+            .toList();
+}
     public List<UsuarioConEventosDto> getFollowingEventsCompleted(Usuario loggedUser) {
         Set<Usuario> users = new HashSet<>(loggedUser.getFollowing());
         users.add(loggedUser);
