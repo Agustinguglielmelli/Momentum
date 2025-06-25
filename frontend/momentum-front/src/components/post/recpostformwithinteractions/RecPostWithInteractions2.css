@@ -244,4 +244,9 @@
 .comment-author {
     font-weight: 600;
     margin-right: 4px;
+    text-decoration: none;
+    color: inherit;
+}
+.comment-author:hover {
+    color: #0095f6;
 }

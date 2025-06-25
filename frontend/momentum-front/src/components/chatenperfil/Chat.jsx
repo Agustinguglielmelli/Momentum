@@ -48,6 +48,7 @@ const ChatApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   const stompClient = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const [usersFollowing, setUsersFollowing] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
@@ -58,6 +59,15 @@ const ChatApp = () => {
     return conversation.user1.id === currentUserId ? conversation.user2 : conversation.user1;
   };
 
+  // Scroll automático al final de los mensajes
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [conversations, activeChatId]);
+
   // Obtener el ID del usuario actual desde el token
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -65,7 +75,7 @@ const ChatApp = () => {
       try {
         const decoded = jwtDecode(token);
         setCurrentUserId(decoded.userId);
-        console.log("Current user ID:", decoded.userId); // Debug
+        console.log("Current user ID:", decoded.userId);
       } catch (error) {
         console.error("Error decodificando token:", error);
       }
@@ -81,7 +91,6 @@ const ChatApp = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Response:", response);
 
         if (!response.ok) {
           throw new Error("Error al obtener las conversaciones");
@@ -89,13 +98,20 @@ const ChatApp = () => {
 
         const data = await response.json();
 
-        // Asegurarse de que todos los mensajes tengan la propiedad fromMe correcta
+        // Asegurarse de que todos los mensajes tengan la propiedad fromMe correcta y timestamp normalizado
         const conversationsWithFromMe = data.map(conv => ({
           ...conv,
-          messages: (conv.messages || []).map(msg => ({
-            ...msg,
-            fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId
-          }))
+          messages: (conv.messages || []).map(msg => {
+            const timestamp = msg.timestamp || msg.timestampDate || new Date().toISOString();
+            return {
+              ...msg,
+              fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId,
+              timestamp: timestamp,
+              timestampDate: timestamp,
+              // Asegurar que siempre haya un ID único para evitar duplicados
+              id: msg.id || `msg-${Date.now()}-${Math.random()}`
+            };
+          })
         }));
 
         setConversations(conversationsWithFromMe);
@@ -124,45 +140,63 @@ const ChatApp = () => {
       const socket = new SockJS("http://localhost:8080/ws");
       stompClient.current = Stomp.over(socket);
 
-      stompClient.current.connect({}, () => {
-        console.log("WebSocket connected");
-        stompClient.current.subscribe("/user/queue/messages", (msg) => {
-          const messageData = JSON.parse(msg.body);
-          console.log("Mensaje recibido:", messageData);
-          console.log("Current user ID:", currentUserId);
+      stompClient.current.connect({},
+          () => {
+            console.log("WebSocket connected");
+            stompClient.current.subscribe("/user/queue/messages", (msg) => {
+              const messageData = JSON.parse(msg.body);
+              console.log("Mensaje recibido:", messageData);
 
-          // Actualizar las conversaciones con el nuevo mensaje
-          setConversations(prevConversations => {
-            return prevConversations.map(conv => {
-              // Verificar si el mensaje pertenece a esta conversación
-              const isMessageForThisConv =
-                  (conv.user1.id === messageData.sender.id && conv.user2.id === messageData.receiver.id) ||
-                  (conv.user1.id === messageData.receiver.id && conv.user2.id === messageData.sender.id);
+              // Actualizar las conversaciones con el nuevo mensaje
+              setConversations(prevConversations => {
+                return prevConversations.map(conv => {
+                  // Verificar si el mensaje pertenece a esta conversación
+                  const isMessageForThisConv =
+                      (conv.user1.id === messageData.sender.id && conv.user2.id === messageData.receiver.id) ||
+                      (conv.user1.id === messageData.receiver.id && conv.user2.id === messageData.sender.id);
 
-              if (isMessageForThisConv) {
-                // Crear el mensaje con el formato esperado
-                const newMessage = {
-                  ...messageData,
-                  fromMe: messageData.sender.id === currentUserId,
-                  text: messageData.content,
-                  timestampDate: messageData.timestamp
-                };
+                  if (isMessageForThisConv) {
+                    // Verificar si el mensaje ya existe para evitar duplicados
+                    const messageExists = conv.messages.some(existingMsg =>
+                        existingMsg.id === messageData.id ||
+                        (existingMsg.content === messageData.content &&
+                            Math.abs(new Date(existingMsg.timestamp) - new Date(messageData.timestamp)) < 1000)
+                    );
 
-                console.log("New message added:", newMessage);
-                console.log("Message fromMe:", newMessage.fromMe);
-                console.log("Sender ID:", messageData.sender.id);
-                console.log("Current User ID:", currentUserId);
+                    if (!messageExists) {
+                      // Crear el mensaje con el formato esperado
+                      const timestamp = messageData.timestamp || new Date().toISOString();
+                      const newMessage = {
+                        ...messageData,
+                        fromMe: messageData.sender.id === currentUserId,
+                        text: messageData.content,
+                        timestamp: timestamp,
+                        timestampDate: timestamp,
+                        id: messageData.id || `received-${Date.now()}-${Math.random()}`
+                      };
 
-                return {
-                  ...conv,
-                  messages: [...(conv.messages || []), newMessage]
-                };
-              }
-              return conv;
+                      console.log("New message added:", newMessage);
+                      return {
+                        ...conv,
+                        messages: [...(conv.messages || []), newMessage]
+                      };
+                    }
+                  }
+                  return conv;
+                });
+              });
             });
-          });
-        });
-      });
+          },
+          (error) => {
+            console.error("WebSocket connection error:", error);
+            // Intentar reconectar después de 5 segundos
+            setTimeout(() => {
+              if (currentUserId) {
+                connectWebSocket();
+              }
+            }, 5000);
+          }
+      );
     };
 
     if (currentUserId) {
@@ -170,7 +204,7 @@ const ChatApp = () => {
     }
 
     return () => {
-      if (stompClient.current) {
+      if (stompClient.current && stompClient.current.connected) {
         stompClient.current.disconnect();
       }
     };
@@ -180,24 +214,29 @@ const ChatApp = () => {
     if (input.trim() && stompClient.current && stompClient.current.connected && activeChat && currentUserId) {
       // Usar la función helper para obtener el destinatario
       const recipientUser = getOtherUser(activeChat, currentUserId);
+      const currentTimestamp = new Date().toISOString();
 
       const messageDTO = {
         content: input.trim(),
-        timestamp: new Date().toISOString(),
+        timestamp: currentTimestamp,
         sender: { id: currentUserId, username: "" },
         receiver: { id: recipientUser.id, username: "" }
       };
 
       console.log("Enviando mensaje:", messageDTO);
 
+      // Crear ID único para el mensaje optimista
+      const optimisticId = `optimistic-${Date.now()}-${Math.random()}`;
+
       // Agregar el mensaje inmediatamente a la UI (optimistic update)
-      const currentTimestamp = new Date().toISOString();
       const optimisticMessage = {
         ...messageDTO,
         fromMe: true,
         text: messageDTO.content,
         timestamp: currentTimestamp,
-        timestampDate: currentTimestamp
+        timestampDate: currentTimestamp,
+        id: optimisticId,
+        isOptimistic: true // Marcar como optimista para poder identificarlo después
       };
 
       setConversations(prevConversations => {
@@ -212,8 +251,25 @@ const ChatApp = () => {
         });
       });
 
-      stompClient.current.send("/app/send-message", {}, JSON.stringify(messageDTO));
-      setInput("");
+      // Enviar el mensaje por WebSocket
+      try {
+        stompClient.current.send("/app/send-message", {}, JSON.stringify(messageDTO));
+        setInput("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+        // Remover mensaje optimista si falla el envío
+        setConversations(prevConversations => {
+          return prevConversations.map(conv => {
+            if (conv.id === activeChatId) {
+              return {
+                ...conv,
+                messages: conv.messages.filter(msg => msg.id !== optimisticId)
+              };
+            }
+            return conv;
+          });
+        });
+      }
     }
   };
 
@@ -256,10 +312,16 @@ const ChatApp = () => {
         // Asegurarse de que todos los mensajes tengan la propiedad fromMe correcta
         const conversationsWithFromMe = data.map(conv => ({
           ...conv,
-          messages: (conv.messages || []).map(msg => ({
-            ...msg,
-            fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId
-          }))
+          messages: (conv.messages || []).map(msg => {
+            const timestamp = msg.timestamp || msg.timestampDate || new Date().toISOString();
+            return {
+              ...msg,
+              fromMe: msg.sender?.id === currentUserId || msg.senderId === currentUserId,
+              timestamp: timestamp,
+              timestampDate: timestamp,
+              id: msg.id || `msg-${Date.now()}-${Math.random()}`
+            };
+          })
         }));
 
         setConversations(conversationsWithFromMe);
@@ -341,10 +403,10 @@ const ChatApp = () => {
                 <div key={i}>
                   <div className="date-label">{formatDateLabel(date)}</div>
                   {msgs.map((msg, idx) => {
-                    console.log("Rendering message:", msg, "fromMe:", msg.fromMe); // Debug
+                    console.log("Rendering message:", msg, "fromMe:", msg.fromMe);
                     return (
                         <Box
-                            key={idx}
+                            key={msg.id || idx}
                             className={`chat-message-wrapper ${
                                 msg.fromMe ? "chat-right-wrapper" : "chat-left-wrapper"
                             }`}
@@ -358,13 +420,23 @@ const ChatApp = () => {
                               />
                           )}
 
-                          <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"}`}>
+                          <Paper className={`chat-bubble ${msg.fromMe ? "chat-right" : "chat-left"} ${msg.isOptimistic ? 'optimistic' : ''}`}>
                             <div className="chat-text">{msg.text || msg.content}</div>
                             <div className="chat-time">
-                              {new Date(msg.timestamp || msg.timestampDate || Date.now()).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                              {(() => {
+                                const timestamp = msg.timestamp || msg.timestampDate;
+                                if (!timestamp) return "Sin hora";
+
+                                try {
+                                  return new Date(timestamp).toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  });
+                                } catch (error) {
+                                  console.error("Error formatting time:", error, timestamp);
+                                  return "Hora inválida";
+                                }
+                              })()}
                             </div>
                           </Paper>
 
@@ -381,6 +453,7 @@ const ChatApp = () => {
                   })}
                 </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
           <div className="chat-input-area">
             <TextField

@@ -381,3 +381,6 @@
   margin: 0;
   font-size: 0.9rem;
 }
+.chat-bubble.optimistic {
+  opacity: 0.7;
+}

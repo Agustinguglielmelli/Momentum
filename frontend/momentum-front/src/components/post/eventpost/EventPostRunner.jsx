@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export function EventPostRunner({ post, actionType, handleAction }) {
     const [expanded, setExpanded] = useState(false);
@@ -247,9 +248,9 @@ export function EventPostRunner({ post, actionType, handleAction }) {
                                         alt={`${comment.author.displayUserName} avatar`}
                                     />
                                     <div className="comment-bubble">
-                                        <div className="comment-author">
+                                        <Link className="comment-author" to={`/myProfile/${comment.author.id}`}>
                                             {comment.author.displayUserName}
-                                        </div>
+                                        </Link>
                                         <div className="comment-text">
                                             {comment.text}
                                         </div>
