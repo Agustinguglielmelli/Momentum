@@ -82,7 +82,7 @@ function PostNuevo({ post }) {
                         alt="Profile picture"
                     />
                     <div className="post-user-info">
-                        <div className="post-username">{post.usuario.displayUserName}</div>
+                        <Link className="post-username" to={`/myProfile/${post.usuario.id}`}>{post.usuario.displayUserName}</Link>
                         <div className="post-time">{post.fechaPublicacion}</div>
                     </div>
                 </div>

@@ -194,6 +194,11 @@
 .post-username {
     font-weight: bold;
     margin-bottom: 2px;
+    text-decoration: none;
+    color: inherit;
+}
+.post-username:hover {
+    color: #ff5a5f;
 }
 
 .post-time {
