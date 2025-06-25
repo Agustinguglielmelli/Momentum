@@ -133,6 +133,17 @@
     color: #333;
     margin-bottom: 0.5rem;
 }
+.name a {
+    color: inherit;
+    text-decoration: none;
+}
+.name a:hover {
+    color: #4facfe;
+}
+.name span:hover {
+    color: #4facfe;
+}
+
 
 .score {
     font-size: 1.3rem;

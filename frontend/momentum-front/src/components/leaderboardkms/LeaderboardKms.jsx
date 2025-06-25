@@ -39,7 +39,11 @@ function LeaderboardKms() {
                             <div className="runner second">
                                 <div className="podium-rank">2</div>
                                 <div className="trophy">🥈</div>
-                                <p className="name">{users[1].usuario.displayUserName}</p>
+                                <p className="name"  >
+                                    <Link to={`/myProfile/${users[1].usuario.id}`}>
+                                        {users[1].usuario.displayUserName}
+                                    </Link>
+                                    </p>
                                 <p className="score">{users[1].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
@@ -47,16 +51,24 @@ function LeaderboardKms() {
                             <div className="runner first">
                                 <div className="podium-rank">1</div>
                                 <div className="trophy">🥇</div>
-                                <p className="name">{users[0].usuario.displayUserName}</p>
-                                <p className="score">{users[0].totalKms?.toFixed(1)} km</p>
+                                <p className="name">
+                                    <Link to={`/myProfile/${users[0].usuario.id}`}>
+                                        {users[0].usuario.displayUserName}
+                                    </Link>
+                                </p>                                <p
+                                className="score">{users[0].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
                         {users[2] && (
                             <div className="runner third">
                                 <div className="podium-rank">3</div>
                                 <div className="trophy">🥉</div>
-                                <p className="name">{users[2].usuario.displayUserName}</p>
-                                <p className="score">{users[2].totalKms?.toFixed(1)} km</p>
+                                <p className="name">
+                                    <Link to={`/myProfile/${users[2].usuario.id}`}>
+                                        {users[2].usuario.displayUserName}
+                                    </Link>
+                                </p>                                <p
+                                className="score">{users[2].totalKms?.toFixed(1)} km</p>
                             </div>
                         )}
                     </div>
@@ -89,7 +101,11 @@ function LeaderboardKms() {
                                                 src={userWithKms.usuario.profilePicture}
                                                 alt="avatar"
                                             />
-                                            <span>{userWithKms.usuario.displayUserName}</span>
+                                            <span className="name">
+                                                <Link to={`/myProfile/${users[index].usuario.id}`}>
+                                                    {users[index].usuario.displayUserName}
+                                                </Link>
+                                            </span>
                                         </td>
                                         <td className="leaderboard-td" style={{ textAlign: 'right' }}>
                                             {userWithKms.totalKms?.toFixed(2)} <span style={{ fontSize: '0.9rem', color: '#888', fontWeight: 400 }}>km</span>

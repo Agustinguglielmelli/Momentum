@@ -171,20 +171,6 @@ function FeedNuevo(){
                     </div>
                     <h3>{userProfile.displayUserName}</h3>
                     <p>{userProfile.username}</p>
-                    <div className="stats">
-                        <div className="stat-item">
-                            <div className="stat-value">128</div>
-                            <div className="stat-label">Carreras</div>
-                        </div>
-                        <div className="stat-item">
-                            <div className="stat-value">45</div>
-                            <div className="stat-label">Seguidores</div>
-                        </div>
-                        <div className="stat-item">
-                            <div className="stat-value">38</div>
-                            <div className="stat-label">Siguiendo</div>
-                        </div>
-                    </div>
                 </div>
             )}
 
@@ -197,20 +183,6 @@ function FeedNuevo(){
                 </div>
 
                 <div className="feed">
-                    <div className="create-post">
-                        <div className="post-input">
-                            <div className="post-avatar">👤</div>
-                            <textarea className="post-textarea" placeholder="¿Cómo fue tu carrera hoy?"></textarea>
-                        </div>
-                        <div className="post-actions">
-                            <div className="post-attachments">
-                                <button className="attach-btn"><span>📷</span> Foto</button>
-                                <button className="attach-btn"><span>📍</span> Ubicación</button>
-                                <button className="attach-btn"><span>📊</span> Estadísticas</button>
-                            </div>
-                            <button className="submit-post">Publicar</button>
-                        </div>
-                    </div>
                     {followingRecreationalPosts.length > 0 && (
                         followingRecreationalPosts.map((post) => (
                             <div className="post-container2">

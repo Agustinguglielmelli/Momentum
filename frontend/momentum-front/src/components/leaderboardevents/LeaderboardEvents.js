@@ -39,7 +39,11 @@ function LeaderboardEvents() {
                             <div className="runner second">
                                 <div className="podium-rank">2</div>
                                 <div className="trophy">🥈</div>
-                                <p className="name">{users[1].usuario.displayUserName}</p>
+                                <p className="name">
+                                    <Link to={`/myProfile/${users[1].usuario.id}`}>
+                                        {users[1].usuario.displayUserName}
+                                    </Link>
+                                </p>
                                 <p className="score">{users[1].eventosCompletados} eventos</p>
                             </div>
                         )}
@@ -47,7 +51,11 @@ function LeaderboardEvents() {
                             <div className="runner first">
                                 <div className="podium-rank">1</div>
                                 <div className="trophy">🥇</div>
-                                <p className="name">{users[0].usuario.displayUserName}</p>
+                                <p className="name">
+                                    <Link to={`/myProfile/${users[0].usuario.id}`}>
+                                        {users[0].usuario.displayUserName}
+                                    </Link>
+                                </p>
                                 <p className="score">{users[0].eventosCompletados} eventos</p>
                             </div>
                         )}
@@ -55,7 +63,11 @@ function LeaderboardEvents() {
                             <div className="runner third">
                                 <div className="podium-rank">3</div>
                                 <div className="trophy">🥉</div>
-                                <p className="name">{users[2].usuario.displayUserName}</p>
+                                <p className="name">
+                                    <Link to={`/myProfile/${users[2].usuario.id}`}>
+                                        {users[2].usuario.displayUserName}
+                                    </Link>
+                                </p>
                                 <p className="score">{users[2].eventosCompletados} eventos</p>
                             </div>
                         )}
@@ -88,7 +100,11 @@ function LeaderboardEvents() {
                                             src={user.usuario.profilePicture}
                                             alt="avatar"
                                         />
-                                        <span>{user.usuario.displayUserName}</span>
+                                        <span className="name">
+                                            <Link to={`/myProfile/${users[index].usuario.id}`}>
+                                                {users[index].usuario.displayUserName}
+                                            </Link>
+                                        </span>
                                     </td>
                                     <td className="leaderboard-td">
                                         {user.eventosCompletados}
