@@ -16,4 +16,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Event findByIdEvent(long id);
     List<Event> findByTitleStartingWithIgnoreCase(String title);
 
+
 }

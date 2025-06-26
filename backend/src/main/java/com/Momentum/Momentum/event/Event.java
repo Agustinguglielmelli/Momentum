@@ -60,6 +60,11 @@ public class Event {
     @JsonIgnore
     private Set<Like> likes = new HashSet<>();
 
+    public int getParticipantsCount() {
+        return participantes != null ? participantes.size() : 0;
+    }
+
+
     public Event(){
     }
 

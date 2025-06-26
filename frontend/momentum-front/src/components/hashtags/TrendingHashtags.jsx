@@ -3,39 +3,6 @@ import { TrendingUp, Hash } from 'lucide-react';
 
 const TrendingHashtags = () => {
     const [trending, setTrending] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetch('/api/hashtags/trending?limit=15')
-            .then(res => res.json())
-            .then(data => {
-                setTrending(data.trending);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Error fetching trending hashtags:', err);
-                setLoading(false);
-            });
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center mb-4">
-                    <TrendingUp className="h-5 w-5 text-blue-500 mr-2" />
-                    <h2 className="text-xl font-bold text-gray-800">Tendencias</h2>
-                </div>
-                <div className="space-y-2">
-                    {[...Array(5)].map((_, i) => (
-                        <div key={i} className="animate-pulse">
-                            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                            <div className="h-3 bg-gray-100 rounded w-1/2"></div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-white rounded-lg shadow-md p-6">

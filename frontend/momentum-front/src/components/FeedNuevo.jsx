@@ -2,6 +2,7 @@ import "./FeedNuevoCss.css"
 import PostNuevo from "./PostNuevo";
 import React, {useEffect, useState} from "react";
 import {
+    fetchMostPopularEvents,
     follow, listFollowedUsers,
     listFollowingRecreationalPosts,
     listFollowingTrainingPlansPosts, listProfileInfo,
@@ -21,6 +22,7 @@ function FeedNuevo(){
     const [userSearch, setUserSearch] = useState("");
     const [users, setUsers] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
+    const [trendingEvents, setTrendingEvents] = useState([]); // Para los eventos populares
 
     const [userProfile, setUserProfile] = useState(null);
     useEffect(() => {
@@ -61,7 +63,6 @@ function FeedNuevo(){
 
 
     useEffect(() => {
-
         const fetchFollowingRecreationalPosts = async () => {
             try {
                 const posts = await listFollowingRecreationalPosts();
@@ -71,6 +72,15 @@ function FeedNuevo(){
                 console.error(error);
             }
         };
+        const fetchPopularEvents = async () => {
+            try {
+                const events = await fetchMostPopularEvents();
+                setTrendingEvents(events)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchPopularEvents()
         fetchFollowingRecreationalPosts();
     }, [followedUsers]);
 
@@ -198,18 +208,12 @@ function FeedNuevo(){
                 <div className="sidebar-right">
                     <div className="trending-section">
                         <h3 className="section-title">Tendencias</h3>
-                        <div className="trending-item">
-                            <div className="trending-tag">#MaratonCiudad2025</div>
-                            <div className="trending-stats">1.2K publicaciones esta semana</div>
-                        </div>
-                        <div className="trending-item">
-                            <div className="trending-tag">#TécnicaDeCarrera</div>
-                            <div className="trending-stats">845 publicaciones esta semana</div>
-                        </div>
-                        <div className="trending-item">
-                            <div className="trending-tag">#CorrerEnInvierno</div>
-                            <div className="trending-stats">621 publicaciones esta semana</div>
-                        </div>
+                        {trendingEvents.map(event => (
+                            <div className="trending-item" key={event.id}>
+                                <div className="trending-tag">#{event.title}</div>
+                                <div className="trending-stats">Participants: {event.participantsCount}</div>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="suggested-section">

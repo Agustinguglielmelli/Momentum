@@ -449,3 +449,16 @@ export const verifyEventDateAndSendMailBackend = async () => {
     }
 
 }
+export const fetchMostPopularEvents = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/events/eventsWithMostParticipants`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        throw error;
+    }
+}

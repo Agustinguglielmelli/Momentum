@@ -1,7 +1,6 @@
 import {Routes, Route, Navigate} from 'react-router-dom';
 import ModifyUser from '../modifyuser/ModifyUser';
 import LoginUser from '../loginuser/LoginUser';
-import Home from '../home/Home';
 import PrivateRoute from "../privateroute/PrivateRoute";
 import SignupUser from "../signupuser/SignupUser";
 import RecreationalPostForm from "../post/recreationalpostform/RecreationalPostForm";
@@ -151,12 +150,6 @@ function AppRouter() {
                 {/*
             Navigate se usa para que cuando escribas una ruta cualquiera no definida, directamente te mande a '/'
 */}
-                <Route path='/home' element={
-                    <PrivateRoute>
-                        <Home/>
-                    </PrivateRoute>
-                }>
-                </Route>
 
             </Routes>
         </>

@@ -32,7 +32,7 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-    
+
     @Autowired
     private EmailService emailService;
 
@@ -43,10 +43,12 @@ public class EventController {
 
         return (Usuario) authentication.getPrincipal();  // Devuelve el usuario autenticado
     }
+
     @PostMapping("/events")
     public Event createEvent(@RequestBody Event event, @ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.createEvent(event, currentUser);
     }
+
     @DeleteMapping("/events/{event_id}")
     public ResponseEntity<String> deleteEvent(@PathVariable Long event_id, @ModelAttribute("currentUser") Usuario currentUser) {
         try {
@@ -88,7 +90,7 @@ public class EventController {
     }
 
     @GetMapping("/event/search")
-    public List<EventDto> getEventsByName(@RequestParam String nameSearch){
+    public List<EventDto> getEventsByName(@RequestParam String nameSearch) {
         List<Event> users = eventService.searchEvents(nameSearch);
         return users.stream().map(
                 u -> new EventDto(
@@ -102,19 +104,19 @@ public class EventController {
 
     @DeleteMapping("events/{event_id}/participants")
     public ResponseEntity<String> deleteParticipantsFromEvent(@PathVariable Long event_id,
-     @ModelAttribute("currentUser") Usuario currentUser){
-        try{
+                                                              @ModelAttribute("currentUser") Usuario currentUser) {
+        try {
             eventService.deleteParticipantsById(event_id);
             return ResponseEntity.ok("Participantes eliminados");
 
-        } catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar participantes: " + e.getMessage());
         }
-     }
+    }
 
     @PutMapping("/events/{event_id}")
     public ResponseEntity<Event> modificarRecPost(@PathVariable long event_id, @RequestBody Event newEvent,
-                                               @ModelAttribute("currentUser") Usuario currentUser) {
+                                                  @ModelAttribute("currentUser") Usuario currentUser) {
 
         Optional<Event> post = eventService.getEventById(event_id);
 
@@ -157,15 +159,16 @@ public class EventController {
     public List<Event> getAllEvents(@ModelAttribute("currentUser") Usuario currentUser) {
         return eventService.listAllEvents();
     }
+
     @GetMapping("/events/{event_id}")
-        public ResponseEntity<Event> getEventById(@PathVariable Long event_id, @ModelAttribute("currentUser") Usuario currentUser) {
+    public ResponseEntity<Event> getEventById(@PathVariable Long event_id, @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<Event> event = eventService.getEventById(event_id);
         if (event.isPresent()) {
             return ResponseEntity.ok(event.get());
         } else {
             return ResponseEntity.notFound().build();
         }
-}
+    }
 
     @GetMapping("/joinedEvents")
     public List<Event> getJoinedEvents(@ModelAttribute("currentUser") Usuario currentUser) {
@@ -177,7 +180,7 @@ public class EventController {
                                                  @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<Event> optionalEvent = eventService.getEventById(event_id);
         if (optionalEvent.isEmpty()) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         Event event = optionalEvent.get();
@@ -188,7 +191,7 @@ public class EventController {
 
     @GetMapping("/events/{event_id}/participants")
     public ResponseEntity<Set<UsuarioDto>> getParticipants(@PathVariable Long event_id,
-            @ModelAttribute("currentUser") Usuario currentUser) {
+                                                           @ModelAttribute("currentUser") Usuario currentUser) {
         Optional<Event> optionalEvent = eventService.getEventById(event_id);
         if (optionalEvent.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -196,7 +199,7 @@ public class EventController {
 
         Event event = optionalEvent.get();
         Set<Usuario> participants = event.getParticipantes();
-        Set<UsuarioDto> dtoParticipants = participants.stream().map( p -> new UsuarioDto(
+        Set<UsuarioDto> dtoParticipants = participants.stream().map(p -> new UsuarioDto(
                 p.getUsername(),
                 p.getId(),
                 p.getProfilePicture(),
@@ -206,7 +209,7 @@ public class EventController {
     }
 
     @DeleteMapping("/events/unjoin/{event_id}")
-    public ResponseEntity<?> unJoinEvent(@PathVariable long event_id){
+    public ResponseEntity<?> unJoinEvent(@PathVariable long event_id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         Optional<Usuario> currentUserOpt = repository.findByEmail(userEmail);
@@ -217,13 +220,23 @@ public class EventController {
 
         Usuario currentUser = currentUserOpt.get();
 
-        try{
+        try {
             eventService.unjoinEvent(event_id, currentUser);
             return ResponseEntity.ok().build();
-        } catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error unjoining event");
         }
     }
+
+    @GetMapping("/events/eventsWithMostParticipants")
+    public ResponseEntity<List<Event>> getEventsWithMostParticipants(@ModelAttribute("currentUser") Usuario currentUser ) {
+        List<Event> events = eventService.getEventsWithMostParticipants();
+        if (events.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(events);
+    }
+
 }
 
 
