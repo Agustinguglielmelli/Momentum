@@ -93,7 +93,7 @@ public class EventService {
     public List<Event> getEventsWithMostParticipants() {
         List<Event> events = eventRepository.findAll();
         events.sort((e1, e2) -> Integer.compare(e2.getParticipantes().size(), e1.getParticipantes().size()));
-        return events.subList(0, 2);
+        return events.subList(0, 3);
     }
 }
 

@@ -188,6 +188,20 @@ public List<UsuarioConKmsDto> getFollowedUsersByKms(Usuario usuario) {
                 .sorted(Comparator.comparingLong(UsuarioConEventosDto::getEventosCompletados).reversed())
                 .collect(Collectors.toList());
     }
+    public List<PopularUserDto> getUsersWithMostFollowers() {
+        List<Usuario> usuarios = personRepository.findAll();
+        usuarios.sort((u1, u2) -> Integer.compare(u2.getFollowers().size(), u1.getFollowers().size()));
+        return usuarios.stream().map(
+            usuario -> new PopularUserDto(
+                usuario.getUsername(),
+                usuario.getId(),
+                usuario.getProfilePicture(),
+                usuario.displayUserName(),
+                usuario.getFollowers().size()
+            )
+        ).toList().subList(0,3);
+
+    }
 
 
 

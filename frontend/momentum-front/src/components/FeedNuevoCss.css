@@ -338,3 +338,96 @@
     font-size: 12px;
     font-weight: 500;
 }
+.search-results-container {
+    margin-top: 5px; /* Añadir un margen pequeño debajo de la Navbar */
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 500px; /* Reducir la altura para hacerlo más pequeño */
+    width: 450px; /* Ajusta el ancho para que sea más pequeño */
+    position: absolute; /* Posicionar el contenedor de resultados */
+    top: 60px; /* Ubicar justo debajo de la Navbar (ajusta según la altura de la navbar) */
+    right: 20px; /* Coloca el contenedor a la derecha */
+    z-index: 100; /* Asegúrate de que esté sobre otros elementos */
+    overflow-y: auto; /* Permite el scroll si hay demasiados resultados */
+    border-radius: 5px; /* Opcional: agrega bordes redondeados para un diseño más limpio */
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    width: 100%;
+    height: 80px;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0; /* Resaltar los elementos al pasar el mouse */
+}
+
+.profile-picture-search {
+    width: 75px; /* Hacer la imagen más pequeña */
+    height: 75px;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
+
+.search-result-item h2 {
+    flex-grow: 1;
+    font-size: 14px; /* Hacer el texto más pequeño */
+    font-weight: 600;
+    margin: 0 0 0 30px;
+
+}
+/* Estilos para los usuarios trending con imágenes */
+.suggested-user .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f5f7fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.suggested-user .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Ajustar el botón para texto más largo */
+.suggested-user .follow-btn {
+    background-color: #ff5a5f;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.suggested-user .follow-btn:hover {
+    background-color: #e54449;
+}
+
+/* Estilos para cuando el usuario ya está siendo seguido */
+.suggested-user .follow-btn.following {
+    background-color: #6c757d;
+}
+
+.suggested-user .follow-btn.following:hover {
+    background-color: #5a6268;
+}

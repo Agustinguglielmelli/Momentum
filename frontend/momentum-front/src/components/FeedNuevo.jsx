@@ -2,7 +2,7 @@ import "./FeedNuevoCss.css"
 import PostNuevo from "./PostNuevo";
 import React, {useEffect, useState} from "react";
 import {
-    fetchMostPopularEvents,
+    fetchMostPopularEvents, fetchMostPopularUsers,
     follow, listFollowedUsers,
     listFollowingRecreationalPosts,
     listFollowingTrainingPlansPosts, listProfileInfo,
@@ -23,6 +23,7 @@ function FeedNuevo(){
     const [users, setUsers] = useState([]);
     const [followedUsers, setFollowedUsers] = useState([]);
     const [trendingEvents, setTrendingEvents] = useState([]); // Para los eventos populares
+    const [trendingUsers, setTrendingUsers] = useState([]); // Para los usuarios populares
 
     const [userProfile, setUserProfile] = useState(null);
     useEffect(() => {
@@ -80,6 +81,15 @@ function FeedNuevo(){
                 console.error(error);
             }
         }
+        const fetchPopularUsers = async () => {
+            try {
+                const users = await fetchMostPopularUsers();
+                setTrendingUsers(users)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchPopularUsers();
         fetchPopularEvents()
         fetchFollowingRecreationalPosts();
     }, [followedUsers]);
@@ -218,30 +228,32 @@ function FeedNuevo(){
 
                     <div className="suggested-section">
                         <h3 className="section-title">Sugerencias para ti</h3>
-                        <div className="suggested-user">
-                            <div className="suggested-avatar">👤</div>
-                            <div className="suggested-info">
-                                <div className="suggested-name">Marta Ruiz</div>
-                                <div className="suggested-stats">125 carreras registradas</div>
+                        {trendingUsers.map(user => (
+                            <div className="suggested-user" key={user.id}>
+                                <div className="avatar">
+                                    <img src={user.profilePicture} alt="Avatar" />
+                                </div>
+                                <div className="suggested-info">
+                                    <div className="suggested-name">{user.displayUserName}</div>
+                                    <div className="suggested-stats">{user.followersCount} seguidores</div>
+                                </div>
+                                {userProfile && user.id !== userProfile.id && (
+                                    <button
+                                        className="follow-btn"
+                                        onClick={() => {
+                                            if (followedUsers.includes(user.id)) {
+                                                handleUnfollow(user.id);
+                                            } else {
+                                                handleFollow(user.id);
+                                            }
+                                        }}
+                                    >
+                                        {followedUsers.includes(user.id) ? "Dejar de seguir" : "Seguir"}
+                                    </button>
+                                )}
                             </div>
-                            <button className="follow-btn">Seguir</button>
-                        </div>
-                        <div className="suggested-user">
-                            <div className="suggested-avatar">👤</div>
-                            <div className="suggested-info">
-                                <div className="suggested-name">Club Trail Montaña</div>
-                                <div className="suggested-stats">1.8K miembros</div>
-                            </div>
-                            <button className="follow-btn">Seguir</button>
-                        </div>
-                        <div className="suggested-user">
-                            <div className="suggested-avatar">👤</div>
-                            <div className="suggested-info">
-                                <div className="suggested-name">Daniel Vega</div>
-                                <div className="suggested-stats">89 carreras registradas</div>
-                            </div>
-                            <button className="follow-btn">Seguir</button>
-                        </div>
+                        ))}
+
                     </div>
                 </div>
             </div>

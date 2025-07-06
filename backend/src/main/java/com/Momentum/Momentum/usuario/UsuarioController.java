@@ -509,5 +509,12 @@ public class UsuarioController {
         Double totalKm = personUsuarioService.getTotalKmForUser(userId);
         return ResponseEntity.ok(totalKm);
     }
-
+    @GetMapping("/users/usersWithMostFollowers")
+    public ResponseEntity<List<PopularUserDto>> getEventsWithMostParticipants(@ModelAttribute("currentUser") Usuario currentUser ) {
+        List<PopularUserDto> users = personUsuarioService.getUsersWithMostFollowers();
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(users);
+    }
 }

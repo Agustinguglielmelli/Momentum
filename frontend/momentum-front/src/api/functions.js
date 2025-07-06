@@ -462,3 +462,16 @@ export const fetchMostPopularEvents = async () => {
         throw error;
     }
 }
+export const fetchMostPopularUsers = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/users/usersWithMostFollowers`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        throw error;
+    }
+}
