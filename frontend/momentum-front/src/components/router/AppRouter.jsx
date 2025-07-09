@@ -22,6 +22,7 @@ import RecPostFormWithInteractions2 from "../post/recpostformwithinteractions/Re
 import RecPostFormWithInteractions from "../post/recpostformwithinteractions/RecPostFormWithInteractions";
 import HashtagsPage from "../hashtags/HashtagsPage";
 import HashtagDetailPage from "../hashtags/HashtagDetailPage";
+import CalendarPage from "../../calendarview/CalendarPage";
 
 
 function AppRouter() {
@@ -131,6 +132,14 @@ function AppRouter() {
                     element={
                         <PrivateRoute>
                             <RecPostFormWithInteractions />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='/calendarTest'
+                    element={
+                        <PrivateRoute>
+                            <CalendarPage />
                         </PrivateRoute>
                     }
                 />
