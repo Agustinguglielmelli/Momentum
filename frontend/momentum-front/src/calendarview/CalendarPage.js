@@ -11,10 +11,18 @@ function CalendarPage() {
                 const data = response.data;
 
                 const formattedEvents = data.map(event => ({
-                    id: event.id,
+                    id: event.idEvent,
                     title: event.title,
-                    start: event.date
+                    start: event.date,
+                    extendedProps: {
+                        description: event.description,
+                        startAtPlace: event.startAtPlace,
+                        endAtPlace: event.endAtPlace,
+                        kmToRun: event.kmToRun,
+                        participantsCount: event.participantsCount
+                    }
                 }));
+
 
                 setJoinedEvents(formattedEvents);
             } catch (error) {
