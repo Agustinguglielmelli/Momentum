@@ -209,7 +209,7 @@ export async function unJoin(eventId){
 }
 
 export async function listJoinedEvents(){
-    const result = await axios.get(`http://localhost:8080/events/joined`,
+    const result = await axios.get(`http://localhost:8080/joinedEvents`,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
