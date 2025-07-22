@@ -1,6 +1,6 @@
 import Calendar from "./Calendar";
 import {useEffect, useState} from "react";
-import {listJoinedEvents} from "../api/functions";
+import {listJoinedEvents} from "../../api/functions";
 function CalendarPage() {
     const [joinedEvents, setJoinedEvents] = useState([]);
 
