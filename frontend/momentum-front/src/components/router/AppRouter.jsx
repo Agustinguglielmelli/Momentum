@@ -136,7 +136,7 @@ function AppRouter() {
                     }
                 />
                 <Route
-                    path='/calendarTest'
+                    path='/eventsCalendar'
                     element={
                         <PrivateRoute>
                             <CalendarPage />

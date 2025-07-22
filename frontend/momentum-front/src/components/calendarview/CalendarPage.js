@@ -1,6 +1,7 @@
 import Calendar from "./Calendar";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {listJoinedEvents} from "../../api/functions";
+import {Link} from "react-router-dom";
 function CalendarPage() {
     const [joinedEvents, setJoinedEvents] = useState([]);
 
@@ -36,6 +37,7 @@ function CalendarPage() {
 
   return (
     <div>
+        <Link to={"/events"} className="btn btn-primary">Back</Link>
         <Calendar events={joinedEvents}></Calendar>
     </div>
   );

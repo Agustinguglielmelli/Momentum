@@ -154,6 +154,7 @@ function MyEvents() {
                       <span className="section-icon">✅</span>
                       Mis Eventos
                     </h2>
+                    <Link to='/eventsCalendar' className='calendar-button calendar-button-content'>Calendar View</Link>
                     <div className="events-count">{joinedEventPosts.length}</div>
                   </div>
 

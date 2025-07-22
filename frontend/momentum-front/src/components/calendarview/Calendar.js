@@ -5,6 +5,7 @@ import {useState, useRef} from "react";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import './CalendarCss.css';
+import ButtonNuestro from "../button/ButtonNuestro";
 
 function Calendar({events}){
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -80,6 +81,7 @@ function Calendar({events}){
 
     return (
         <div className="calendar-wrapper" ref={calendarRef}>
+            <h1 className="calendar-title">Calendario de Eventos de Running</h1>
             {/* Botón de exportar PDF */}
             <div className="export-controls">
                 <button
