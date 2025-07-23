@@ -321,6 +321,11 @@
 
 .suggested-name {
     font-weight: 600;
+    text-decoration: none;
+    color: #363333;
+}
+.suggested-name:hover {
+    color: #ff5a5f;
 }
 
 .suggested-stats {

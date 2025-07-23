@@ -258,7 +258,7 @@ function FeedNuevo(){
                                     <img src={user.profilePicture} alt="Avatar" />
                                 </div>
                                 <div className="suggested-info">
-                                    <div className="suggested-name">{user.displayUserName}</div>
+                                    <Link className="suggested-name" to={`/myProfile/${user.id}`}>{user.displayUserName}</Link>
                                     <div className="suggested-stats">{user.followersCount} seguidores</div>
                                 </div>
                                 {userProfile && user.id !== userProfile.id && (
