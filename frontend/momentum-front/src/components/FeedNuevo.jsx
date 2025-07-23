@@ -13,8 +13,6 @@ import Navbar from "./navbar/Navbar";
 import SearchUserBar from "./searchbar/SearchUserBar";
 import ButtonNuestro from "./button/ButtonNuestro";
 
-
-
 function FeedNuevo(){
 
     const [followingRecreationalPosts, setFollowingRecreationalPosts] = useState([]);
@@ -24,6 +22,9 @@ function FeedNuevo(){
     const [followedUsers, setFollowedUsers] = useState([]);
     const [trendingEvents, setTrendingEvents] = useState([]); // Para los eventos populares
     const [trendingUsers, setTrendingUsers] = useState([]); // Para los usuarios populares
+
+    // Estado para el modal de eventos
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
     const [userProfile, setUserProfile] = useState(null);
     useEffect(() => {
@@ -62,6 +63,25 @@ function FeedNuevo(){
         }
     };
 
+    // Función para manejar el click en un evento trending
+    const handleEventClick = (event) => {
+        const selected = {
+            title: event.title,
+            date: event.date ? new Date(event.date).toLocaleString() : "Fecha por confirmar",
+            description: event.description,
+            lugar: event.startAtPlace || event.lugar,
+            km: event.kmToRun || event.km,
+            participantes: event.participantsCount
+        };
+
+        console.log("Evento seleccionado:", selected);
+        setSelectedEvent(selected);
+    };
+
+    // Función para cerrar el modal
+    const closeModal = () => {
+        setSelectedEvent(null);
+    };
 
     useEffect(() => {
         const fetchFollowingRecreationalPosts = async () => {
@@ -182,20 +202,20 @@ function FeedNuevo(){
                     </div>
                 )}
             </div>
-    <div className="main-container">
-        <div className="sidebar-left">
-            {userProfile && (
-                <div className="profile-card">
-                    <div>
-                        <img className="profile-pic" src={userProfile.profilePicture} alt=""/>
-                    </div>
-                    <h3>{userProfile.displayUserName}</h3>
-                    <p>{userProfile.username}</p>
-                </div>
-            )}
+            <div className="main-container">
+                <div className="sidebar-left">
+                    {userProfile && (
+                        <div className="profile-card">
+                            <div>
+                                <img className="profile-pic" src={userProfile.profilePicture} alt=""/>
+                            </div>
+                            <h3>{userProfile.displayUserName}</h3>
+                            <p>{userProfile.username}</p>
+                        </div>
+                    )}
 
-            <ul className="menu-list">
-            <li><a href="#"><span>🏠</span> Inicio</a></li>
+                    <ul className="menu-list">
+                        <li><a href="#"><span>🏠</span> Inicio</a></li>
                         <li><Link to="/leaderboard-kms">🏆 Leaderboards</Link></li>
                         <li><Link to="/events">📅 Events</Link></li>
                         <li><Link to="/events">👤 My Profile</Link></li>
@@ -205,9 +225,9 @@ function FeedNuevo(){
                 <div className="feed">
                     {followingRecreationalPosts.length > 0 && (
                         followingRecreationalPosts.map((post) => (
-                            <div className="post-container2">
+                            <div className="post-container2" key={post.idRecPost}>
                                 <div className="post-content">
-                                    <PostNuevo key={post.idRecPost} post={post}/>
+                                    <PostNuevo post={post}/>
                                 </div>
                             </div>
                         ))
@@ -219,7 +239,11 @@ function FeedNuevo(){
                     <div className="trending-section">
                         <h3 className="section-title">Tendencias</h3>
                         {trendingEvents.map(event => (
-                            <div className="trending-item" key={event.id}>
+                            <div
+                                className="trending-item clickable-event"
+                                key={event.id}
+                                onClick={() => handleEventClick(event)}
+                            >
                                 <div className="trending-tag">#{event.title}</div>
                                 <div className="trending-stats">Participants: {event.participantsCount}</div>
                             </div>
@@ -253,10 +277,94 @@ function FeedNuevo(){
                                 )}
                             </div>
                         ))}
-
                     </div>
                 </div>
             </div>
+
+            {/* Modal de evento - copiado del componente Calendar */}
+            {selectedEvent && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="modal-header">
+                            <h2 className="modal-title">
+                                {selectedEvent.title || "Evento de Running"}
+                            </h2>
+                            <button className="close-button" onClick={closeModal}>
+                                ×
+                            </button>
+                        </div>
+
+                        <div className="modal-body">
+                            <div className="event-info">
+
+                                <div className="info-item">
+                                    <div className="info-icon">📅</div>
+                                    <div className="info-content">
+                                        <div className="info-label">Fecha</div>
+                                        <p className="info-value">
+                                            {selectedEvent.date || "Fecha por confirmar"}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="info-item">
+                                    <div className="info-icon">📍</div>
+                                    <div className="info-content">
+                                        <div className="info-label">Lugar de Inicio</div>
+                                        <p className="info-value">
+                                            {selectedEvent.lugar || "Lugar por confirmar"}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="info-item">
+                                    <div className="info-icon">🏃‍♂️</div>
+                                    <div className="info-content">
+                                        <div className="info-label">Distancia</div>
+                                        <p className="info-value">
+                                            {selectedEvent.km ? `${selectedEvent.km} km` : "Distancia por confirmar"}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="info-item">
+                                    <div className="info-icon">👥</div>
+                                    <div className="info-content">
+                                        <div className="info-label">Participantes</div>
+                                        <p className="info-value">
+                                            {selectedEvent.participantes !== undefined
+                                                ? <span className="participants-badge">{selectedEvent.participantes} runners</span>
+                                                : "Número por confirmar"
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {selectedEvent.description && (
+                                    <div className="info-item">
+                                        <div className="info-icon">📝</div>
+                                        <div className="info-content">
+                                            <div className="info-label">Descripción</div>
+                                            <p className="info-value">
+                                                {selectedEvent.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+
+                            </div>
+                        </div>
+
+                        <div className="modal-footer">
+                            <button className="close-modal-button" onClick={closeModal}>
+                                Cerrar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
