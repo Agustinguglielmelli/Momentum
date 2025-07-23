@@ -53,6 +53,9 @@ public class Usuario implements UserDetails {
     @Column
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("user-recposts")
     private Set<RecreationalPost> recPosts = new HashSet<>();
