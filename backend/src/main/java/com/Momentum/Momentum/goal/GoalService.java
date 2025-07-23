@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,35 +50,13 @@ public class GoalService {
         goalRepository.deleteById(goalId);
     }
 
-    // Método para obtener el progreso actual basado en el tipo de meta
-    public Double getCurrentProgress(long userId, String goalType) {
-        Optional<Usuario> userOptional = usuarioRepository.findById(userId);
-        if (userOptional.isEmpty()) {
-            throw new RuntimeException("Usuario no encontrado");
+    public Double getCurrentProgress(Long userId, String goalType, LocalDate fromDate) {
+        if (goalType.equals("RUNNING")) {
+            if (fromDate != null) {
+                return recPostRepository.getTotalDistanceByUserIdWithDate(userId, fromDate);
+            } else {
+                return recPostRepository.getTotalDistanceByUserId(userId);
+            }
         }
-        Usuario user = userOptional.get();
-        switch (goalType) {
-            case "RUNNING":
-                return  recreationalPostRepository.getTotalDistanceByUserId(userId);
-            /*case "CALORIES":
-                Integer calories = recreationalPostRepository.getTotalCaloriesByUserId(userId);
-                return calories != null ? calories.doubleValue() : 0.0;*/
-
-            case "EVENTS":
-                long eventosCompletados = user.getEventsImIn().stream()
-                        .filter(event -> {
-                            try {
-                                LocalDate fechaEvento = LocalDate.parse(event.getDate());
-                                return fechaEvento.isBefore(LocalDate.now());
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        })
-                        .count();
-                return (double) eventosCompletados;
-            // aca se agregaran demas casos de metas
-            default:
-                return 0.0;
-        }
-    }
-}
+        return 0.0;
+    }}

@@ -20,7 +20,7 @@ const ProgressBarManager = ({ userId }) => {
             name: "Kilometers",
             type: "RUNNING",
             defaults: {
-                label: "Kilometers Runned",
+                label: "Running distance",
                 unit: "km",
                 color: '#21df64'
             }
@@ -201,13 +201,12 @@ const ProgressBarManager = ({ userId }) => {
     };
 
     const getProgressBarComponent = (bar) => {
-
-        const getFetchFunction = (type) => {
+        const getFetchFunction = (type, goalId) => {
             switch(type) {
                 case "RUNNING":
                     return async () => {
                         const res = await axios.get(
-                            `http://localhost:8080/users/${userId}/progress/goals/kmran`,
+                            `http://localhost:8080/users/${userId}/progress/goals/kmranWithDate?goalId=${goalId}`,
                             { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
                         );
                         return { data: res.data };
@@ -229,7 +228,7 @@ const ProgressBarManager = ({ userId }) => {
                 onRemove={() => removeProgressBar(bar.id)}
                 onEdit={() => openEditModal(bar)}
                 hideControls={true}
-                fetchData={getFetchFunction(bar.type)}  // Use dynamic fetch function
+                fetchData={getFetchFunction(bar.type, bar.id)}  // Pasar el goalId (bar.id)
             />
         );
     };

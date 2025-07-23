@@ -283,15 +283,22 @@ export async function deleteAccount(){
         });
     return result;
 }
-export async function getKmRanByUser(userId) {
-    const result = await axios.get(`http://localhost:8080/users/${userId}/progress/kmran`,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+export const getKmRanByUser = async (userId, goalId) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/users/${userId}/progress/goals/kmranWithDate?goalId=${goalId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
+                }
             }
-        });
-    return result.data;
-}
+        );
+        return { data: response.data };
+    } catch (error) {
+        console.error('Error fetching km progress with goal:', error);
+        throw error;
+    }
+};
 
 export async function listUsersFollowing() {
     const result =  await axios.get("http://localhost:8080/usuario/following",

@@ -8,7 +8,7 @@ function KmProgressSection({ userId, initialTarget, color, onRemove, onEdit }) {
         <CustomizableProgressBar
             userId={userId}
             fetchData={() => getKmRanByUser(userId)}
-            label="Kilometers Runned"
+            label="Running distance"
             unit="km"
             initialTarget={initialTarget}
             customColor={color}

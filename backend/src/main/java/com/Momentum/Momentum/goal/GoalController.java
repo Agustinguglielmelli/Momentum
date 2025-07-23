@@ -14,6 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,8 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("http://localhost:3000")
 public class GoalController {
+    @Autowired
+    private GoalRepository goalRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -45,8 +50,7 @@ public class GoalController {
     public Goal createGoal(@ModelAttribute("currentUser") Usuario currentUser,
     @RequestBody Goal goal){
         goal.setUsuario(currentUser);
-        Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType());
-        goal.setProgress(progress != null ? progress.intValue() : 0);
+        goal.setProgress(0);
        return goalService.createGoal(goal);
     }
     @PutMapping("/goals/{id}")
@@ -72,10 +76,9 @@ public class GoalController {
         if (!(goal.getUsuario().getId() == currentUser.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType());
+        Double progress = goalService.getCurrentProgress(currentUser.getId(), goal.getType(), goal.getCreationDate());
 
         goal.setProgress(progress != null ? progress.intValue() : 0);
-       // goal.setProgress(updatedGoal.getProgress());
         goal.setColor(updatedGoal.getColor());
         goal.setTarget(updatedGoal.getTarget());
 
@@ -106,6 +109,35 @@ public class GoalController {
         }
 
         Double totalKm = recPostRepository.getTotalDistanceByUserId(userId);
+        return ResponseEntity.ok(totalKm != null ? totalKm : 0.0);
+    }
+    @GetMapping("/users/{userId}/progress/goals/kmranWithDate")
+    public ResponseEntity<Double> getKmRanProgressWithDate(
+            @PathVariable long userId,
+            @RequestParam long goalId, // Necesitas el ID del objetivo
+            @ModelAttribute("currentUser") Usuario currentUser) {
+
+        // Verificar permisos
+        if (userId != currentUser.getId()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        // Obtener la fecha de creación del objetivo
+        Optional<Goal> goalOptional = goalRepository.findById(goalId);
+        if (goalOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Goal goal = goalOptional.get();
+
+        // Verificar que el objetivo pertenece al usuario
+        if (goal.getUsuario().getId() != userId) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        // Obtener el total de kilómetros desde la fecha de creación del objetivo
+
+        Double totalKm = recPostRepository.getTotalDistanceByUserIdWithDate(userId, goal.getCreationDate());
         return ResponseEntity.ok(totalKm != null ? totalKm : 0.0);
     }
 
