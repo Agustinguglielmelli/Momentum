@@ -190,7 +190,7 @@ function PostNuevo({ post }) {
                                                 fontSize: "14px",
                                                 color: "#495057"
                                             }}>
-                                            <Link to={`/myProfile/${comment.author.id}`}>
+                                            <Link className='suggested-name' to={`/myProfile/${comment.author.id}`}>
                                               {comment.author.displayUserName}
                                             </Link>
                                             </span>
