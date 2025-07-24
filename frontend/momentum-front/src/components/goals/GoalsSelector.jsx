@@ -6,7 +6,10 @@ import CustomizableProgressBar from './progressbars/CustomizableProgressBar';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 const ProgressBarManager = ({ userId }) => {
-    const [progressBars, setProgressBars] = useState([]);
+    const [progressBars, setProgressBars] = useState({
+        IN_PROGRESS: [],
+        COMPLETED: []
+    });
     const [editingBar, setEditingBar] = useState(null);
     const [editForm, setEditForm] = useState({
         target: 0,
@@ -24,43 +27,7 @@ const ProgressBarManager = ({ userId }) => {
                 unit: "km",
                 color: '#21df64'
             }
-        },/*
-        {
-            name: "Calories",
-            type: "CALORIES",
-            defaults: {
-                label: "Calories Burned",
-                unit: "kcal",
-                color: '#aa0f23'
-            }
-        },
-        {
-            name: "Events",
-            type: "EVENTS",
-            defaults: {
-                label: "Events Completed",
-                unit: "",
-                color: '#35df26'
-            }
-        },
-        {
-            name: "Friends",
-            type: "FRIENDS",
-            defaults: {
-                label: "Friends Made",
-                unit: "",
-                color: '#ff00c3'
-            }
-        },
-        {
-            name: "Goals",
-            type: "GOALS",
-            defaults: {
-                label: "Goals Completed",
-                unit: "",
-                color: '#00ffb4'
-            }
-        }*/
+        }
     ];
 
 
@@ -74,7 +41,10 @@ const ProgressBarManager = ({ userId }) => {
                 }
             });
 
-            setProgressBars(response.data.map(goal => ({
+            // CAMBIAR ESTA PARTE:
+            const groupedData = response.data;
+
+            const mapGoalToProgressBar = (goal) => ({
                 id: goal.id,
                 label: goal.label,
                 unit: goal.unit,
@@ -82,8 +52,15 @@ const ProgressBarManager = ({ userId }) => {
                 currentValue: goal.progress,
                 color: goal.color,
                 type: goal.type,
+                isCompleted: goal.progress >= goal.target,
                 templateType: progressBarTemplates.findIndex(t => t.type === goal.type)
-            })));
+            });
+
+            setProgressBars({
+                IN_PROGRESS: (groupedData.IN_PROGRESS || []).map(mapGoalToProgressBar),
+                COMPLETED: (groupedData.COMPLETED || []).map(mapGoalToProgressBar)
+            });
+
         } catch (err) {
             setError(err.response?.data?.message || err.message);
             console.error("Error loading goals:", err);
@@ -91,7 +68,6 @@ const ProgressBarManager = ({ userId }) => {
             setIsLoading(false);
         }
     };
-
 
     const saveGoal = async (goalData) => {
         try {
@@ -211,7 +187,6 @@ const ProgressBarManager = ({ userId }) => {
                         );
                         return { data: res.data };
                     };
-                // agregar casos para cada tipo de barra
                 default:
                     return async () => ({ data: bar.currentValue });
             }
@@ -224,15 +199,15 @@ const ProgressBarManager = ({ userId }) => {
                 label={bar.label}
                 initialTarget={bar.initialTarget}
                 unit={bar.unit}
-                customColor={bar.color}
+                customColor={bar.isCompleted ? '#28a745' : bar.color}
                 onRemove={() => removeProgressBar(bar.id)}
-                onEdit={() => openEditModal(bar)}
+                onEdit={bar.isCompleted ? null : () => openEditModal(bar)}
                 hideControls={true}
-                fetchData={getFetchFunction(bar.type, bar.id)}  // Pasar el goalId (bar.id)
+                fetchData={getFetchFunction(bar.type, bar.id)}
+                isCompleted={bar.isCompleted}  // AGREGAR ESTA LÍNEA
             />
         );
     };
-
     if (isLoading) {
         return (
             <div className="text-center my-4">
@@ -254,31 +229,54 @@ const ProgressBarManager = ({ userId }) => {
                 expand="lg"
                 style={{ minHeight: '36px', padding: '0 0', marginBottom: '0.25rem', borderBottom: '1px solid #eee' }}
             >
-                <Container style={{ padding: '0 8px', minHeight: '32px' }}>
-                    <Navbar.Brand style={{ fontSize: '1rem', margin: '0', padding: '0 4px' }}>
-                        Progress Manager
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ padding: '2px 6px', fontSize: '0.9rem' }} />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
-                                    Add Progress Bar
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {progressBarTemplates.map((template, index) => (
-                                        <Dropdown.Item
-                                            key={index}
-                                            onClick={() => addProgressBar(index)}
-                                        >
-                                            {template.name}
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Nav>
+                <Container>
+                    <div style={{
+                        display: 'flex',
+                        gap: '40px',
+                        minHeight: '400px',
+                        justifyContent: 'center',
+                        maxWidth: '1200px',
+                        margin: '0 auto'
+                    }}>
+                        {/*En progreso */}
+                        <div style={{
+                            flex: '0 1 45%',
+                            borderRight: '2px solid #007bff',
+                            paddingRight: '20px',
+                            textAlign: 'center'      
+                        }}>
+                            <h4 className="text-center mb-3" style={{ color: '#007bff' }}>
+                                🎯 In Progress ({progressBars.IN_PROGRESS.length})
+                            </h4>
+                            {progressBars.IN_PROGRESS.length > 0 ? (
+                                progressBars.IN_PROGRESS.map(bar => getProgressBarComponent(bar))
+                            ) : (
+                                <div className="text-center my-4">
+                                    <p className="text-muted">No goals in progress</p>
+                                    <small>Add a new goal to get started!</small>
+                                </div>
+                            )}
+                        </div>
 
-                    </Navbar.Collapse>
+                        {/*Completados */}
+                        <div style={{
+                            flex: '0 1 45%',
+                            paddingLeft: '20px',
+                            textAlign: 'center'
+                        }}>
+                            <h4 className="text-center mb-3" style={{ color: '#28a745' }}>
+                                ✅ Completed ({progressBars.COMPLETED.length})
+                            </h4>
+                            {progressBars.COMPLETED.length > 0 ? (
+                                progressBars.COMPLETED.map(bar => getProgressBarComponent(bar))
+                            ) : (
+                                <div className="text-center my-4">
+                                    <p className="text-muted">No completed goals yet</p>
+                                    <small>Keep working towards your objectives!</small>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </Container>
             </Navbar>
 
