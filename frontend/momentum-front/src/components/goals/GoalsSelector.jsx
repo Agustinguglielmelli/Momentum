@@ -224,12 +224,29 @@ const ProgressBarManager = ({ userId }) => {
 
     return (
         <div>
+
             <Navbar
                 bg="light"
                 expand="lg"
                 style={{ minHeight: '36px', padding: '0 0', marginBottom: '0.25rem', borderBottom: '1px solid #eee' }}
             >
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
+                        Add Progress Bar
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {progressBarTemplates.map((template, index) => (
+                            <Dropdown.Item
+                                key={index}
+                                onClick={() => addProgressBar(index)}
+                            >
+                                {template.name}
+                            </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                </Dropdown>
                 <Container>
+
                     <div style={{
                         display: 'flex',
                         gap: '40px',
@@ -238,12 +255,14 @@ const ProgressBarManager = ({ userId }) => {
                         maxWidth: '1200px',
                         margin: '0 auto'
                     }}>
+
+
                         {/*En progreso */}
                         <div style={{
                             flex: '0 1 45%',
                             borderRight: '2px solid #007bff',
                             paddingRight: '20px',
-                            textAlign: 'center'      
+                            textAlign: 'center'
                         }}>
                             <h4 className="text-center mb-3" style={{ color: '#007bff' }}>
                                 🎯 In Progress ({progressBars.IN_PROGRESS.length})
