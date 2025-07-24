@@ -1,6 +1,75 @@
 import "./css.css";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 export function TrainingPlanPost({ post }) {
+    const [likeCount, setLikeCount] = useState(0);
+    const [hasLiked, setHasLiked] = useState(false);
+    const [commentCount, setCommentCount] = useState(0);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+    const [showComments, setShowComments] = useState(false);
+
+    const postId = post.idTrainPost;
+    const token = localStorage.getItem("token");
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/likes/count/${postId}`, config)
+            .then(res => setLikeCount(res.data))
+            .catch(err => console.error("Error fetching like count:", err));
+
+        axios.get(`http://localhost:8080/api/likes/has-liked/${postId}`, config)
+            .then(res => setHasLiked(res.data))
+            .catch(err => console.error("Error fetching like status:", err));
+
+        axios.get(`http://localhost:8080/api/comments/post/${postId}/count`, config)
+            .then(res => setCommentCount(res.data))
+            .catch(err => console.error("Error fetching comment count:", err));
+    }, [postId]);
+
+    const toggleLike = () => {
+        axios.post(`http://localhost:8080/api/likes/toggle/${postId}`, null, config)
+            .then(() => {
+                setHasLiked(!hasLiked);
+                setLikeCount(prev => hasLiked ? prev - 1 : prev + 1);
+            })
+            .catch(err => console.error("Error toggling like:", err));
+    };
+
+    const fetchComments = () => {
+        axios.get(`http://localhost:8080/api/comments/post/${postId}`, config)
+            .then(res => setComments(res.data))
+            .catch(err => console.error("Error fetching comments:", err));
+    };
+
+    const handleCommentSubmit = () => {
+        if (newComment.trim() === "") return;
+
+        axios.post("http://localhost:8080/api/comments/", {
+            postId,
+            text: newComment
+        }, config)
+            .then(() => {
+                setNewComment("");
+                fetchComments();
+                setCommentCount(prev => prev + 1);
+            })
+            .catch(err => console.error("Error posting comment:", err));
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleCommentSubmit();
+        }
+    };
+
     return (
         <div className="post-container">
             <div className="post-card">
