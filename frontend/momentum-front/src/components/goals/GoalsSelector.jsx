@@ -224,80 +224,87 @@ const ProgressBarManager = ({ userId }) => {
 
     return (
         <div>
-
             <Navbar
                 bg="light"
                 expand="lg"
-                style={{ minHeight: '36px', padding: '0 0', marginBottom: '0.25rem', borderBottom: '1px solid #eee' }}
+                style={{
+                    padding: '0.5rem 0',
+                    marginBottom: '0.25rem',
+                    borderBottom: '1px solid #eee'
+                }}
             >
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
-                        Add Progress Bar
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {progressBarTemplates.map((template, index) => (
-                            <Dropdown.Item
-                                key={index}
-                                onClick={() => addProgressBar(index)}
-                            >
-                                {template.name}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </Dropdown>
-                <Container>
-
-                    <div style={{
-                        display: 'flex',
-                        gap: '40px',
-                        minHeight: '400px',
-                        justifyContent: 'center',
-                        maxWidth: '1200px',
-                        margin: '0 auto'
-                    }}>
-
-
-                        {/*En progreso */}
-                        <div style={{
-                            flex: '0 1 45%',
-                            borderRight: '2px solid #007bff',
-                            paddingRight: '20px',
-                            textAlign: 'center'
-                        }}>
-                            <h4 className="text-center mb-3" style={{ color: '#007bff' }}>
-                                🎯 In Progress ({progressBars.IN_PROGRESS.length})
-                            </h4>
-                            {progressBars.IN_PROGRESS.length > 0 ? (
-                                progressBars.IN_PROGRESS.map(bar => getProgressBarComponent(bar))
-                            ) : (
-                                <div className="text-center my-4">
-                                    <p className="text-muted">No goals in progress</p>
-                                    <small>Add a new goal to get started!</small>
-                                </div>
-                            )}
+                <Container style={{ maxWidth: '1200px' }}>
+                    <div style={{ width: '100%' }}>
+                        {/* Botón Add Progress Bar */}
+                        <div style={{ marginBottom: '12px' }}>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
+                                    Add Progress Bar
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    {progressBarTemplates.map((template, index) => (
+                                        <Dropdown.Item
+                                            key={index}
+                                            onClick={() => addProgressBar(index)}
+                                        >
+                                            {template.name}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
 
-                        {/*Completados */}
+                        {/* Contenedor con columnas */}
                         <div style={{
-                            flex: '0 1 45%',
-                            paddingLeft: '20px',
-                            textAlign: 'center'
+                            display: 'flex',
+                            gap: '40px',
+                            justifyContent: 'center',
+                            minHeight: '400px',
+                            margin: '0 auto'
                         }}>
-                            <h4 className="text-center mb-3" style={{ color: '#28a745' }}>
-                                ✅ Completed ({progressBars.COMPLETED.length})
-                            </h4>
-                            {progressBars.COMPLETED.length > 0 ? (
-                                progressBars.COMPLETED.map(bar => getProgressBarComponent(bar))
-                            ) : (
-                                <div className="text-center my-4">
-                                    <p className="text-muted">No completed goals yet</p>
-                                    <small>Keep working towards your objectives!</small>
-                                </div>
-                            )}
+                            {/* En Progreso */}
+                            <div style={{
+                                flex: '0 1 45%',
+                                borderRight: '2px solid #007bff',
+                                paddingRight: '20px',
+                                textAlign: 'center'
+                            }}>
+                                <h4 className="text-center mb-3" style={{ color: '#007bff' }}>
+                                    🚧 In Progress ({progressBars.IN_PROGRESS.length})
+                                </h4>
+                                {progressBars.IN_PROGRESS.length > 0 ? (
+                                    progressBars.IN_PROGRESS.map(bar => getProgressBarComponent(bar))
+                                ) : (
+                                    <div className="text-center my-4">
+                                        <p className="text-muted">No goals in progress</p>
+                                        <small>Add a new goal to get started!</small>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Completados */}
+                            <div style={{
+                                flex: '0 1 45%',
+                                paddingLeft: '20px',
+                                textAlign: 'center'
+                            }}>
+                                <h4 className="text-center mb-3" style={{ color: '#28a745' }}>
+                                    ✅ Completed ({progressBars.COMPLETED.length})
+                                </h4>
+                                {progressBars.COMPLETED.length > 0 ? (
+                                    progressBars.COMPLETED.map(bar => getProgressBarComponent(bar))
+                                ) : (
+                                    <div className="text-center my-4">
+                                        <p className="text-muted">No completed goals yet</p>
+                                        <small>Keep working towards your objectives!</small>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </Container>
             </Navbar>
+
 
             <Container>
                 {progressBars.length > 0 ? (

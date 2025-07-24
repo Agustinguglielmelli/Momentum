@@ -193,7 +193,7 @@ function MyProfile(){
     return(
         <div>
             <Navbar/>
-            <div className="profile-container">
+            <div className="profile-container" >
                 {userProfile && (
                     <div className="user-info-modern">
                         <div className="user-header-content">
@@ -359,7 +359,7 @@ function MyProfile(){
 
                 {/* Sección de Goals - solo para el propio perfil */}
                 {selectedTab === "Goals" && isOwnProfile && (
-                    <div className="goals-section-modern">
+                    <div className="goals-section-modern" >
                         <h2 className="section-title-modern">🎯 My Goals</h2>
                         <GoalsSelector
                             userId={userProfile ? userProfile.id : null}
