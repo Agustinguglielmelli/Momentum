@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class GoalService {
@@ -50,7 +51,12 @@ public class GoalService {
         goalRepository.deleteById(goalId);
     }
 
-    public Double getCurrentProgress(Long userId, String goalType, LocalDate fromDate) {
+    public Double getCurrentProgress(Long userId, String goalType, LocalDate fromDate, boolean isCompleted) {
+        // Si el objetivo ya está completado, no actualizar más el progreso
+        if (isCompleted) {
+            return null; // No actualizar
+        }
+
         if (goalType.equals("RUNNING")) {
             if (fromDate != null) {
                 return recPostRepository.getTotalDistanceByUserIdWithDate(userId, fromDate);
@@ -59,4 +65,19 @@ public class GoalService {
             }
         }
         return 0.0;
-    }}
+    }
+
+    public List<Goal> getInProgressGoals(Long userId) {
+        List<Goal> allGoals = goalRepository.findByUsuarioId(userId);
+        return allGoals.stream()
+                .filter(goal -> goal.getProgress() < goal.getTarget())
+                .collect(Collectors.toList());
+    }
+
+    public List<Goal> getCompletedGoals(Long userId) {
+        List<Goal> allGoals = goalRepository.findByUsuarioId(userId);
+        return allGoals.stream()
+                .filter(goal -> goal.getProgress() >= goal.getTarget())
+                .collect(Collectors.toList());
+    }
+}

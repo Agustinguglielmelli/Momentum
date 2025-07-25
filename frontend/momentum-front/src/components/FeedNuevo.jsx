@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import SearchUserBar from "./searchbar/SearchUserBar";
 import ButtonNuestro from "./button/ButtonNuestro";
+import {TrainingPlanPost} from "./post/trainingplanpost/TrainingPlanPost";
 
 function FeedNuevo(){
 
@@ -228,6 +229,15 @@ function FeedNuevo(){
                             <div className="post-container2" key={post.idRecPost}>
                                 <div className="post-content">
                                     <PostNuevo post={post}/>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                    {followingTrainingPlanPosts.length > 0 && (
+                        followingTrainingPlanPosts.map((post) => (
+                            <div className="post-container2" key={post.idRecPost}>
+                                <div className="post-content">
+                                    <TrainingPlanPost post={post}/>
                                 </div>
                             </div>
                         ))

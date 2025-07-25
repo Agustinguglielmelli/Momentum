@@ -9,12 +9,16 @@
 }
 
 /* Sidebar izquierdo */
+
 .sidebar-left {
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     height: fit-content;
+    top: 10px;
+    position: sticky;
+    align-self: start;
 }
 
 .profile-card {
@@ -264,6 +268,9 @@
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     height: fit-content;
+    top: -30px;
+    position: sticky;
+    align-self: start;
 }
 
 .trending-section, .suggested-section {
