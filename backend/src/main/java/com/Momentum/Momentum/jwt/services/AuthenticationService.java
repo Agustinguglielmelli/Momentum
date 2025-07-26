@@ -1,6 +1,6 @@
 package com.Momentum.Momentum.jwt.services;
 
-import com.Momentum.Momentum.usuario.AuthProvider;
+import com.Momentum.Momentum.oauth2.AuthProvider;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.jwt.dtos.LoginUserDto;

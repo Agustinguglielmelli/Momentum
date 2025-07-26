@@ -1,6 +1,6 @@
 package com.Momentum.Momentum.jwt.dtos;
 
-import com.Momentum.Momentum.usuario.Role;
+import com.Momentum.Momentum.usuario.role.Role;
 
 public class RegisterUserDto {
     private String email;

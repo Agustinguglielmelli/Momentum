@@ -1,6 +1,8 @@
-package com.Momentum.Momentum.usuario;
+package com.Momentum.Momentum.oauth2;
 
-import lombok.RequiredArgsConstructor;
+import com.Momentum.Momentum.usuario.role.Role;
+import com.Momentum.Momentum.usuario.Usuario;
+import com.Momentum.Momentum.usuario.UsuarioRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -40,11 +42,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             user.setUsername(givenName + " " + familyName);
             user.setProfilePicture(picture);
             user.setAuthProvider(AuthProvider.GOOGLE);
-            user.setPassword(UUID.randomUUID().toString()); // se ignora, pero debe tener algo
-            user.setRole(Role.RUNNER);
-            //dejamos default RUNNER pero despues el usuario tiene que elegir su rol antes de entrar a la app
+            user.setPassword(UUID.randomUUID().toString()); // Ignorado para login social
+            user.setRole(Role.RUNNER); // Valor default
             usuarioRepository.save(user);
-}
-        return (OAuth2User) user;
+        }
+
+        return new CustomOAuth2User(oauth2User, user);
     }
+
 }

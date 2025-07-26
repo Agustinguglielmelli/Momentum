@@ -4,8 +4,10 @@ import com.Momentum.Momentum.comment.Comment;
 import com.Momentum.Momentum.event.Event;
 import com.Momentum.Momentum.goal.Goal;
 import com.Momentum.Momentum.message.Message;
+import com.Momentum.Momentum.oauth2.AuthProvider;
 import com.Momentum.Momentum.recreationalpost.RecreationalPost;
 import com.Momentum.Momentum.trainingplanpost.TrainingPlanPost;
+import com.Momentum.Momentum.usuario.role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -56,6 +58,9 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
 
+    @Column(nullable = false)
+    private boolean mustChooseRole = false;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("user-recposts")
     private Set<RecreationalPost> recPosts = new HashSet<>();
@@ -99,13 +104,15 @@ public class Usuario implements UserDetails {
 
     public Usuario() {}
 
-    public Usuario(long id, String username, String email, String password, String profilePicture, Role role) {
+    public Usuario(long id, String username, String email, String password,
+                   String profilePicture, Role role, Boolean mustChooseRole) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
         this.role = role;
+        this.mustChooseRole = mustChooseRole;
     }
 
     @Override
