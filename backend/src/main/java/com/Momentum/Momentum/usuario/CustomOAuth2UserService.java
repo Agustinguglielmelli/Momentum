@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UsuarioRepository usuarioRepository;
@@ -42,10 +41,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             user.setProfilePicture(picture);
             user.setAuthProvider(AuthProvider.GOOGLE);
             user.setPassword(UUID.randomUUID().toString()); // se ignora, pero debe tener algo
-            user.setRole(Role.USER);
+            user.setRole(Role.RUNNER);
+            //dejamos default RUNNER pero despues el usuario tiene que elegir su rol antes de entrar a la app
             usuarioRepository.save(user);
-        }
-
+}
         return (OAuth2User) user;
     }
 }
