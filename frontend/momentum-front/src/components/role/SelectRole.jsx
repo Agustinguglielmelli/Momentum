@@ -1,35 +1,49 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./SelectRole.css";
 
 const SelectRole = () => {
     const navigate = useNavigate();
 
     const handleRoleSelection = async (role) => {
-        try {
-            const response = await fetch("/api/set-role?role=" + role, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            });
+        const token = localStorage.getItem("token");
 
-            if (response.ok) {
-                // Redirigir al home una vez asignado el rol
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/set-role",
+                { role },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.status === 200) {
                 navigate("/");
-            } else {
-                alert("Error al guardar el rol");
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error al seleccionar rol:", error);
+            alert(
+                error.response?.data?.message ||
+                "Hubo un error al asignar el rol. Intentalo de nuevo."
+            );
         }
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "100px" }}>
-            <h2>¿Qué tipo de usuario sos?</h2>
-            <button onClick={() => handleRoleSelection("RUNNER")}>Runner</button>
-            <button onClick={() => handleRoleSelection("COACH")}>Coach</button>
+        <div className="role-selection-container">
+            <h2 className="role-selection-title">¿Qué tipo de usuario sos?</h2>
+            <div className="role-buttons">
+                <button className="role-btn runner" onClick={() => handleRoleSelection("RUNNER")}>
+                    🏃‍♂️ Runner
+                </button>
+                <button className="role-btn coach" onClick={() => handleRoleSelection("COACH")}>
+                    🏋️‍♂️ Coach
+                </button>
+            </div>
         </div>
     );
 };
