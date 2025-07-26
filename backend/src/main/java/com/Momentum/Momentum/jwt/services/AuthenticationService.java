@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.jwt.services;
 
+import com.Momentum.Momentum.usuario.AuthProvider;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.jwt.dtos.LoginUserDto;
@@ -8,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -49,4 +52,29 @@ public class AuthenticationService {
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow();
     }
-}
+    public Usuario findOrCreateGoogleUser(GoogleUser googleUser) {
+        Optional<Usuario> existingUser = userRepository.findByEmail(googleUser.getEmail());
+
+        if (existingUser.isPresent()) {
+            Usuario user = existingUser.get();
+
+            if (user.getAuthProvider() != null && user.getAuthProvider() != AuthProvider.GOOGLE) {
+                throw new RuntimeException("El usuario ya existe con otro método de autenticación.");
+            }
+
+            return user; // usuario existente con login por Google
+        }
+
+        // Si no existe, lo creamos como usuario nuevo
+        Usuario newUser = new Usuario();
+        newUser.setEmail(googleUser.getEmail());
+        newUser.setUsername(googleUser.getEmail()); // o podrías generar uno a partir del nombre
+        newUser.setAuthProvider(AuthProvider.GOOGLE);
+        newUser.setPassword(null); // no se necesita password para Google
+        newUser.setRole(Role.USER); // o el rol por defecto que uses
+        newUser.setProfilePicture(null); // podrías usar uno por defecto o extraerlo de Google
+
+        return userRepository.save(newUser);
+    }
+
+    }
