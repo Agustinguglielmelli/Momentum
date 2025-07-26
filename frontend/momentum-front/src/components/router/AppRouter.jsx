@@ -23,6 +23,7 @@ import RecPostFormWithInteractions from "../post/recpostformwithinteractions/Rec
 import HashtagsPage from "../hashtags/HashtagsPage";
 import HashtagDetailPage from "../hashtags/HashtagDetailPage";
 import CalendarPage from "../calendarview/CalendarPage";
+import SelectRole from "../role/SelectRole";
 
 
 function AppRouter() {
@@ -151,6 +152,11 @@ function AppRouter() {
                 <Route path='/hashtag/:hashtag' element={
                     <PrivateRoute>
                         <HashtagDetailPage/>
+                    </PrivateRoute>
+                } />
+                <Route path='/select-role' element={
+                    <PrivateRoute>
+                        <SelectRole/>
                     </PrivateRoute>
                 } />
 
