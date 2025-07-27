@@ -1,5 +1,6 @@
 package com.Momentum.Momentum.usuario.role;
 
+import com.Momentum.Momentum.oauth2.CustomOAuth2User;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.usuario.UsuarioService;
@@ -21,12 +22,26 @@ public class UserRoleController {
     private UsuarioService usuarioService;
 
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    @Autowired
+    public UserRoleController(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
+        this.usuarioService = usuarioService;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @ModelAttribute("currentUser")
     public Usuario getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (Usuario) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof Usuario) {
+            return (Usuario) principal;
+        } else if (principal instanceof CustomOAuth2User) {
+            return ((CustomOAuth2User) principal).getUsuario();
+        }
+
+        throw new IllegalStateException("No se pudo determinar el usuario autenticado");
     }
 
     /**
