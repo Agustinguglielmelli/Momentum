@@ -1,0 +1,41 @@
+.role-selection-container {
+    text-align: center;
+    margin-top: 120px;
+    padding: 20px;
+}
+
+.role-selection-title {
+    font-size: 28px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.role-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.role-btn {
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-btn.runner {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.role-btn.coach {
+    background-color: #2196F3;
+    color: white;
+}
+
+.role-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
