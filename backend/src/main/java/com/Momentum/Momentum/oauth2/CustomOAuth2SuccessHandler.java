@@ -1,11 +1,13 @@
 package com.Momentum.Momentum.oauth2;
 
+import com.Momentum.Momentum.jwt.services.JwtService;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -16,30 +18,36 @@ import java.util.Optional;
 public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final UsuarioRepository usuarioRepository;
+    private final JwtService jwtService;
 
-    public CustomOAuth2SuccessHandler(UsuarioRepository usuarioRepository) {
+    public CustomOAuth2SuccessHandler(UsuarioRepository usuarioRepository, JwtService jwtService) {
         this.usuarioRepository = usuarioRepository;
+        this.jwtService = jwtService;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        String email = ((org.springframework.security.oauth2.core.user.DefaultOAuth2User) authentication.getPrincipal())
-                .getAttribute("email");
+        DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
 
         if (optionalUsuario.isPresent()) {
             Usuario user = optionalUsuario.get();
 
-            // Si el rol ya fue seleccionado, redirigimos normalmente a la app
+            // Generar el token JWT para el usuario
+            String jwt = jwtService.generateToken(user);
+
+            // Redirigir al frontend con el token como parámetro
             if (user.getRole() != null) {
-                response.sendRedirect("/"); // Cambiá esto al path real de tu frontend (ej: /home)
+                response.sendRedirect("http://localhost:3000?token=" + jwt); // Cambiar por URL real de tu frontend
             } else {
-                // Si aún no eligió un rol, lo redirigimos a la pantalla de selección
-                response.sendRedirect("/select-role"); // Ruta en tu frontend donde elige RUNNER o COACH
+                response.sendRedirect("http://localhost:3000/select-role?token=" + jwt);
             }
+        } else {
+            // si usuario no existe, entonces redirige con error
+            response.sendRedirect("http://localhost:3000/login?error=usuario_no_registrado");
         }
     }
 }
-
