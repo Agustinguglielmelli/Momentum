@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.jwt.services;
 
 import com.Momentum.Momentum.oauth2.AuthProvider;
+import com.Momentum.Momentum.usuario.role.Role;
 import com.Momentum.Momentum.usuario.Usuario;
 import com.Momentum.Momentum.usuario.UsuarioRepository;
 import com.Momentum.Momentum.jwt.dtos.LoginUserDto;
@@ -52,7 +53,8 @@ public class AuthenticationService {
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow();
     }
-    public Usuario findOrCreateGoogleUser(GoogleUser googleUser) {
+
+    public Usuario findOrCreateGoogleUser(com.Momentum.Momentum.usuario.GoogleUser googleUser) {
         Optional<Usuario> existingUser = userRepository.findByEmail(googleUser.getEmail());
 
         if (existingUser.isPresent()) {
@@ -68,13 +70,22 @@ public class AuthenticationService {
         // Si no existe, lo creamos como usuario nuevo
         Usuario newUser = new Usuario();
         newUser.setEmail(googleUser.getEmail());
-        newUser.setUsername(googleUser.getEmail()); // o podrías generar uno a partir del nombre
+        newUser.setUsername(googleUser.getEmail()); // o podés generar uno a partir del nombre
         newUser.setAuthProvider(AuthProvider.GOOGLE);
         newUser.setPassword(null); // no se necesita password para Google
-        newUser.setRole(Role.USER); // o el rol por defecto que uses
-        newUser.setProfilePicture(null); // podrías usar uno por defecto o extraerlo de Google
+        newUser.setRole(Role.RUNNER); // rol por defecto para usuarios Google
+        newUser.setProfilePicture(null); // podés usar uno por defecto o extraerlo de Google
 
         return userRepository.save(newUser);
     }
 
+    /**
+     * Método para actualizar el rol del usuario después del login con Google.
+     */
+    public Usuario updateUserRole(String email, Role role) {
+        Usuario user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        user.setRole(role);
+        return userRepository.save(user);
     }
+}

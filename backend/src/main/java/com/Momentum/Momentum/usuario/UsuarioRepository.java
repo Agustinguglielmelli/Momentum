@@ -1,6 +1,7 @@
 package com.Momentum.Momentum.usuario;
 
 
+import com.Momentum.Momentum.oauth2.AuthProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     //JPA maneja las consultas SQL, no es necesario escribirlas aca
     Optional<Usuario> findByEmail(String email);
+    Optional<Usuario> findByEmailAndAuthProvider(String email, AuthProvider provider);
     List<Usuario> findByUsernameStartingWithIgnoreCase(String username);
 
     @Query("""
